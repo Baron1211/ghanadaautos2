@@ -88,11 +88,18 @@ function GhanadaHome() {
           <nav className="main-links">
             <a href="#">Home</a>
             <a href="#cars">Cars</a>
-            <a href="#rentals">Rentals</a>
-            <a href="#repairs">Repairs</a>
-            <a href="#parts">Spare Parts</a>
-            <a href="#import">Import From Canada</a>
-            <a href="#clearing">Clearing &amp; Forwarding</a>
+            <div className="nav-dropdown">
+              <button className="nav-dropdown-trigger" type="button">
+                Services <span className="caret">▾</span>
+              </button>
+              <div className="nav-dropdown-menu">
+                <a href="#rentals">Rentals</a>
+                <a href="#repairs">Repairs</a>
+                <a href="#parts">Spare Parts</a>
+                <a href="#import">Import From Canada</a>
+                <a href="#clearing">Clearing &amp; Forwarding</a>
+              </div>
+            </div>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
           </nav>
