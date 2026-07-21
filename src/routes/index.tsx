@@ -522,7 +522,7 @@ function GhanadaHome() {
                 <div><label>Full Name</label><input type="text" placeholder="Your name" /></div>
                 <div><label>Phone</label><input type="text" placeholder="Your phone number" /></div>
                 <div className="full"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
-                <div className="full"><label>Message</label><textarea rows={5} placeholder="How can we help?" /></textarea></div>
+                <div className="full"><label>Message</label><textarea rows={5} placeholder="How can we help?" /></div>
                 <div className="full"><a className="btn btn-primary" style={{ width: "100%" }}>Send Message</a></div>
               </div>
             </div>
