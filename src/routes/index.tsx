@@ -1,5 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import logoAsset from "../assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "../assets/ghanada-logo-transparent.png.asset.json";
 
@@ -14,7 +17,7 @@ const vehicles = [
   { name: "BMW X5 xDrive40i", price: "GH₵ 645,000", year: "2023", miles: "6,100 mi", fuel: "Petrol", trans: "Automatic", finance: true, img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80" },
 ];
 
-const parts = [
+const partsFallback = [
   { name: "Engine Parts", stars: "★★★★★", price: "GH₵ 1,250", img: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=400&q=80" },
   { name: "Brake Pads", stars: "★★★★☆", price: "GH₵ 380", img: "https://images.unsplash.com/photo-1600661653561-629509216228?auto=format&fit=crop&w=400&q=80" },
   { name: "Tyres", stars: "★★★★★", price: "GH₵ 690", img: "https://images.unsplash.com/photo-1596638787647-904d822d751e?auto=format&fit=crop&w=400&q=80" },
@@ -22,7 +25,7 @@ const parts = [
   { name: "Headlights", stars: "★★★★★", price: "GH₵ 540", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" },
 ];
 
-const rentals = [
+const rentalsFallback = [
   { name: "Economy — Toyota Corolla", price: "GH₵ 420 / day", seats: "5 Seats", trans: "Auto", fuel: "Petrol", img: "https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=500&q=80" },
   { name: "SUV — RAV4", price: "GH₵ 680 / day", seats: "5 Seats", trans: "Auto", fuel: "Petrol", img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=500&q=80" },
   { name: "Luxury — Mercedes E-Class", price: "GH₵ 1,250 / day", seats: "5 Seats", trans: "Auto", fuel: "Petrol", img: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=500&q=80" },
@@ -30,7 +33,14 @@ const rentals = [
 ];
 
 function GhanadaHome() {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUserId(s?.user?.id ?? null));
+    return () => sub.subscription.unsubscribe();
+  }, []);
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
@@ -38,6 +48,35 @@ function GhanadaHome() {
     };
   }, [menuOpen]);
   const closeMenu = () => setMenuOpen(false);
+
+  const { data: dbParts } = useQuery({
+    queryKey: ["home-parts"],
+    queryFn: async () => {
+      const { data } = await supabase.from("parts").select("*").eq("active", true).limit(8);
+      return data || [];
+    },
+  });
+  const { data: dbRentals } = useQuery({
+    queryKey: ["home-rentals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("rentals").select("*").eq("active", true).limit(8);
+      return data || [];
+    },
+  });
+
+  const addPartToCart = async (partId: string) => {
+    if (!userId) { toast("Please sign in to add to cart"); navigate({ to: "/auth" }); return; }
+    const { error } = await supabase.from("cart_items").insert({ user_id: userId, item_type: "part", part_id: partId, quantity: 1 });
+    if (error) toast.error(error.message); else toast.success("Added to cart");
+  };
+  const bookRental = async (rentalId: string) => {
+    if (!userId) { toast("Please sign in to book"); navigate({ to: "/auth" }); return; }
+    const days = Number(prompt("How many days?", "3") || "0");
+    if (!days || days < 1) return;
+    const { error } = await supabase.from("cart_items").insert({ user_id: userId, item_type: "rental", rental_id: rentalId, quantity: 1, rental_days: days });
+    if (error) toast.error(error.message); else toast.success(`Rental added (${days} days)`);
+  };
+
   return (
     <div className="ga">
       {/* HEADER */}
@@ -60,11 +99,17 @@ function GhanadaHome() {
           <div className="nav-right">
             <span className="icon-btn">🔍</span>
             <span className="icon-btn">♡</span>
-            <span className="icon-btn">🛒</span>
+            <Link to={userId ? "/dashboard" : "/auth"} className="icon-btn" aria-label="Cart">🛒</Link>
             <div className="nav-divider" />
             <div className="auth-links">
-              <a href="#">Login</a>
-              <a href="#">Register</a>
+              {userId ? (
+                <Link to="/dashboard">My Account</Link>
+              ) : (
+                <>
+                  <Link to="/auth">Login</Link>
+                  <Link to="/auth">Register</Link>
+                </>
+              )}
             </div>
             <a href="#quote" className="btn btn-ghost" style={{ padding: "10px 20px" }}>
               Request Quote
@@ -90,8 +135,14 @@ function GhanadaHome() {
           <a href="#about" onClick={closeMenu}>About</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
           <div className="mobile-menu-divider" />
-          <a href="#" onClick={closeMenu}>Login</a>
-          <a href="#" onClick={closeMenu}>Register</a>
+          {userId ? (
+            <Link to="/dashboard" onClick={closeMenu}>My Dashboard</Link>
+          ) : (
+            <>
+              <Link to="/auth" onClick={closeMenu}>Login</Link>
+              <Link to="/auth" onClick={closeMenu}>Register</Link>
+            </>
+          )}
           <a href="#quote" className="btn btn-primary mobile-cta" onClick={closeMenu}>
             Request Quote
           </a>
@@ -209,17 +260,29 @@ function GhanadaHome() {
             <h2>Genuine parts, guaranteed fit</h2>
           </div>
           <div className="parts-grid">
-            {parts.map((p) => (
-              <div key={p.name} className="part-card">
-                <div className="pimg"><img src={p.img} alt={p.name} /></div>
-                <div className="part-body">
-                  <h5>{p.name}</h5>
-                  <div className="stars">{p.stars}</div>
-                  <div className="part-price">{p.price}</div>
-                  <button className="add-cart">Add to Cart</button>
-                </div>
-              </div>
-            ))}
+            {(dbParts && dbParts.length > 0
+              ? dbParts.map((p: any) => (
+                  <div key={p.id} className="part-card">
+                    <div className="pimg"><img src={p.image_url || partsFallback[0].img} alt={p.name} /></div>
+                    <div className="part-body">
+                      <h5>{p.name}</h5>
+                      <div className="stars">★★★★★</div>
+                      <div className="part-price">CAD {Number(p.price).toFixed(2)}</div>
+                      <button className="add-cart" onClick={() => addPartToCart(p.id)}>Add to Cart</button>
+                    </div>
+                  </div>
+                ))
+              : partsFallback.map((p) => (
+                  <div key={p.name} className="part-card">
+                    <div className="pimg"><img src={p.img} alt={p.name} /></div>
+                    <div className="part-body">
+                      <h5>{p.name}</h5>
+                      <div className="stars">{p.stars}</div>
+                      <div className="part-price">{p.price}</div>
+                      <button className="add-cart" onClick={() => { toast("Sign in to shop parts"); navigate({ to: "/auth" }); }}>Add to Cart</button>
+                    </div>
+                  </div>
+                )))}
           </div>
         </div>
       </section>
@@ -238,23 +301,33 @@ function GhanadaHome() {
           <h2>Drive off in minutes, not hours</h2>
           <p className="lead">Economy, SUV, luxury, pickup and van fleets — ready for airport pickup, business travel or weekend getaways.</p>
           <div className="vehicle-grid rental-grid">
-            {rentals.map((r) => (
-              <div key={r.name} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
-                <div className="vimg"><img src={r.img} alt={r.name} /></div>
-                <div className="vbody">
-                  <h4>{r.name}</h4>
-                  <div className="vprice">{r.price}</div>
-                  <div className="vmeta">
-                    <span>👤 {r.seats}</span>
-                    <span>⚙️ {r.trans}</span>
-                    <span>⛽ {r.fuel}</span>
+            {(dbRentals && dbRentals.length > 0
+              ? dbRentals.map((r: any) => (
+                  <div key={r.id} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
+                    <div className="vimg"><img src={r.image_url || rentalsFallback[0].img} alt={r.name} /></div>
+                    <div className="vbody">
+                      <h4>{r.name}</h4>
+                      <div className="vprice">CAD {Number(r.daily_rate).toFixed(2)} / day</div>
+                      <div className="vmeta"><span>{r.vehicle_type || "Vehicle"}</span></div>
+                      <div className="vactions">
+                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => bookRental(r.id)}>Book Now</button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="vactions">
-                    <a className="btn btn-primary" style={{ width: "100%" }}>Book Now</a>
+                ))
+              : rentalsFallback.map((r) => (
+                  <div key={r.name} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
+                    <div className="vimg"><img src={r.img} alt={r.name} /></div>
+                    <div className="vbody">
+                      <h4>{r.name}</h4>
+                      <div className="vprice">{r.price}</div>
+                      <div className="vmeta"><span>👤 {r.seats}</span><span>⚙️ {r.trans}</span><span>⛽ {r.fuel}</span></div>
+                      <div className="vactions">
+                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => { toast("Sign in to book"); navigate({ to: "/auth" }); }}>Book Now</button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                )))}
           </div>
         </div>
       </section>
