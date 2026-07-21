@@ -89,10 +89,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Sales, rentals, repairs, parts, imports and logistics under one roof in Ghana.",
+          "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from Canada and clearing & forwarding, all under one roof.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "GHANADA AUTOS — Your Complete Automotive Partner" },
+      { name: "twitter:description", content: "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from Canada and clearing & forwarding, all under one roof." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JCOCCRG3zPULHMfk2ZAKwC9JMU72/social-images/social-1784652131371-Untitled_design_(4).webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JCOCCRG3zPULHMfk2ZAKwC9JMU72/social-images/social-1784652131371-Untitled_design_(4).webp" },
     ],
     links: [
       {
@@ -105,7 +109,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
