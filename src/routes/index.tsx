@@ -535,10 +535,10 @@ function GhanadaHome() {
               <div className="map-fake" />
               <div className="contact-details">
                 {[
-                  ["📍", "Address", "Spintex Road, Accra, Ghana"],
-                  ["📞", "Phone", "+233 24 000 0000"],
-                  ["✉️", "Email", "hello@ghanadaautos.com"],
-                  ["💬", "WhatsApp", "+233 24 000 0000"],
+                  ["📍", "Locations", "Toronto, Canada · Takoradi, Ghana"],
+                  ["🇨🇦", "Canada", "+1 437 436 4357"],
+                  ["🇬🇭", "Ghana", "+233 547 464 093"],
+                  ["💬", "WhatsApp", "+1 437 436 4357"],
                   ["🕒", "Business Hours", "Mon – Sat, 8:00am – 6:00pm"],
                 ].map(([icon, title, val]) => (
                   <div key={title} className="contact-row">
