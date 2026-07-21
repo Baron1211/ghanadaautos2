@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
+import logoAsset from "../assets/ghanada-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: GhanadaHome,
@@ -42,8 +43,7 @@ function GhanadaHome() {
       <header>
         <div className="nav-wrap">
           <div className="logo">
-            <div className="logo-mark">GA</div>
-            <span className="logo-text">GHANADA <span style={{ color: "var(--green)" }}>&nbsp;AUTOS</span></span>
+            <img src={logoAsset.url} alt="Ghanada Autos" className="logo-img" />
           </div>
           <nav className="main-links">
             <a href="#">Home</a>
