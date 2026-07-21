@@ -453,6 +453,35 @@
   font-size: 15px;
   opacity: 0.9;
 }
+.ga .mobile-group-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 12px 0;
+  font: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  cursor: pointer;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  margin-top: 4px;
+}
+.ga .mobile-group-toggle .caret {
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+.ga .mobile-group-toggle.is-open .caret {
+  transform: rotate(180deg);
+}
+.ga .mobile-sub-group {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 6px;
+}
 .ga .nav-right {
   display: flex;
   align-items: center;
