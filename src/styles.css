@@ -319,10 +319,10 @@
   margin-bottom: 16px;
 }
 .ga .footer-logo-img {
-  height: 84px;
-  background: #fff;
-  padding: 8px 14px;
-  border-radius: 12px;
+  height: 96px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 .ga .footer-contact {
   display: flex;
