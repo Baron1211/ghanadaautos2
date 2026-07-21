@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/")({
   component: GhanadaHome,
@@ -27,6 +28,14 @@ const rentals = [
 ];
 
 function GhanadaHome() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+  const closeMenu = () => setMenuOpen(false);
   return (
     <div className="ga">
       {/* HEADER */}
@@ -34,7 +43,7 @@ function GhanadaHome() {
         <div className="nav-wrap">
           <div className="logo">
             <div className="logo-mark">GA</div>
-            GHANADA <span style={{ color: "var(--green)" }}>&nbsp;AUTOS</span>
+            <span className="logo-text">GHANADA <span style={{ color: "var(--green)" }}>&nbsp;AUTOS</span></span>
           </div>
           <nav className="main-links">
             <a href="#">Home</a>
@@ -60,6 +69,31 @@ function GhanadaHome() {
               Request Quote
             </a>
           </div>
+          <button
+            className={`menu-toggle ${menuOpen ? "open" : ""}`}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+        <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+          <a href="#" onClick={closeMenu}>Home</a>
+          <a href="#cars" onClick={closeMenu}>Cars</a>
+          <a href="#rentals" onClick={closeMenu}>Rentals</a>
+          <a href="#repairs" onClick={closeMenu}>Repairs</a>
+          <a href="#parts" onClick={closeMenu}>Spare Parts</a>
+          <a href="#import" onClick={closeMenu}>Import From Canada</a>
+          <a href="#clearing" onClick={closeMenu}>Clearing & Forwarding</a>
+          <a href="#about" onClick={closeMenu}>About</a>
+          <a href="#contact" onClick={closeMenu}>Contact</a>
+          <div className="mobile-menu-divider" />
+          <a href="#" onClick={closeMenu}>Login</a>
+          <a href="#" onClick={closeMenu}>Register</a>
+          <a href="#quote" className="btn btn-primary mobile-cta" onClick={closeMenu}>
+            Request Quote
+          </a>
         </div>
       </header>
 
@@ -202,7 +236,7 @@ function GhanadaHome() {
           <div className="eyebrow">Car Rentals</div>
           <h2>Drive off in minutes, not hours</h2>
           <p className="lead">Economy, SUV, luxury, pickup and van fleets — ready for airport pickup, business travel or weekend getaways.</p>
-          <div className="vehicle-grid" style={{ gridTemplateColumns: "repeat(4,1fr)", marginTop: 44 }}>
+          <div className="vehicle-grid rental-grid">
             {rentals.map((r) => (
               <div key={r.name} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
                 <div className="vimg"><img src={r.img} alt={r.name} /></div>
