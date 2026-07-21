@@ -236,7 +236,7 @@ function GhanadaHome() {
           <div className="eyebrow">Car Rentals</div>
           <h2>Drive off in minutes, not hours</h2>
           <p className="lead">Economy, SUV, luxury, pickup and van fleets — ready for airport pickup, business travel or weekend getaways.</p>
-          <div className="vehicle-grid" style={{ gridTemplateColumns: "repeat(4,1fr)", marginTop: 44 }}>
+          <div className="vehicle-grid rental-grid">
             {rentals.map((r) => (
               <div key={r.name} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
                 <div className="vimg"><img src={r.img} alt={r.name} /></div>
