@@ -64,9 +64,10 @@ export default function HomeV2() {
     if (error) toast.error(error.message); else toast.success("Added to cart");
   };
 
-  const parts = (dbParts && dbParts.length > 0)
-    ? dbParts.map((p: any) => ({ name: p.name, price: `GH₵ ${p.price}`, img: p.image_url || spareParts[0].img, id: p.id }))
-    : spareParts.map((p) => ({ ...p, id: null as any }));
+  const parts: Array<{ name: string; price: string; img: string; id: string | null }> =
+    (dbParts && dbParts.length > 0)
+      ? dbParts.map((p: any) => ({ name: p.name, price: `GH₵ ${p.price}`, img: p.image_url || spareParts[0].img, id: p.id }))
+      : spareParts.map((p) => ({ ...p, id: null }));
 
   const filteredCars = tab === "All Vehicles" ? featuredCars : featuredCars.filter((c) => c.specs.includes(tab));
 
