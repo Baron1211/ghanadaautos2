@@ -41,11 +41,24 @@ const spareParts = [
 
 const carTabs = ["All Vehicles", "SUV", "Sedan", "Hatchback", "Luxury", "Pickup"];
 
+const heroSlides = [
+  "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80",
+];
+
 export default function HomeV2() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const [tab, setTab] = useState("All Vehicles");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 4500);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
@@ -130,7 +143,24 @@ export default function HomeV2() {
               </div>
             </div>
             <div className="v2-hero-img">
-              <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=900&q=80" alt="Featured car" />
+              {heroSlides.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={`Featured car ${i + 1}`}
+                  className={`v2-hero-slide ${i === slide ? "is-active" : ""}`}
+                />
+              ))}
+              <div className="v2-hero-dots">
+                {heroSlides.map((_, i) => (
+                  <button
+                    key={i}
+                    aria-label={`Slide ${i + 1}`}
+                    onClick={() => setSlide(i)}
+                    className={`v2-hero-dot ${i === slide ? "is-active" : ""}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
