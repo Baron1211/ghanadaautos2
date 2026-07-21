@@ -310,7 +310,7 @@
   color: var(--dark-green);
 }
 .ga .logo-img {
-  height: 72px;
+  height: 104px;
   width: auto;
   display: block;
   object-fit: contain;
@@ -319,7 +319,7 @@
   margin-bottom: 16px;
 }
 .ga .footer-logo-img {
-  height: 96px;
+  height: 120px;
   background: transparent;
   padding: 0;
   border-radius: 0;
@@ -351,7 +351,8 @@
 }
 .ga nav.main-links {
   display: flex;
-  gap: 34px;
+  gap: 28px;
+  align-items: center;
 }
 .ga nav.main-links a {
   font-size: 14.5px;
@@ -363,6 +364,95 @@
 .ga nav.main-links a:hover {
   opacity: 1;
   color: var(--green);
+}
+
+/* Services dropdown */
+.ga .nav-dropdown { position: relative; }
+.ga .nav-dropdown-trigger {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ga-text);
+  opacity: 0.8;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.2s;
+}
+.ga .nav-dropdown-trigger:hover,
+.ga .nav-dropdown:hover .nav-dropdown-trigger {
+  opacity: 1;
+  color: var(--green);
+}
+.ga .nav-dropdown-trigger .caret {
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+.ga .nav-dropdown:hover .nav-dropdown-trigger .caret {
+  transform: rotate(180deg);
+}
+.ga .nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  min-width: 240px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(6, 95, 70, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  z-index: 100;
+}
+.ga .nav-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+.ga .nav-dropdown:hover .nav-dropdown-menu,
+.ga .nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.ga .nav-dropdown-menu a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ga-text);
+  opacity: 0.85;
+  white-space: nowrap;
+}
+.ga .nav-dropdown-menu a:hover {
+  background: color-mix(in oklab, var(--green) 10%, transparent);
+  color: var(--green);
+  opacity: 1;
+}
+
+/* Mobile menu sub-links */
+.ga .mobile-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  padding: 14px 0 4px;
+}
+.ga .mobile-menu a.mobile-sub {
+  padding-left: 16px;
+  font-size: 15px;
+  opacity: 0.9;
 }
 .ga .nav-right {
   display: flex;
