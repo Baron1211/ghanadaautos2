@@ -310,7 +310,7 @@
   color: var(--dark-green);
 }
 .ga .logo-img {
-  height: 44px;
+  height: 72px;
   width: auto;
   display: block;
   object-fit: contain;
@@ -319,7 +319,7 @@
   margin-bottom: 16px;
 }
 .ga .footer-logo-img {
-  height: 56px;
+  height: 84px;
   background: #fff;
   padding: 8px 14px;
   border-radius: 12px;
