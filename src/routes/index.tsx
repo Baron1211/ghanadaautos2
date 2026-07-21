@@ -88,11 +88,18 @@ function GhanadaHome() {
           <nav className="main-links">
             <a href="#">Home</a>
             <a href="#cars">Cars</a>
-            <a href="#rentals">Rentals</a>
-            <a href="#repairs">Repairs</a>
-            <a href="#parts">Spare Parts</a>
-            <a href="#import">Import From Canada</a>
-            <a href="#clearing">Clearing &amp; Forwarding</a>
+            <div className="nav-dropdown">
+              <button className="nav-dropdown-trigger" type="button">
+                Services <span className="caret">▾</span>
+              </button>
+              <div className="nav-dropdown-menu">
+                <a href="#rentals">Rentals</a>
+                <a href="#repairs">Repairs</a>
+                <a href="#parts">Spare Parts</a>
+                <a href="#import">Import From Canada</a>
+                <a href="#clearing">Clearing &amp; Forwarding</a>
+              </div>
+            </div>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
           </nav>
@@ -127,11 +134,12 @@ function GhanadaHome() {
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           <a href="#" onClick={closeMenu}>Home</a>
           <a href="#cars" onClick={closeMenu}>Cars</a>
-          <a href="#rentals" onClick={closeMenu}>Rentals</a>
-          <a href="#repairs" onClick={closeMenu}>Repairs</a>
-          <a href="#parts" onClick={closeMenu}>Spare Parts</a>
-          <a href="#import" onClick={closeMenu}>Import From Canada</a>
-          <a href="#clearing" onClick={closeMenu}>Clearing & Forwarding</a>
+          <div className="mobile-group-label">Services</div>
+          <a href="#rentals" className="mobile-sub" onClick={closeMenu}>Rentals</a>
+          <a href="#repairs" className="mobile-sub" onClick={closeMenu}>Repairs</a>
+          <a href="#parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</a>
+          <a href="#import" className="mobile-sub" onClick={closeMenu}>Import From Canada</a>
+          <a href="#clearing" className="mobile-sub" onClick={closeMenu}>Clearing & Forwarding</a>
           <a href="#about" onClick={closeMenu}>About</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
           <div className="mobile-menu-divider" />
