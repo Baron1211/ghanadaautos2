@@ -151,12 +151,23 @@ function GhanadaHome() {
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           <a href="#" onClick={closeMenu}>Home</a>
           <a href="#cars" onClick={closeMenu}>Cars</a>
-          <div className="mobile-group-label">Services</div>
-          <a href="#rentals" className="mobile-sub" onClick={closeMenu}>Rentals</a>
-          <a href="#repairs" className="mobile-sub" onClick={closeMenu}>Repairs</a>
-          <a href="#parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</a>
-          <a href="#import" className="mobile-sub" onClick={closeMenu}>Import From Canada</a>
-          <a href="#clearing" className="mobile-sub" onClick={closeMenu}>Clearing & Forwarding</a>
+          <button
+            type="button"
+            className={`mobile-group-toggle${servicesOpen ? " is-open" : ""}`}
+            aria-expanded={servicesOpen}
+            onClick={() => setServicesOpen((v) => !v)}
+          >
+            Services <span className="caret">▾</span>
+          </button>
+          {servicesOpen && (
+            <div className="mobile-sub-group">
+              <a href="#rentals" className="mobile-sub" onClick={closeMenu}>Rentals</a>
+              <a href="#repairs" className="mobile-sub" onClick={closeMenu}>Repairs</a>
+              <a href="#parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</a>
+              <a href="#import" className="mobile-sub" onClick={closeMenu}>Import From Canada</a>
+              <a href="#clearing" className="mobile-sub" onClick={closeMenu}>Clearing & Forwarding</a>
+            </div>
+          )}
           <a href="#about" onClick={closeMenu}>About</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
           <div className="mobile-menu-divider" />
