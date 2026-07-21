@@ -1,14 +1,14 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import logoAsset from "../assets/ghanada-logo.png.asset.json";
-import logoTransparentAsset from "../assets/ghanada-logo-transparent.png.asset.json";
+import logoAsset from "@/assets/ghanada-logo.png.asset.json";
+import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 
-export const Route = createFileRoute("/")({
-  component: GhanadaHome,
-});
+export default function HomeV1() {
+  return <GhanadaHome />;
+}
 
 const vehicles = [
   { name: "Toyota Highlander XLE", price: "GH₵ 385,000", year: "2022", miles: "18,400 mi", fuel: "Petrol", trans: "Automatic", finance: true, img: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=600&q=80" },
