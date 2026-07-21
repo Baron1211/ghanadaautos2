@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import logoAsset from "../assets/ghanada-logo.png.asset.json";
+import logoTransparentAsset from "../assets/ghanada-logo-transparent.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: GhanadaHome,
