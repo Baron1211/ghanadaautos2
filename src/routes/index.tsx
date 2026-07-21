@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import logoAsset from "../assets/ghanada-logo.png.asset.json";
+import logoTransparentAsset from "../assets/ghanada-logo-transparent.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: GhanadaHome,
@@ -570,7 +571,7 @@ function GhanadaHome() {
           <div className="footer-grid">
             <div>
               <div className="logo">
-                <img src={logoAsset.url} alt="Ghanada Autos" className="logo-img footer-logo-img" />
+                <img src={logoTransparentAsset.url} alt="Ghanada Autos" className="logo-img footer-logo-img" />
               </div>
               <p>Ghana &amp; Canada's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
               <div className="footer-contact">

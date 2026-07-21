@@ -319,10 +319,10 @@
   margin-bottom: 16px;
 }
 .ga .footer-logo-img {
-  height: 84px;
-  background: #fff;
-  padding: 8px 14px;
-  border-radius: 12px;
+  height: 96px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 .ga .footer-contact {
   display: flex;
@@ -1472,12 +1472,34 @@
   .ga .band h2 {
     font-size: 28px;
   }
+  .ga .band-content {
+    padding: 64px 20px;
+  }
   .ga .timeline {
-    gap: 18px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 28px;
   }
   .ga .timeline .step {
-    flex: 0 0 50%;
+    flex: unset;
     min-width: 0;
+    padding: 14px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    backdrop-filter: blur(6px);
+  }
+  .ga .timeline .step .num {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.22);
+  }
+  .ga .timeline .step h5 {
+    font-size: 13px;
+    line-height: 1.25;
   }
   .ga .timeline .step::after {
     display: none;
@@ -1594,8 +1616,8 @@
   .ga .booking-info h3 {
     font-size: 22px;
   }
-  .ga .timeline .step {
-    flex: 0 0 100%;
+  .ga .timeline {
+    grid-template-columns: repeat(2, 1fr);
   }
   .ga .band h2 {
     font-size: 24px;
