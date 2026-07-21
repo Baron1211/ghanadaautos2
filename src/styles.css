@@ -2245,6 +2245,7 @@
 .v2-hero-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: stretch; }
 .v2-hero-main { position: relative; background: linear-gradient(120deg, #0d1a30 0%, #111b2e 100%); border: 1px solid var(--v2-border); border-radius: 12px; overflow: hidden; min-height: 460px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: stretch; }
 .v2-hero-copy { padding: 42px; z-index: 2; }
+.v2-hero-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
 .v2-eyebrow { color: var(--v2-y); font-size: 12px; font-weight: 700; letter-spacing: 2px; }
 .v2-h1 { font-size: 44px; line-height: 1.1; margin: 14px 0 16px; font-weight: 800; }
 .v2-accent { color: var(--v2-y); }
