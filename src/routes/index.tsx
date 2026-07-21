@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
+import logoAsset from "../assets/ghanada-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: GhanadaHome,
@@ -42,8 +43,7 @@ function GhanadaHome() {
       <header>
         <div className="nav-wrap">
           <div className="logo">
-            <div className="logo-mark">GA</div>
-            <span className="logo-text">GHANADA <span style={{ color: "var(--green)" }}>&nbsp;AUTOS</span></span>
+            <img src={logoAsset.url} alt="Ghanada Autos" className="logo-img" />
           </div>
           <nav className="main-links">
             <a href="#">Home</a>
@@ -535,10 +535,10 @@ function GhanadaHome() {
               <div className="map-fake" />
               <div className="contact-details">
                 {[
-                  ["📍", "Address", "Spintex Road, Accra, Ghana"],
-                  ["📞", "Phone", "+233 24 000 0000"],
-                  ["✉️", "Email", "hello@ghanadaautos.com"],
-                  ["💬", "WhatsApp", "+233 24 000 0000"],
+                  ["📍", "Locations", "Toronto, Canada · Takoradi, Ghana"],
+                  ["🇨🇦", "Canada", "+1 437 436 4357"],
+                  ["🇬🇭", "Ghana", "+233 547 464 093"],
+                  ["💬", "WhatsApp", "+1 437 436 4357"],
                   ["🕒", "Business Hours", "Mon – Sat, 8:00am – 6:00pm"],
                 ].map(([icon, title, val]) => (
                   <div key={title} className="contact-row">
@@ -570,9 +570,14 @@ function GhanadaHome() {
           <div className="footer-grid">
             <div>
               <div className="logo">
-                GHANADA <span style={{ color: "var(--emerald)" }}>&nbsp;AUTOS</span>
+                <img src={logoAsset.url} alt="Ghanada Autos" className="logo-img footer-logo-img" />
               </div>
-              <p>Ghana's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
+              <p>Ghana &amp; Canada's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
+              <div className="footer-contact">
+                <div><strong>Toronto, Canada</strong><br />+1 437 436 4357</div>
+                <div><strong>Takoradi, Ghana</strong><br />+233 547 464 093</div>
+                <div><strong>WhatsApp</strong><br />+1 437 436 4357</div>
+              </div>
               <div className="social-row">
                 <div>f</div>
                 <div>ig</div>
