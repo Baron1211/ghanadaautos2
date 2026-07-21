@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -36,6 +36,18 @@ function GhanadaHome() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!servicesOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [servicesOpen]);
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUserId(s?.user?.id ?? null));
@@ -88,11 +100,16 @@ function GhanadaHome() {
           <nav className="main-links">
             <a href="#">Home</a>
             <a href="#cars">Cars</a>
-            <div className="nav-dropdown">
-              <button className="nav-dropdown-trigger" type="button">
+            <div className={`nav-dropdown${servicesOpen ? " is-open" : ""}`} ref={servicesRef}>
+              <button
+                className="nav-dropdown-trigger"
+                type="button"
+                aria-expanded={servicesOpen}
+                onClick={() => setServicesOpen((v) => !v)}
+              >
                 Services <span className="caret">▾</span>
               </button>
-              <div className="nav-dropdown-menu">
+              <div className="nav-dropdown-menu" onClick={() => setServicesOpen(false)}>
                 <a href="#rentals">Rentals</a>
                 <a href="#repairs">Repairs</a>
                 <a href="#parts">Spare Parts</a>
