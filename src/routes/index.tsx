@@ -571,7 +571,7 @@ function GhanadaHome() {
           <div className="footer-grid">
             <div>
               <div className="logo">
-                <img src={logoAsset.url} alt="Ghanada Autos" className="logo-img footer-logo-img" />
+                <img src={logoTransparentAsset.url} alt="Ghanada Autos" className="logo-img footer-logo-img" />
               </div>
               <p>Ghana &amp; Canada's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
               <div className="footer-contact">
