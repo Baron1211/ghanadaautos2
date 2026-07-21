@@ -291,8 +291,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(14px);
+  background: #ffffff;
   border-bottom: 1px solid var(--gray);
 }
 .ga .nav-wrap {
