@@ -60,7 +60,7 @@ export default function HomeV2() {
 
   const addToCart = async (partId: string) => {
     if (!userId) { toast("Please sign in to add to cart"); navigate({ to: "/auth" }); return; }
-    const { error } = await supabase.from("cart_items").insert({ user_id: userId, item_type: "part", item_id: partId, quantity: 1 });
+    const { error } = await supabase.from("cart_items").insert({ user_id: userId, item_type: "part", part_id: partId, quantity: 1 });
     if (error) toast.error(error.message); else toast.success("Added to cart");
   };
 
