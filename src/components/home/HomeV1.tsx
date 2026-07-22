@@ -82,18 +82,8 @@ function GhanadaHome() {
     },
   });
 
-  const addPartToCart = async (partId: string) => {
-    if (!userId) { toast("Please sign in to add to cart"); navigate({ to: "/auth" }); return; }
-    const { error } = await supabase.from("cart_items").insert({ user_id: userId, item_type: "part", part_id: partId, quantity: 1 });
-    if (error) toast.error(error.message); else toast.success("Added to cart");
-  };
-  const bookRental = async (rentalId: string) => {
-    if (!userId) { toast("Please sign in to book"); navigate({ to: "/auth" }); return; }
-    const days = Number(prompt("How many days?", "3") || "0");
-    if (!days || days < 1) return;
-    const { error } = await supabase.from("cart_items").insert({ user_id: userId, item_type: "rental", rental_id: rentalId, quantity: 1, rental_days: days });
-    if (error) toast.error(error.message); else toast.success(`Rental added (${days} days)`);
-  };
+  const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
+  const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
 
   return (
     <div className="ga">
@@ -129,7 +119,7 @@ function GhanadaHome() {
           <div className="nav-right">
             <span className="icon-btn">🔍</span>
             <span className="icon-btn">♡</span>
-            <Link to={userId ? "/dashboard" : "/auth"} className="icon-btn" aria-label="Cart">🛒</Link>
+            <Link to="/checkout" className="icon-btn" aria-label="Cart">🛒</Link>
             <div className="nav-divider" />
             <div className="auth-links">
               {userId ? (
@@ -310,7 +300,7 @@ function GhanadaHome() {
                       <h5>{p.name}</h5>
                       <div className="stars">★★★★★</div>
                       <div className="part-price">CAD {Number(p.price).toFixed(2)}</div>
-                      <button className="add-cart" onClick={() => addPartToCart(p.id)}>Add to Cart</button>
+                      <button className="add-cart" onClick={() => openPart(p.id)}>View & Buy</button>
                     </div>
                   </div>
                 ))
@@ -321,7 +311,7 @@ function GhanadaHome() {
                       <h5>{p.name}</h5>
                       <div className="stars">{p.stars}</div>
                       <div className="part-price">{p.price}</div>
-                      <button className="add-cart" onClick={() => { toast("Sign in to shop parts"); navigate({ to: "/auth" }); }}>Add to Cart</button>
+                      <button className="add-cart" onClick={() => toast("Live parts coming soon — admin can add them")}>Add to Cart</button>
                     </div>
                   </div>
                 )))}
@@ -352,7 +342,7 @@ function GhanadaHome() {
                       <div className="vprice">CAD {Number(r.daily_rate).toFixed(2)} / day</div>
                       <div className="vmeta"><span>{r.vehicle_type || "Vehicle"}</span></div>
                       <div className="vactions">
-                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => bookRental(r.id)}>Book Now</button>
+                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => openRental(r.id)}>Book Now</button>
                       </div>
                     </div>
                   </div>
@@ -365,7 +355,7 @@ function GhanadaHome() {
                       <div className="vprice">{r.price}</div>
                       <div className="vmeta"><span>👤 {r.seats}</span><span>⚙️ {r.trans}</span><span>⛽ {r.fuel}</span></div>
                       <div className="vactions">
-                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => { toast("Sign in to book"); navigate({ to: "/auth" }); }}>Book Now</button>
+                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => toast("Live rentals coming soon — admin can add them")}>Book Now</button>
                       </div>
                     </div>
                   </div>
