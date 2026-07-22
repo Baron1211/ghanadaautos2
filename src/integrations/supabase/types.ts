@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          details: Json | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      brands: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          logo_url: string | null
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cart_items: {
         Row: {
           created_at: string
@@ -74,6 +134,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      categories: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       order_items: {
         Row: {
@@ -262,11 +358,15 @@ export type Database = {
         Row: {
           active: boolean
           brand: string | null
+          brand_id: string | null
           category: string | null
+          category_id: string | null
           created_at: string
           description: string | null
           id: string
           image_url: string | null
+          images: Json
+          low_stock_threshold: number
           name: string
           price: number
           stock: number
@@ -275,11 +375,15 @@ export type Database = {
         Insert: {
           active?: boolean
           brand?: string | null
+          brand_id?: string | null
           category?: string | null
+          category_id?: string | null
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          images?: Json
+          low_stock_threshold?: number
           name: string
           price: number
           stock?: number
@@ -288,17 +392,36 @@ export type Database = {
         Update: {
           active?: boolean
           brand?: string | null
+          brand_id?: string | null
           category?: string | null
+          category_id?: string | null
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          images?: Json
+          low_stock_threshold?: number
           name?: string
           price?: number
           stock?: number
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "parts_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "parts_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -427,6 +550,7 @@ export type Database = {
           description: string | null
           id: string
           image_url: string | null
+          images: Json
           name: string
           updated_at: string
           vehicle_type: string | null
@@ -438,6 +562,7 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          images?: Json
           name: string
           updated_at?: string
           vehicle_type?: string | null
@@ -449,6 +574,7 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          images?: Json
           name?: string
           updated_at?: string
           vehicle_type?: string | null
