@@ -123,10 +123,7 @@ export default function HomeV2() {
             {userId ? (
               <Link to="/dashboard" className="v2-btn v2-signup-btn">My Account</Link>
             ) : (
-              <>
-                <Link to="/auth" className="v2-login-link">Login</Link>
-                <Link to="/auth" className="v2-btn v2-signup-btn">Sign Up</Link>
-              </>
+              <Link to="/auth" className="v2-login-link">Login</Link>
             )}
             <button className="v2-burger" onClick={() => setMenuOpen((v) => !v)} aria-label="Menu">☰</button>
           </div>
