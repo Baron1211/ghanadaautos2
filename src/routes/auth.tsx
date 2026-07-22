@@ -27,9 +27,23 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
 
+  const getPostAuthPath = async (userId: string) => {
+    const { data } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .maybeSingle();
+
+    return data ? "/admin" : "/dashboard";
+  };
+
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) navigate({ to: "/dashboard" });
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (data.user) {
+        const destination = await getPostAuthPath(data.user.id);
+        navigate({ to: destination });
+      }
     });
   }, [navigate]);
 
@@ -44,7 +58,13 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/dashboard" });
+    const { data } = await supabase.auth.getUser();
+    if (data.user) {
+      const destination = await getPostAuthPath(data.user.id);
+      navigate({ to: destination });
+    } else {
+      navigate({ to: "/dashboard" });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,10 +98,11 @@ function AuthPage() {
           toast.success("Check your email to confirm your account.");
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Signed in");
-        navigate({ to: "/dashboard" });
+        const destination = data.user ? await getPostAuthPath(data.user.id) : "/dashboard";
+        navigate({ to: destination });
       }
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
