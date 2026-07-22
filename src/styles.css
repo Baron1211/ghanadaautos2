@@ -2381,9 +2381,12 @@
   .v2-how-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 720px) {
-  .v2-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--v2-bg); flex-direction: column; padding: 12px 20px; border-bottom: 1px solid var(--v2-border); }
+  .v2-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #ffffff; flex-direction: column; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; box-shadow: 0 8px 16px rgba(0,0,0,.06); gap: 2px; }
   .v2-nav.is-open { display: flex; }
+  .v2-nav-link { padding: 12px 14px; border-radius: 8px; }
   .v2-burger { display: inline-flex; }
+  .v2-header-cta .v2-login-link { display: none; }
+  .v2-logo img { height: 52px; }
   .v2-hero-main { grid-template-columns: 1fr; min-height: auto; }
   .v2-hero-img { height: 240px; position: relative; }
   .v2-hero-img::before { display: none; }
