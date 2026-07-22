@@ -31,12 +31,12 @@ const featuredCars = [
 ];
 
 const spareParts = [
-  { name: "Brake Pads", price: "GH₵ 350", img: "https://images.unsplash.com/photo-1600661653561-629509216228?auto=format&fit=crop&w=400&q=80" },
-  { name: "Oil Filter", price: "GH₵ 120", img: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=400&q=80" },
-  { name: "Alloy Wheel", price: "GH₵ 850", img: "https://images.unsplash.com/photo-1626668893632-6f3a4466d109?auto=format&fit=crop&w=400&q=80" },
-  { name: "Car Battery", price: "GH₵ 650", img: "https://images.unsplash.com/photo-1615469934246-9e353d811ee3?auto=format&fit=crop&w=400&q=80" },
-  { name: "Head Lamp", price: "GH₵ 1,200", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" },
-  { name: "Shock Absorber", price: "GH₵ 450", img: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?auto=format&fit=crop&w=400&q=80" },
+  { name: "Brake Pads", price: "GH₵ 350", img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80" },
+  { name: "Engine Oil Filter", price: "GH₵ 120", img: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=600&q=80" },
+  { name: "Alloy Wheel", price: "GH₵ 850", img: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=600&q=80" },
+  { name: "Car Battery", price: "GH₵ 650", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=600&q=80" },
+  { name: "Head Lamp", price: "GH₵ 1,200", img: "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=600&q=80" },
+  { name: "Shock Absorber", price: "GH₵ 450", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80" },
 ];
 
 const carTabs = ["All Vehicles", "SUV", "Sedan", "Hatchback", "Luxury", "Pickup"];
