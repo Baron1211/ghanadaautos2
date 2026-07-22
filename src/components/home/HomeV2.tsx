@@ -119,7 +119,17 @@ export default function HomeV2() {
             <a href="#blog" className="v2-nav-link">Blog</a>
             <a href="#contact" className="v2-nav-link">Contact</a>
           </nav>
-          <button className="v2-burger" onClick={() => setMenuOpen((v) => !v)} aria-label="Menu">☰</button>
+          <div className="v2-header-cta">
+            {userId ? (
+              <Link to="/dashboard" className="v2-btn v2-signup-btn">My Account</Link>
+            ) : (
+              <>
+                <Link to="/auth" className="v2-login-link">Login</Link>
+                <Link to="/auth" className="v2-btn v2-signup-btn">Sign Up</Link>
+              </>
+            )}
+            <button className="v2-burger" onClick={() => setMenuOpen((v) => !v)} aria-label="Menu">☰</button>
+          </div>
         </div>
       </header>
 
