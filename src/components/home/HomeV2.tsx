@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -54,6 +54,16 @@ export default function HomeV2() {
   const [tab, setTab] = useState("All Vehicles");
   const [menuOpen, setMenuOpen] = useState(false);
   const [slide, setSlide] = useState(0);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) setServicesOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
 
   useEffect(() => {
     const id = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 4500);
@@ -113,7 +123,23 @@ export default function HomeV2() {
           <nav className={`v2-nav ${menuOpen ? "is-open" : ""}`}>
             <a href="#home" className="v2-nav-link is-active">Home</a>
             <a href="#about" className="v2-nav-link">About Us</a>
-            <a href="#services" className="v2-nav-link">Services ▾</a>
+            <div className={`v2-nav-dropdown ${servicesOpen ? "is-open" : ""}`} ref={servicesRef}>
+              <button
+                type="button"
+                className="v2-nav-link v2-nav-dropdown-btn"
+                onClick={() => setServicesOpen((v) => !v)}
+                aria-expanded={servicesOpen}
+              >
+                Services <span className="v2-caret">▾</span>
+              </button>
+              <div className="v2-nav-dropdown-menu">
+                <a href="#services" className="v2-nav-dropdown-item" onClick={() => setServicesOpen(false)}>Car Rentals</a>
+                <a href="#services" className="v2-nav-dropdown-item" onClick={() => setServicesOpen(false)}>Car Repairs</a>
+                <a href="#shop" className="v2-nav-dropdown-item" onClick={() => setServicesOpen(false)}>Spare Parts</a>
+                <a href="#services" className="v2-nav-dropdown-item" onClick={() => setServicesOpen(false)}>Import from Canada</a>
+                <a href="#services" className="v2-nav-dropdown-item" onClick={() => setServicesOpen(false)}>Clearing & Forwarding</a>
+              </div>
+            </div>
             <a href="#shop" className="v2-nav-link">Shop ▾</a>
             <a href="#bookings" className="v2-nav-link">Bookings</a>
             <a href="#blog" className="v2-nav-link">Blog</a>
