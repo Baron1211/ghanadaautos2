@@ -91,21 +91,91 @@ function AdminParts() {
 
       <div className="ga-admin-list">
         {parts?.map((p: any) => (
-          <div key={p.id} className="ga-admin-row">
-            <img src={p.image_url || "/favicon.ico"} alt="" />
-            <div>
-              <strong>{p.name}</strong>
-              <span className="ga-muted">{p.brand} · {p.category} · Stock: {p.stock} {!p.active && "· inactive"}</span>
-            </div>
-            <div className="ga-admin-price">CAD {Number(p.price).toFixed(2)}</div>
-            <div className="ga-admin-actions">
-              <button onClick={() => edit(p)}>Edit</button>
-              <button onClick={() => toggle(p)}>{p.active ? "Hide" : "Show"}</button>
-              <button onClick={() => remove(p.id)} className="ga-danger">Delete</button>
-            </div>
-          </div>
+          <PartRow key={p.id} p={p} onEdit={edit} onToggle={toggle} onRemove={remove} />
         ))}
       </div>
     </>
+  );
+}
+
+function PartRow({ p, onEdit, onToggle, onRemove }: { p: any; onEdit: (p: any) => void; onToggle: (p: any) => void; onRemove: (id: string) => void }) {
+  const qc = useQueryClient();
+  const [open, setOpen] = useState(false);
+  const { data: vars } = useQuery({
+    queryKey: ["variations", p.id],
+    enabled: open,
+    queryFn: async () => {
+      const { data } = await supabase.from("part_variations").select("*").eq("part_id", p.id).order("sort_order");
+      return data || [];
+    },
+  });
+  const [nv, setNv] = useState({ label: "", price: "", stock: "", attributes: "" });
+
+  const addVar = async () => {
+    if (!nv.label || !nv.price) return toast.error("Label and price required");
+    let attrs: any = {};
+    try { attrs = nv.attributes ? JSON.parse(nv.attributes) : {}; } catch { return toast.error("Attributes must be valid JSON"); }
+    const { error } = await supabase.from("part_variations").insert({
+      part_id: p.id, label: nv.label, price: Number(nv.price), stock: Number(nv.stock || 0), attributes: attrs,
+    });
+    if (error) return toast.error(error.message);
+    setNv({ label: "", price: "", stock: "", attributes: "" });
+    qc.invalidateQueries({ queryKey: ["variations", p.id] });
+  };
+  const delVar = async (id: string) => {
+    if (!confirm("Delete variation?")) return;
+    await supabase.from("part_variations").delete().eq("id", id);
+    qc.invalidateQueries({ queryKey: ["variations", p.id] });
+  };
+  const updateVar = async (id: string, patch: any) => {
+    await supabase.from("part_variations").update(patch).eq("id", id);
+    qc.invalidateQueries({ queryKey: ["variations", p.id] });
+  };
+
+  return (
+    <div className="ga-admin-row-wrap">
+      <div className="ga-admin-row">
+        <img src={p.image_url || "/favicon.ico"} alt="" />
+        <div>
+          <strong>{p.name}</strong>
+          <span className="ga-muted">{p.brand} · {p.category} · Stock: {p.stock} {!p.active && "· inactive"}</span>
+        </div>
+        <div className="ga-admin-price">CAD {Number(p.price).toFixed(2)}</div>
+        <div className="ga-admin-actions">
+          <button onClick={() => setOpen(o => !o)}>{open ? "Hide variations" : "Variations"}</button>
+          <button onClick={() => onEdit(p)}>Edit</button>
+          <button onClick={() => onToggle(p)}>{p.active ? "Hide" : "Show"}</button>
+          <button onClick={() => onRemove(p.id)} className="ga-danger">Delete</button>
+        </div>
+      </div>
+      {open && (
+        <div className="ga-variations-panel">
+          <h4>Variations (e.g. sizes, fitments)</h4>
+          {vars?.length ? (
+            <table className="ga-var-table">
+              <thead><tr><th>Label</th><th>Price</th><th>Stock</th><th>Attributes</th><th></th></tr></thead>
+              <tbody>
+                {vars.map((v: any) => (
+                  <tr key={v.id}>
+                    <td><input defaultValue={v.label} onBlur={e => updateVar(v.id, { label: e.target.value })} /></td>
+                    <td><input type="number" step="0.01" defaultValue={v.price} onBlur={e => updateVar(v.id, { price: Number(e.target.value) })} /></td>
+                    <td><input type="number" defaultValue={v.stock} onBlur={e => updateVar(v.id, { stock: Number(e.target.value) })} /></td>
+                    <td><code>{JSON.stringify(v.attributes)}</code></td>
+                    <td><button className="ga-danger" onClick={() => delVar(v.id)}>×</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : <p className="ga-muted ga-small">No variations. Add one below to offer per-size or per-model pricing.</p>}
+          <div className="ga-form-grid" style={{ marginTop: 12 }}>
+            <label>Label<input value={nv.label} onChange={e => setNv({ ...nv, label: e.target.value })} placeholder="e.g. 205/55R16" /></label>
+            <label>Price<input type="number" step="0.01" value={nv.price} onChange={e => setNv({ ...nv, price: e.target.value })} /></label>
+            <label>Stock<input type="number" value={nv.stock} onChange={e => setNv({ ...nv, stock: e.target.value })} /></label>
+            <label>Attributes JSON<input value={nv.attributes} onChange={e => setNv({ ...nv, attributes: e.target.value })} placeholder='{"fits":"Toyota Corolla 2015"}' /></label>
+          </div>
+          <button className="ga-btn-primary" onClick={addVar}>Add variation</button>
+        </div>
+      )}
+    </div>
   );
 }

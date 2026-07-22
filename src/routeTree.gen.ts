@@ -9,18 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RentalsIdRouteImport } from './routes/rentals.$id'
 import { Route as PartsIdRouteImport } from './routes/parts.$id'
+import { Route as OrdersNumberRouteImport } from './routes/orders.$number'
+import { Route as BookingsNumberRouteImport } from './routes/bookings.$number'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminRentalsRouteImport } from './routes/_authenticated/admin.rentals'
 import { Route as AuthenticatedAdminPartsRouteImport } from './routes/_authenticated/admin.parts'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
+import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -35,9 +46,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RentalsIdRoute = RentalsIdRouteImport.update({
+  id: '/rentals/$id',
+  path: '/rentals/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PartsIdRoute = PartsIdRouteImport.update({
   id: '/parts/$id',
   path: '/parts/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdersNumberRoute = OrdersNumberRouteImport.update({
+  id: '/orders/$number',
+  path: '/orders/$number',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsNumberRoute = BookingsNumberRouteImport.update({
+  id: '/bookings/$number',
+  path: '/bookings/$number',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -60,6 +86,12 @@ const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminRentalsRoute =
   AuthenticatedAdminRentalsRouteImport.update({
     id: '/rentals',
@@ -77,27 +109,45 @@ const AuthenticatedAdminOrdersRoute =
     path: '/orders',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminBookingsRoute =
+  AuthenticatedAdminBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/checkout': typeof CheckoutRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/bookings/$number': typeof BookingsNumberRoute
+  '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
+  '/rentals/$id': typeof RentalsIdRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/checkout': typeof CheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/bookings/$number': typeof BookingsNumberRoute
+  '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
+  '/rentals/$id': typeof RentalsIdRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -106,12 +156,18 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/checkout': typeof CheckoutRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/bookings/$number': typeof BookingsNumberRoute
+  '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
+  '/rentals/$id': typeof RentalsIdRoute
+  '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/_authenticated/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -120,23 +176,35 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/checkout'
     | '/admin'
     | '/dashboard'
+    | '/bookings/$number'
+    | '/orders/$number'
     | '/parts/$id'
+    | '/rentals/$id'
+    | '/admin/bookings'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/checkout'
     | '/dashboard'
+    | '/bookings/$number'
+    | '/orders/$number'
     | '/parts/$id'
+    | '/rentals/$id'
+    | '/admin/bookings'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin'
   id:
@@ -144,12 +212,18 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/checkout'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/bookings/$number'
+    | '/orders/$number'
     | '/parts/$id'
+    | '/rentals/$id'
+    | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/parts'
     | '/_authenticated/admin/rentals'
+    | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -158,11 +232,22 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CheckoutRoute: typeof CheckoutRoute
+  BookingsNumberRoute: typeof BookingsNumberRoute
+  OrdersNumberRoute: typeof OrdersNumberRoute
   PartsIdRoute: typeof PartsIdRoute
+  RentalsIdRoute: typeof RentalsIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -184,11 +269,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rentals/$id': {
+      id: '/rentals/$id'
+      path: '/rentals/$id'
+      fullPath: '/rentals/$id'
+      preLoaderRoute: typeof RentalsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/parts/$id': {
       id: '/parts/$id'
       path: '/parts/$id'
       fullPath: '/parts/$id'
       preLoaderRoute: typeof PartsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orders/$number': {
+      id: '/orders/$number'
+      path: '/orders/$number'
+      fullPath: '/orders/$number'
+      preLoaderRoute: typeof OrdersNumberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings/$number': {
+      id: '/bookings/$number'
+      path: '/bookings/$number'
+      fullPath: '/bookings/$number'
+      preLoaderRoute: typeof BookingsNumberRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/dashboard': {
@@ -219,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/rentals': {
       id: '/_authenticated/admin/rentals'
       path: '/rentals'
@@ -240,21 +353,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/bookings': {
+      id: '/_authenticated/admin/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AuthenticatedAdminBookingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
   AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
   AuthenticatedAdminPartsRoute: typeof AuthenticatedAdminPartsRoute
   AuthenticatedAdminRentalsRoute: typeof AuthenticatedAdminRentalsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
   AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
   AuthenticatedAdminPartsRoute: AuthenticatedAdminPartsRoute,
   AuthenticatedAdminRentalsRoute: AuthenticatedAdminRentalsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
@@ -279,7 +403,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CheckoutRoute: CheckoutRoute,
+  BookingsNumberRoute: BookingsNumberRoute,
+  OrdersNumberRoute: OrdersNumberRoute,
   PartsIdRoute: PartsIdRoute,
+  RentalsIdRoute: RentalsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
