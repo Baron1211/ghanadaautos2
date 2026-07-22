@@ -5,6 +5,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
+import engineImg from "@/assets/parts/engine.jpg.asset.json";
+import brakeImg from "@/assets/parts/brake.jpg.asset.json";
+import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
+import batteryImg from "@/assets/parts/battery.jpg.asset.json";
+import headlightImg from "@/assets/parts/headlight.jpg.asset.json";
+import clearingImg from "@/assets/parts/clearing.jpg.asset.json";
 
 export default function HomeV1() {
   return <GhanadaHome />;
@@ -18,11 +24,11 @@ const vehicles = [
 ];
 
 const partsFallback = [
-  { name: "Engine Parts", stars: "★★★★★", price: "GH₵ 1,250", img: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=600&q=80" },
-  { name: "Brake Pads", stars: "★★★★☆", price: "GH₵ 380", img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80" },
-  { name: "Tyres", stars: "★★★★★", price: "GH₵ 690", img: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=600&q=80" },
-  { name: "Batteries", stars: "★★★★☆", price: "GH₵ 950", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=600&q=80" },
-  { name: "Headlights", stars: "★★★★★", price: "GH₵ 540", img: "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=600&q=80" },
+  { name: "Engine Parts", stars: "★★★★★", price: "GH₵ 1,250", img: engineImg.url },
+  { name: "Brake Pads", stars: "★★★★☆", price: "GH₵ 380", img: brakeImg.url },
+  { name: "Tyres", stars: "★★★★★", price: "GH₵ 690", img: tyreImg.url },
+  { name: "Batteries", stars: "★★★★☆", price: "GH₵ 950", img: batteryImg.url },
+  { name: "Headlights", stars: "★★★★★", price: "GH₵ 540", img: headlightImg.url },
 ];
 
 const rentalsFallback = [
