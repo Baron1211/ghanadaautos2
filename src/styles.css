@@ -2225,9 +2225,9 @@
 .v2-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 10px 0; }
 .v2-logo img { height: 64px; display: block; }
 .v2-nav { display: flex; gap: 6px; align-items: center; flex: 1; justify-content: center; }
-.v2-nav-link { font-weight: 700; font-size: 14px; color: #000; padding: 10px 14px; border-radius: 8px; position: relative; transition: background .15s ease, color .15s ease; white-space: nowrap; }
-.v2-nav-link:hover { background: #f3f4f6; color: #000; }
-.v2-nav-link.is-active { color: #000; background: var(--v2-y); }
+.gav2 .v2-nav-link { font-weight: 700; font-size: 14px; color: #000; padding: 10px 14px; border-radius: 8px; position: relative; transition: background .15s ease, color .15s ease; white-space: nowrap; }
+.gav2 .v2-nav-link:hover { background: #f3f4f6; color: #000; }
+.gav2 .v2-nav-link.is-active { color: #000; background: var(--v2-y); }
 .v2-header-cta { display: flex; align-items: center; gap: 10px; }
 .v2-header-cta .v2-btn { padding: 10px 18px; font-size: 13px; }
 .v2-signup-btn { background: var(--v2-y); color: #0b1220; }
