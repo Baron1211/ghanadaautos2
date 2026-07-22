@@ -1,76 +1,55 @@
-# GHANADA AUTOS — Build Plan
+## What we're building
 
-Faithful rebuild of the uploaded homepage, then layer the e-commerce/admin/customer features on top of Lovable Cloud.
+A complete e-commerce + rental system on top of the existing homepage.
 
-## Phase 1 — Homepage (faithful rebuild)
+### 1. Database changes (one migration)
 
-Port the uploaded HTML into React + Tailwind v4 with matching structure, colors, typography, spacing, and shadows.
+- `part_variations` — per-part SKUs with own price, stock, image, attributes (e.g. "Size: 205/55R16", "Fits: Toyota Corolla 2015").
+- `rental_bookings` — separate from parts orders. Fields: rental_id, user_id (nullable for guest), guest_name/email/phone, pickup_date, return_date, destination, with_driver (bool), daily_rate, driver_daily_fee, days, total, status.
+- `orders` — add: guest_name, guest_email, payment_method ('paystack'|'cod'), payment_status, payment_ref. Make `user_id` nullable for guest checkout.
+- `cart_items` — add `variation_id` (nullable).
+- `site_settings` — key/value JSON store for banners, driver fee, contact info, service descriptions.
+- Add GRANT SELECT to `anon` on `parts`, `part_variations`, `rentals` so guests can browse.
+- All admin-write RLS uses existing `has_role(auth.uid(),'admin')`.
 
-**Design system in `src/styles.css`** (`@theme`):
-- Colors: `green #0F8A5F`, `dark-green #065F46`, `emerald #10B981`, `orange #F97316`, `bg #F8FAFC`, `text #1E293B`, `muted #64748B`.
-- Fonts: Manrope (headings) + Inter (body) — loaded via `<link>` in `__root.tsx` head.
-- Radius `18px`, pill buttons `100px`, three shadow tokens (`sm/md/lg`).
+### 2. Public product & rental pages
 
-**Route structure**: single `/` route (rewrites `src/routes/index.tsx`), composed of section components under `src/components/home/`:
+- `/parts/$id` — hero image, description, variation selector, stock, quantity, Add to Cart, Buy Now (guest checkout).
+- `/rentals/$id` — car details, date pickers, destination input, self-drive vs with-driver toggle (shows extra $/day from `site_settings.driver_daily_fee`), computed total, "Book Now".
+- Wire homepage cards + parts/rentals lists to link into these pages.
 
-```text
-Header  →  Hero  →  QuickServices  →  FeaturedVehicles  →  SpareParts
-Rentals →  Repairs → BookRepair → ImportFromCanada → ClearingForwarding
-WhyChooseUs → HowItWorks → Finance → Testimonials → Blog
-PartnerBrands → Contact → Footer
-```
+### 3. Checkout
 
-Each section matches the uploaded HTML's DOM, copy, CTA count, and grid. Images use `generate_image` where placeholders exist (hero car, vehicle cards, parts, technicians, Canada import, etc.). Head metadata (title/description/OG) set to the GHANADA AUTOS copy.
+- `/checkout` — supports both authenticated and guest. Collects name, email, phone, address.
+- Payment method radio: **Paystack** (placeholder button — real integration comes next when you provide the Paystack keys) and **Cash on delivery / bank transfer**.
+- On submit: creates `orders` + `order_items`, clears cart, redirects to `/orders/$orderNumber` confirmation page (works for guests via order_number lookup).
+- Rental bookings go through `/rentals/$id/book` → creates `rental_bookings` row, confirmation page.
 
-## Phase 2 — Lovable Cloud backend
+### 4. Customer dashboard (extend existing `/dashboard`)
 
-Enable Cloud, then build:
+- Tabs: **My Orders**, **My Rentals**, **Profile**.
+- Each order/rental expandable to show items, status, receipt/print view.
 
-**Auth**
-- Email/password + Google sign-in.
-- `profiles` table (name, phone, avatar) auto-created via trigger.
-- Separate `user_roles` table with `app_role` enum (`admin`, `customer`) and `has_role()` security-definer function.
+### 5. Admin panel (extend existing `/admin`)
 
-**Product/e-commerce schema** (Postgres, all with RLS + GRANTs):
-- `vehicles` (make, model, year, price, mileage, condition, images[], status)
-- `parts` (name, sku, category, price, stock, images[], compatible_models[])
-- `rentals` (vehicle_id, daily_rate, availability)
-- `bookings` (customer_id, type: repair/rental/test-drive, date, status, notes)
-- `orders` + `order_items` (customer_id, total, status)
-- `import_requests` (customer_id, vehicle_spec, budget, status)
-- `blog_posts` (title, slug, cover, body, published_at)
-- Public `SELECT` policies for anon on catalog tables; owner-scoped policies for customer data; admin-only writes via `has_role`.
+Existing: index (stats), parts, rentals, orders, users. Add / upgrade:
 
-**Storage buckets**: `vehicle-images`, `part-images`, `blog-covers` (public read, admin write).
+- **Parts admin**: create/edit/delete + image upload to `product-images` bucket + manage variations inline (add/remove/edit each variation's price/stock/attributes).
+- **Rentals admin**: create/edit/delete + image upload + set daily_rate; global driver fee configured in Site Settings.
+- **Orders admin**: filter by status, update status (pending → confirmed → shipped → delivered → cancelled), view customer details, mark paid.
+- **Rental bookings admin** (new page): view all bookings, confirm/cancel, contact customer.
+- **Users admin**: existing list + toggle admin role.
+- **Site Settings** (new page): edit driver daily fee, contact phones, WhatsApp number, addresses, hero tagline. Homepage reads from `site_settings` with sensible fallbacks.
 
-## Phase 3 — Admin panel (`/admin`, gated by `admin` role)
-- Dashboard: orders, bookings, import requests counters.
-- CRUD for vehicles, parts, rentals, blog posts.
-- Manage bookings, orders, import requests (status updates).
-- Image upload to storage.
+### 6. Paystack
 
-## Phase 4 — Customer dashboard (`/dashboard`, `_authenticated`)
-- Profile settings.
-- My orders + order status tracking.
-- My bookings (repair/rental/test-drive).
-- My import requests.
-- Saved vehicles / wishlist.
+Placeholder now. When you're ready, share the Paystack public + secret keys and we'll wire the inline checkout + server-side verification webhook in a follow-up.
 
-## Phase 5 — Storefront routes
-- `/vehicles`, `/vehicles/$id`
-- `/parts`, `/parts/$id`
-- `/rentals`
-- `/repairs` (book form)
-- `/import` (request form)
-- `/blog`, `/blog/$slug`
-- `/cart`, `/checkout` (payment integration deferred until you pick a provider — Stripe/Paddle/local)
+### Technical notes
 
-## Order of execution
+- Server functions for order/booking creation (they must run under `requireSupabaseAuth` for signed-in users, and via a public `/api/public/*` route for guests to avoid the auth gate).
+- Image upload via `supabase.storage.from('product-images')` from the admin UI.
+- All new tables get GRANT + RLS + `updated_at` trigger following the standard pattern.
+- Route file for guest order lookup uses `order_number` + email as a light auth check.
 
-I'll build **Phase 1 first** (homepage) so you can share it with the client, then move to Phases 2–5 in follow-up turns once the design is signed off. Payment provider choice we'll settle when we reach checkout.
-
-## Technical notes
-- All data reads via `createServerFn` (authed) or publishable client (public catalog).
-- Route-level `head()` per page for SEO.
-- No hardcoded colors in components — all via design tokens.
-- Images generated to `src/assets/` and imported.
+Proceed?

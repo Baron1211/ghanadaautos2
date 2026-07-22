@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
 });
 
-type Tab = "orders" | "cart" | "profile";
+type Tab = "orders" | "rentals" | "cart" | "profile";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -65,14 +65,56 @@ function Dashboard() {
 
         <div className="ga-tabs">
           <button className={tab === "orders" ? "active" : ""} onClick={() => setTab("orders")}>Orders & Receipts</button>
+          <button className={tab === "rentals" ? "active" : ""} onClick={() => setTab("rentals")}>My Rentals</button>
           <button className={tab === "cart" ? "active" : ""} onClick={() => setTab("cart")}>My Cart</button>
           <button className={tab === "profile" ? "active" : ""} onClick={() => setTab("profile")}>Profile</button>
         </div>
 
         {tab === "orders" && <OrdersTab userId={userId} />}
+        {tab === "rentals" && <RentalsTab userId={userId} />}
         {tab === "cart" && <CartTab userId={userId} />}
         {tab === "profile" && <ProfileTab userId={userId} />}
       </main>
+    </div>
+  );
+}
+
+function RentalsTab({ userId }: { userId: string }) {
+  const { data: bookings, isLoading } = useQuery({
+    queryKey: ["my-bookings", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("rental_bookings")
+        .select("*, rental:rentals(name, image_url)")
+        .eq("user_id", userId).order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+  if (isLoading) return <p className="ga-muted">Loading rentals…</p>;
+  if (!bookings?.length) return (
+    <div className="ga-empty">
+      <h3>No rental bookings yet</h3>
+      <Link to="/" className="ga-btn-primary">Book a car</Link>
+    </div>
+  );
+  return (
+    <div className="ga-order-list">
+      {bookings.map((b: any) => (
+        <div key={b.id} className="ga-order-card">
+          <div className="ga-order-head">
+            <div>
+              <strong>{b.booking_number}</strong>
+              <span className={`ga-badge ga-badge-${b.status}`}>{b.status}</span>
+            </div>
+            <div className="ga-order-total">{b.currency} {Number(b.total).toFixed(2)}</div>
+          </div>
+          <div className="ga-order-meta">
+            {b.rental?.name} · {b.pickup_date} → {b.return_date} · {b.with_driver ? "With driver" : "Self-drive"}
+          </div>
+          {b.destination && <p className="ga-muted">Destination: {b.destination}</p>}
+        </div>
+      ))}
     </div>
   );
 }

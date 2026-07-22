@@ -46,7 +46,9 @@ function AdminLayout() {
           <Link to="/admin/parts">Parts</Link>
           <Link to="/admin/rentals">Rentals</Link>
           <Link to="/admin/orders">Orders</Link>
+          <Link to="/admin/bookings">Bookings</Link>
           <Link to="/admin/users">Users</Link>
+          <Link to="/admin/settings">Settings</Link>
           <Link to="/dashboard">My Dashboard</Link>
         </div>
       </header>
