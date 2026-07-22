@@ -25,6 +25,7 @@ import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminRentalsRouteImport } from './routes/_authenticated/admin.rentals'
 import { Route as AuthenticatedAdminPartsRouteImport } from './routes/_authenticated/admin.parts'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
+import { Route as AuthenticatedAdminCatalogRouteImport } from './routes/_authenticated/admin.catalog'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -109,6 +110,12 @@ const AuthenticatedAdminOrdersRoute =
     path: '/orders',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminCatalogRoute =
+  AuthenticatedAdminCatalogRouteImport.update({
+    id: '/catalog',
+    path: '/catalog',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminBookingsRoute =
   AuthenticatedAdminBookingsRouteImport.update({
     id: '/bookings',
@@ -127,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
@@ -144,6 +152,7 @@ export interface FileRoutesByTo {
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
@@ -164,6 +173,7 @@ export interface FileRoutesById {
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/_authenticated/admin/rentals': typeof AuthenticatedAdminRentalsRoute
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
     | '/parts/$id'
     | '/rentals/$id'
     | '/admin/bookings'
+    | '/admin/catalog'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/parts/$id'
     | '/rentals/$id'
     | '/admin/bookings'
+    | '/admin/catalog'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
@@ -220,6 +232,7 @@ export interface FileRouteTypes {
     | '/parts/$id'
     | '/rentals/$id'
     | '/_authenticated/admin/bookings'
+    | '/_authenticated/admin/catalog'
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/parts'
     | '/_authenticated/admin/rentals'
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/catalog': {
+      id: '/_authenticated/admin/catalog'
+      path: '/catalog'
+      fullPath: '/admin/catalog'
+      preLoaderRoute: typeof AuthenticatedAdminCatalogRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/bookings': {
       id: '/_authenticated/admin/bookings'
       path: '/bookings'
@@ -365,6 +385,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
+  AuthenticatedAdminCatalogRoute: typeof AuthenticatedAdminCatalogRoute
   AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
   AuthenticatedAdminPartsRoute: typeof AuthenticatedAdminPartsRoute
   AuthenticatedAdminRentalsRoute: typeof AuthenticatedAdminRentalsRoute
@@ -375,6 +396,7 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
+  AuthenticatedAdminCatalogRoute: AuthenticatedAdminCatalogRoute,
   AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
   AuthenticatedAdminPartsRoute: AuthenticatedAdminPartsRoute,
   AuthenticatedAdminRentalsRoute: AuthenticatedAdminRentalsRoute,
