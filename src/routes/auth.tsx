@@ -25,6 +25,7 @@ function AuthPage() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -91,101 +92,166 @@ function AuthPage() {
 
   return (
     <div className="ga-auth-page">
-      <div className="ga-auth-card">
-        <Link to="/" className="ga-auth-logo">
-          <img src={logoAsset.url} alt="Ghanada Autos" />
-        </Link>
-        <h1>{mode === "login" ? "Welcome back" : "Create your account"}</h1>
-        <p className="ga-auth-sub">
-          {mode === "login"
-            ? "Sign in to manage orders, cart and bookings."
-            : "Join Ghanada Autos to shop parts and rent vehicles."}
-        </p>
+      <aside className="ga-auth-hero">
+        <div className="ga-auth-hero-inner">
+          <div>
+            <Link to="/" className="ga-auth-hero-logo" aria-label="Ghanada Autos home">
+              <img src={logoAsset.url} alt="Ghanada Autos" />
+            </Link>
+            <h2>Drive, ship and source with Ghanada Autos.</h2>
+            <p>
+              Your account keeps every rental booking, spare-part order and Canada
+              import in one place — from Toronto to Takoradi.
+            </p>
+            <ul className="ga-auth-hero-features">
+              <li><span className="dot">✓</span> Book self-drive or chauffeured rentals in seconds</li>
+              <li><span className="dot">✓</span> Track parts orders and reorder with one tap</li>
+              <li><span className="dot">✓</span> Manage Canada imports and clearing from your dashboard</li>
+            </ul>
+          </div>
+          <div className="ga-auth-hero-foot">
+            🇨🇦 Toronto · 🇬🇭 Takoradi &nbsp;·&nbsp; +1 437 436 4357
+          </div>
+        </div>
+      </aside>
 
-        <button
-          type="button"
-          className="ga-auth-google"
-          onClick={handleGoogle}
-          disabled={loading}
-        >
-          <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.7 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.4 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
-            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.4 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-            <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.3C29.5 34.9 26.9 36 24 36c-5.4 0-9.9-3.3-11.3-8l-6.5 5C9.6 39.6 16.3 44 24 44z"/>
-            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.7-3.6 5l6.5 5.3C41.9 34.7 44 29.7 44 24c0-1.3-.1-2.4-.4-3.5z"/>
-          </svg>
-          Continue with Google
-        </button>
+      <main className="ga-auth-panel">
+        <div className="ga-auth-card">
+          <Link to="/" className="ga-auth-mobile-logo" aria-label="Ghanada Autos home">
+            <img src={logoAsset.url} alt="Ghanada Autos" />
+          </Link>
 
-        <div className="ga-auth-divider"><span>or</span></div>
+          <div className="ga-auth-tabs" role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "login"}
+              className={mode === "login" ? "is-active" : ""}
+              onClick={() => setMode("login")}
+            >
+              Sign in
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "signup"}
+              className={mode === "signup" ? "is-active" : ""}
+              onClick={() => setMode("signup")}
+            >
+              Create account
+            </button>
+          </div>
 
-        <form onSubmit={handleSubmit} className="ga-auth-form">
-          {mode === "signup" && (
-            <>
-              <label>
-                Full name
-                <input
-                  type="text"
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Kwame Mensah"
-                />
-              </label>
-              <label>
-                Phone
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+233 XX XXX XXXX"
-                />
-              </label>
-            </>
-          )}
-          <label>
-            Email
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={mode === "signup" ? "At least 6 characters" : "••••••••"}
-            />
-          </label>
-          <button type="submit" className="ga-auth-submit" disabled={loading}>
-            {loading ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
+          <h1>{mode === "login" ? "Welcome back" : "Create your account"}</h1>
+          <p className="ga-auth-sub">
+            {mode === "login"
+              ? "Sign in to manage orders, cart and bookings."
+              : "Join Ghanada Autos to shop parts and rent vehicles."}
+          </p>
+
+          <button
+            type="button"
+            className="ga-auth-google"
+            onClick={handleGoogle}
+            disabled={loading}
+          >
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.7 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.4 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.4 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+              <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.3C29.5 34.9 26.9 36 24 36c-5.4 0-9.9-3.3-11.3-8l-6.5 5C9.6 39.6 16.3 44 24 44z"/>
+              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.7-3.6 5l6.5 5.3C41.9 34.7 44 29.7 44 24c0-1.3-.1-2.4-.4-3.5z"/>
+            </svg>
+            Continue with Google
           </button>
-        </form>
 
-        <p className="ga-auth-switch">
-          {mode === "login" ? (
-            <>
-              New here?{" "}
-              <button type="button" onClick={() => setMode("signup")}>Create an account</button>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <button type="button" onClick={() => setMode("login")}>Sign in</button>
-            </>
+          <div className="ga-auth-divider"><span>or use email</span></div>
+
+          <form onSubmit={handleSubmit} className="ga-auth-form">
+            {mode === "signup" && (
+              <div className="ga-auth-row">
+                <label>
+                  Full name
+                  <input
+                    type="text"
+                    required
+                    autoComplete="name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Kwame Mensah"
+                  />
+                </label>
+                <label>
+                  Phone
+                  <input
+                    type="tel"
+                    required
+                    autoComplete="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+233 XX XXX XXXX"
+                  />
+                </label>
+              </div>
+            )}
+            <label>
+              Email address
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+              />
+            </label>
+            <label className="ga-auth-pwd">
+              Password
+              <input
+                type={showPwd ? "text" : "password"}
+                required
+                minLength={6}
+                autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={mode === "signup" ? "At least 6 characters" : "Your password"}
+              />
+              <button
+                type="button"
+                className="ga-auth-pwd-toggle"
+                onClick={() => setShowPwd((s) => !s)}
+                aria-label={showPwd ? "Hide password" : "Show password"}
+              >
+                {showPwd ? "Hide" : "Show"}
+              </button>
+            </label>
+            <button type="submit" className="ga-auth-submit" disabled={loading}>
+              {loading ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
+            </button>
+          </form>
+
+          {mode === "signup" && (
+            <p className="ga-auth-terms">
+              By creating an account you agree to our terms of service and privacy policy.
+            </p>
           )}
-        </p>
 
-        <Link to="/" className="ga-auth-back">← Back to site</Link>
-      </div>
+          <p className="ga-auth-switch">
+            {mode === "login" ? (
+              <>
+                New to Ghanada Autos?
+                <button type="button" onClick={() => setMode("signup")}>Create an account</button>
+              </>
+            ) : (
+              <>
+                Already have an account?
+                <button type="button" onClick={() => setMode("login")}>Sign in</button>
+              </>
+            )}
+          </p>
+
+          <Link to="/" className="ga-auth-back">← Back to site</Link>
+        </div>
+      </main>
     </div>
   );
 }
