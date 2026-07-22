@@ -10,14 +10,15 @@ function AdminOverview() {
   const { data } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
-      const [parts, rentals, orders, bookings, users, recentOrders, recentBookings] = await Promise.all([
-        supabase.from("parts").select("id, active", { count: "exact" }),
+      const [parts, rentals, orders, bookings, users, recentOrders, recentBookings, lowStock] = await Promise.all([
+        supabase.from("parts").select("id, active, stock, low_stock_threshold", { count: "exact" }),
         supabase.from("rentals").select("id, active", { count: "exact" }),
         supabase.from("orders").select("total, status, currency"),
         supabase.from("rental_bookings").select("total, status, currency"),
         supabase.from("profiles").select("id", { count: "exact", head: true }),
         supabase.from("orders").select("order_number, guest_name, phone, total, status, currency, created_at").order("created_at", { ascending: false }).limit(5),
         supabase.from("rental_bookings").select("booking_number, guest_name, guest_phone, total, status, currency, pickup_date, created_at, rental:rentals(name)").order("created_at", { ascending: false }).limit(5),
+        supabase.from("parts").select("id, name, stock, low_stock_threshold, image_url").order("stock", { ascending: true }).limit(50),
       ]);
       const orderList = orders.data || [];
       const bookingList = bookings.data || [];
@@ -27,6 +28,7 @@ function AdminOverview() {
       const pendingBookings = bookingList.filter((b: any) => b.status === "pending").length;
       const activeParts = (parts.data || []).filter((p: any) => p.active).length;
       const activeRentals = (rentals.data || []).filter((r: any) => r.active).length;
+      const lowStockItems = (lowStock.data || []).filter((p: any) => p.stock <= (p.low_stock_threshold ?? 5)).slice(0, 6);
       return {
         parts: parts.count || 0, activeParts,
         rentals: rentals.count || 0, activeRentals,
@@ -37,6 +39,7 @@ function AdminOverview() {
         users: users.count || 0,
         recentOrders: recentOrders.data || [],
         recentBookings: recentBookings.data || [],
+        lowStockItems,
       };
     },
   });
@@ -125,12 +128,35 @@ function AdminOverview() {
         <div className="ga-quick-grid">
           <Link to="/admin/parts" className="ga-quick"><span>⚙</span><strong>Add spare part</strong><small>Upload image, price & variations</small></Link>
           <Link to="/admin/rentals" className="ga-quick"><span>🚗</span><strong>Add rental vehicle</strong><small>Set daily rate & availability</small></Link>
+          <Link to="/admin/catalog" className="ga-quick"><span>🏷</span><strong>Categories & brands</strong><small>Organise your product taxonomy</small></Link>
           <Link to="/admin/orders" className="ga-quick"><span>🧾</span><strong>Fulfil orders</strong><small>Update statuses & mark shipped</small></Link>
           <Link to="/admin/bookings" className="ga-quick"><span>📅</span><strong>Confirm bookings</strong><small>Approve or cancel rentals</small></Link>
           <Link to="/admin/users" className="ga-quick"><span>👥</span><strong>Manage users</strong><small>Grant or revoke admin access</small></Link>
           <Link to="/admin/settings" className="ga-quick"><span>⚙︎</span><strong>Site settings</strong><small>Hero, contact info & driver fee</small></Link>
         </div>
       </section>
+
+      {data?.lowStockItems && data.lowStockItems.length > 0 && (
+        <section className="ga-admin-card">
+          <div className="ga-admin-card-head">
+            <h3>⚠ Low / Out of Stock</h3>
+            <Link to="/admin/parts" className="ga-admin-link">Manage inventory →</Link>
+          </div>
+          <table className="ga-admin-table">
+            <thead><tr><th>Part</th><th>Stock</th><th>Threshold</th><th>Status</th></tr></thead>
+            <tbody>
+              {data.lowStockItems.map((p: any) => (
+                <tr key={p.id}>
+                  <td><strong>{p.name}</strong></td>
+                  <td><strong>{p.stock}</strong></td>
+                  <td>{p.low_stock_threshold ?? 5}</td>
+                  <td>{p.stock === 0 ? <span className="ga-pill status-cancelled">Out of stock</span> : <span className="ga-pill status-pending">Low</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
     </div>
   );
 }
