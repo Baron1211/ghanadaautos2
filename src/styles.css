@@ -2346,3 +2346,254 @@
   .ga-detail-body h1 { font-size: 24px; }
   .ga-checkout-summary { position: static; }
 }
+
+/* =====================================================
+   ADMIN CONSOLE — sidebar shell, KPIs, tables, forms
+   ===================================================== */
+.ga-admin-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  background: #f5f7fb;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #0f172a;
+}
+.ga-admin-loading, .ga-admin-denied { padding: 60px 32px; }
+.ga-admin-denied h1 { font-family: "Manrope", sans-serif; font-size: 24px; margin-bottom: 8px; }
+
+/* Sidebar */
+.ga-admin-side {
+  background: linear-gradient(180deg, #0b3b2d 0%, #072a20 100%);
+  color: #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.ga-admin-brand {
+  display: flex; align-items: center; gap: 12px;
+  padding: 6px 8px 20px; border-bottom: 1px solid rgba(255,255,255,.08);
+  text-decoration: none; color: #fff;
+}
+.ga-admin-brand img { height: 42px; width: auto; }
+.ga-admin-brand strong { display: block; font-family: "Manrope", sans-serif; font-size: 15px; font-weight: 800; }
+.ga-admin-brand span { display: block; font-size: 11px; color: #86efac; letter-spacing: .12em; text-transform: uppercase; }
+.ga-admin-nav { display: flex; flex-direction: column; gap: 2px; padding: 16px 0; flex: 1; }
+.ga-admin-nav-label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #64748b; padding: 6px 10px; }
+.ga-admin-nav-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 10px;
+  color: #cbd5e1; text-decoration: none;
+  font-size: 14px; font-weight: 600;
+  transition: background .15s, color .15s;
+}
+.ga-admin-nav-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+.ga-admin-nav-link.active { background: #0F8A5F; color: #fff; box-shadow: 0 6px 16px rgba(15,138,95,.35); }
+.ga-admin-nav-icon { width: 22px; text-align: center; font-size: 14px; opacity: .9; }
+.ga-admin-side-foot { border-top: 1px solid rgba(255,255,255,.08); padding-top: 14px; margin-top: 8px; }
+.ga-admin-user { display: flex; align-items: center; gap: 10px; padding: 6px 4px 12px; }
+.ga-admin-user-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #F97316; color: #fff; font-weight: 800;
+  display: grid; place-items: center; font-size: 14px;
+}
+.ga-admin-user strong { display: block; font-size: 13px; color: #fff; }
+.ga-admin-user span { display: block; font-size: 11px; color: #94a3b8; word-break: break-all; }
+.ga-admin-signout {
+  width: 100%; padding: 9px 12px;
+  border: 1px solid rgba(255,255,255,.14); background: transparent;
+  color: #fecaca; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 13px;
+}
+.ga-admin-signout:hover { background: rgba(220,38,38,.15); color: #fff; border-color: rgba(220,38,38,.35); }
+
+/* Content column */
+.ga-admin-content { display: flex; flex-direction: column; min-width: 0; }
+.ga-admin-topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255,255,255,.85); backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid #e2e8f0;
+  padding: 14px 28px;
+  display: flex; align-items: center; gap: 14px;
+}
+.ga-admin-burger { display: none; background: none; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px 12px; font-size: 18px; cursor: pointer; }
+.ga-admin-crumbs { font-size: 13px; color: #64748b; display: flex; gap: 8px; align-items: center; }
+.ga-admin-crumbs .sep { color: #cbd5e1; }
+.ga-admin-crumbs .current { color: #0f172a; font-weight: 700; }
+.ga-admin-topbar-actions { margin-left: auto; display: flex; gap: 8px; }
+.ga-admin-chip {
+  padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  background: #f1f5f9; color: #0f172a; text-decoration: none; border: 1px solid #e2e8f0;
+}
+.ga-admin-chip:hover { background: #e2e8f0; }
+.ga-admin-chip.primary { background: #0F8A5F; color: #fff; border-color: transparent; }
+.ga-admin-chip.primary:hover { background: #065F46; }
+
+.ga-admin-main { padding: 28px; max-width: 1400px; width: 100%; margin: 0 auto; }
+.ga-admin-main > h1 { font-family: "Manrope", sans-serif; font-size: 26px; font-weight: 800; margin: 0 0 22px; }
+
+/* Page header */
+.ga-admin-page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+.ga-admin-page-head h1 { font-family: "Manrope", sans-serif; font-size: 28px; font-weight: 800; margin: 0 0 4px; }
+.ga-admin-sub { color: #64748b; font-size: 14px; margin: 0; }
+
+/* KPI grid */
+.ga-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-bottom: 22px; }
+.ga-kpi {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+  padding: 18px 20px; display: flex; flex-direction: column; gap: 6px;
+  text-decoration: none; color: inherit;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+  position: relative; overflow: hidden;
+}
+.ga-kpi::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: #0F8A5F;
+}
+.ga-kpi.tone-warn::before { background: #F97316; }
+.ga-kpi.tone-info::before { background: #3b82f6; }
+a.ga-kpi:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(15,23,42,.06); border-color: #cbd5e1; }
+.ga-kpi-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #64748b; }
+.ga-kpi-label.tone-brand { color: #0F8A5F; }
+.ga-kpi-label.tone-warn { color: #ea580c; }
+.ga-kpi-label.tone-info { color: #1d4ed8; }
+.ga-kpi strong { font-family: "Manrope", sans-serif; font-size: 26px; font-weight: 800; }
+.ga-kpi small { color: #64748b; font-size: 12px; }
+
+/* Cards / grid */
+.ga-admin-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+.ga-admin-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 18px; }
+.ga-admin-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.ga-admin-card-head h3 { font-family: "Manrope", sans-serif; font-size: 16px; font-weight: 800; margin: 0; }
+.ga-admin-link { color: #0F8A5F; text-decoration: none; font-weight: 700; font-size: 13px; }
+.ga-admin-link:hover { text-decoration: underline; }
+.ga-admin-empty { color: #64748b; font-size: 14px; margin: 0; padding: 20px 0; text-align: center; }
+
+/* Admin table */
+.ga-admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ga-admin-table th, .ga-admin-table td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eef2f7; vertical-align: top; }
+.ga-admin-table th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #64748b; font-weight: 700; }
+.ga-admin-table tr:last-child td { border-bottom: none; }
+.ga-admin-mini { color: #64748b; font-size: 11px; margin-top: 2px; }
+
+/* Status pills */
+.ga-pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; background: #f1f5f9; color: #475569; }
+.ga-pill.status-pending { background: #fef3c7; color: #92400e; }
+.ga-pill.status-processing, .ga-pill.status-confirmed { background: #dbeafe; color: #1e40af; }
+.ga-pill.status-active { background: #e0e7ff; color: #3730a3; }
+.ga-pill.status-completed, .ga-pill.status-delivered { background: #dcfce7; color: #166534; }
+.ga-pill.status-cancelled { background: #fee2e2; color: #991b1b; }
+
+/* Quick actions */
+.ga-quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.ga-quick {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 16px; border: 1px solid #e2e8f0; border-radius: 14px;
+  background: #f8fafc; text-decoration: none; color: #0f172a;
+  transition: all .15s;
+}
+.ga-quick:hover { border-color: #0F8A5F; background: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(15,138,95,.08); }
+.ga-quick span { font-size: 22px; }
+.ga-quick strong { font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 700; }
+.ga-quick small { color: #64748b; font-size: 12px; }
+
+/* ==== Reused admin form / list classes referenced by parts/rentals/orders/etc ==== */
+.ga-admin-form { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 22px; margin-bottom: 20px; }
+.ga-admin-form h3 { font-family: "Manrope", sans-serif; font-size: 16px; font-weight: 800; margin: 0 0 14px; }
+.ga-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 14px; }
+.ga-form-full { grid-column: 1 / -1; }
+.ga-form-grid label, .ga-admin-form label { display: block; font-size: 12px; font-weight: 700; color: #334155; letter-spacing: .04em; text-transform: uppercase; }
+.ga-form-grid input, .ga-form-grid textarea, .ga-form-grid select,
+.ga-admin-form input, .ga-admin-form textarea, .ga-admin-form select {
+  width: 100%; padding: 10px 12px; margin-top: 6px;
+  border: 1px solid #e2e8f0; border-radius: 10px;
+  font-family: inherit; font-size: 14px; background: #f8fafc; color: #0f172a;
+}
+.ga-form-grid textarea, .ga-admin-form textarea { min-height: 90px; resize: vertical; }
+.ga-form-grid input:focus, .ga-form-grid textarea:focus, .ga-admin-form input:focus, .ga-admin-form textarea:focus, .ga-admin-form select:focus {
+  outline: none; border-color: #0F8A5F; background: #fff; box-shadow: 0 0 0 3px rgba(15,138,95,.12);
+}
+
+.ga-btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 18px; border: none; border-radius: 10px;
+  background: #0F8A5F; color: #fff; font-weight: 700; font-size: 14px;
+  cursor: pointer; text-decoration: none;
+}
+.ga-btn-primary:hover { background: #065F46; }
+.ga-btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.ga-btn-ghost {
+  padding: 8px 14px; border: 1px solid #e2e8f0; background: #fff;
+  border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; color: #334155;
+}
+.ga-btn-ghost:hover { background: #f1f5f9; }
+.ga-danger {
+  padding: 8px 14px; border: 1px solid #fecaca; background: #fef2f2;
+  color: #b91c1c; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px;
+}
+.ga-danger:hover { background: #fee2e2; }
+.ga-muted { color: #64748b; }
+.ga-small { font-size: 12px; }
+
+/* Admin lists (parts, rentals, users) */
+.ga-admin-list { display: flex; flex-direction: column; gap: 10px; }
+.ga-admin-row {
+  display: grid; grid-template-columns: 64px 1fr auto auto; gap: 16px;
+  align-items: center;
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+  padding: 12px 16px;
+}
+.ga-admin-row > img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; background: #f1f5f9; }
+.ga-admin-row > div strong { display: block; font-size: 14px; font-weight: 700; }
+.ga-admin-row > div span { display: block; font-size: 12px; color: #64748b; margin-top: 2px; }
+.ga-admin-price { font-family: "Manrope", sans-serif; font-weight: 800; color: #0F8A5F; font-size: 15px; white-space: nowrap; }
+.ga-admin-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.ga-admin-actions button {
+  padding: 7px 12px; border: 1px solid #e2e8f0; background: #f8fafc;
+  border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; color: #334155;
+}
+.ga-admin-actions button:hover { background: #eef2f7; }
+.ga-admin-actions button.ga-btn-primary { background: #0F8A5F; color: #fff; border-color: transparent; }
+.ga-admin-actions button.ga-danger { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+
+.ga-avatar-sm {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #0F8A5F center/cover no-repeat; color: #fff;
+  display: grid; place-items: center; font-weight: 800;
+}
+
+/* Orders / bookings admin cards */
+.ga-order-list { display: flex; flex-direction: column; gap: 14px; }
+.ga-order-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 20px; }
+.ga-order-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+.ga-order-head strong { font-family: "Manrope", sans-serif; font-size: 15px; display: block; }
+.ga-order-head span { display: block; font-size: 12px; color: #64748b; margin-top: 2px; }
+.ga-order-total { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 18px; color: #F97316; white-space: nowrap; }
+.ga-order-meta { color: #64748b; font-size: 12px; margin-bottom: 10px; }
+.ga-receipt { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+.ga-receipt th, .ga-receipt td { padding: 8px; border-bottom: 1px solid #eef2f7; text-align: left; }
+.ga-receipt th { font-size: 11px; text-transform: uppercase; color: #64748b; letter-spacing: .06em; }
+
+/* Scrim (mobile drawer) */
+.ga-admin-scrim { position: fixed; inset: 0; background: rgba(15,23,42,.5); z-index: 40; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .ga-admin-grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .ga-admin-shell { grid-template-columns: 1fr; }
+  .ga-admin-side {
+    position: fixed; inset: 0 auto 0 0; width: 280px; z-index: 50;
+    transform: translateX(-100%); transition: transform .2s ease;
+    height: 100vh;
+  }
+  .ga-admin-shell.is-drawer-open .ga-admin-side { transform: translateX(0); }
+  .ga-admin-burger { display: inline-flex; }
+  .ga-admin-main { padding: 20px 16px; }
+  .ga-admin-topbar { padding: 12px 16px; }
+  .ga-admin-row { grid-template-columns: 56px 1fr; }
+  .ga-admin-row > img { width: 56px; height: 56px; }
+  .ga-admin-price, .ga-admin-actions { grid-column: 1 / -1; justify-content: flex-start; }
+}
