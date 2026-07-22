@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -10,8 +10,14 @@ export const Route = createFileRoute("/_authenticated/admin/parts")({
 
 function AdminParts() {
   const qc = useQueryClient();
-  const [form, setForm] = useState({ name: "", description: "", brand: "", category: "", price: "", stock: "", image_url: "" });
+  const emptyForm = { name: "", description: "", brand: "", category: "", brand_id: "", category_id: "", price: "", stock: "", low_stock_threshold: "5", image_url: "", images: [] as string[] };
+  const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [filterCat, setFilterCat] = useState("");
+  const [filterBrand, setFilterBrand] = useState("");
+  const [filterStock, setFilterStock] = useState<"all" | "low" | "out">("all");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const { data: parts } = useQuery({
     queryKey: ["admin-parts"],
@@ -22,20 +28,45 @@ function AdminParts() {
     },
   });
 
-  const reset = () => { setForm({ name: "", description: "", brand: "", category: "", price: "", stock: "", image_url: "" }); setEditingId(null); };
+  const { data: categories } = useQuery({
+    queryKey: ["cat-options"],
+    queryFn: async () => ((await (supabase as any).from("categories").select("id,name").order("name")).data || []) as any[],
+  });
+  const { data: brands } = useQuery({
+    queryKey: ["brand-options"],
+    queryFn: async () => ((await (supabase as any).from("brands").select("id,name").order("name")).data || []) as any[],
+  });
 
-  const uploadImage = async (file: File) => {
+  const reset = () => { setForm(emptyForm); setEditingId(null); };
+
+  const uploadImage = async (file: File): Promise<string | null> => {
     const path = `${Date.now()}-${file.name}`;
     const { error } = await supabase.storage.from("product-images").upload(path, file);
-    if (error) { toast.error(error.message); return; }
+    if (error) { toast.error(error.message); return null; }
     const { data } = await supabase.storage.from("product-images").createSignedUrl(path, 60 * 60 * 24 * 365);
-    if (data?.signedUrl) setForm(f => ({ ...f, image_url: data.signedUrl }));
+    return data?.signedUrl || null;
   };
+  const addImages = async (files: FileList) => {
+    const urls: string[] = [];
+    for (const f of Array.from(files)) {
+      const u = await uploadImage(f);
+      if (u) urls.push(u);
+    }
+    if (urls.length) setForm(f => ({ ...f, image_url: f.image_url || urls[0], images: [...f.images, ...urls] }));
+  };
+  const removeImage = (url: string) => setForm(f => ({
+    ...f,
+    images: f.images.filter(u => u !== url),
+    image_url: f.image_url === url ? (f.images.filter(u => u !== url)[0] || "") : f.image_url,
+  }));
 
   const save = async () => {
-    const payload = {
+    const payload: any = {
       name: form.name, description: form.description, brand: form.brand, category: form.category,
+      brand_id: form.brand_id || null, category_id: form.category_id || null,
       price: Number(form.price), stock: Number(form.stock), image_url: form.image_url,
+      low_stock_threshold: Number(form.low_stock_threshold || 5),
+      images: form.images,
     };
     if (editingId) {
       const { error } = await supabase.from("parts").update(payload).eq("id", editingId);
@@ -52,7 +83,15 @@ function AdminParts() {
 
   const edit = (p: any) => {
     setEditingId(p.id);
-    setForm({ name: p.name, description: p.description || "", brand: p.brand || "", category: p.category || "", price: String(p.price), stock: String(p.stock), image_url: p.image_url || "" });
+    setForm({
+      name: p.name, description: p.description || "", brand: p.brand || "", category: p.category || "",
+      brand_id: p.brand_id || "", category_id: p.category_id || "",
+      price: String(p.price), stock: String(p.stock),
+      low_stock_threshold: String(p.low_stock_threshold ?? 5),
+      image_url: p.image_url || "",
+      images: Array.isArray(p.images) ? p.images : (p.image_url ? [p.image_url] : []),
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const remove = async (id: string) => {
@@ -67,6 +106,42 @@ function AdminParts() {
     qc.invalidateQueries({ queryKey: ["admin-parts"] });
   };
 
+  const filtered = useMemo(() => {
+    const list = (parts as any[]) || [];
+    return list.filter((p: any) => {
+      if (search && !`${p.name} ${p.brand ?? ""} ${p.category ?? ""}`.toLowerCase().includes(search.toLowerCase())) return false;
+      if (filterCat && p.category_id !== filterCat) return false;
+      if (filterBrand && p.brand_id !== filterBrand) return false;
+      if (filterStock === "out" && p.stock > 0) return false;
+      if (filterStock === "low" && !(p.stock > 0 && p.stock <= (p.low_stock_threshold ?? 5))) return false;
+      return true;
+    });
+  }, [parts, search, filterCat, filterBrand, filterStock]);
+
+  const toggleSel = (id: string) => {
+    const n = new Set(selected);
+    n.has(id) ? n.delete(id) : n.add(id);
+    setSelected(n);
+  };
+  const selectAll = () => setSelected(new Set(filtered.map((p: any) => p.id)));
+  const clearSel = () => setSelected(new Set());
+  const bulk = async (patch: any, msg: string) => {
+    if (!selected.size) return;
+    const { error } = await supabase.from("parts").update(patch).in("id", Array.from(selected));
+    if (error) return toast.error(error.message);
+    toast.success(`${selected.size} ${msg}`);
+    clearSel();
+    qc.invalidateQueries({ queryKey: ["admin-parts"] });
+  };
+  const bulkDelete = async () => {
+    if (!selected.size || !confirm(`Delete ${selected.size} parts?`)) return;
+    const { error } = await supabase.from("parts").delete().in("id", Array.from(selected));
+    if (error) return toast.error(error.message);
+    toast.success(`${selected.size} deleted`);
+    clearSel();
+    qc.invalidateQueries({ queryKey: ["admin-parts"] });
+  };
+
   return (
     <>
       <h1>Spare Parts</h1>
@@ -74,13 +149,40 @@ function AdminParts() {
         <h3>{editingId ? "Edit part" : "Add new part"}</h3>
         <div className="ga-form-grid">
           <label>Name<input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
-          <label>Brand<input value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })} /></label>
-          <label>Category<input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} /></label>
+          <label>Brand
+            <select value={form.brand_id} onChange={e => {
+              const b = brands?.find((x: any) => x.id === e.target.value);
+              setForm({ ...form, brand_id: e.target.value, brand: b?.name || "" });
+            }}>
+              <option value="">— Select brand —</option>
+              {brands?.map((b: any) => <option key={b.id} value={b.id}>{b.name}</option>)}
+            </select>
+          </label>
+          <label>Category
+            <select value={form.category_id} onChange={e => {
+              const c = categories?.find((x: any) => x.id === e.target.value);
+              setForm({ ...form, category_id: e.target.value, category: c?.name || "" });
+            }}>
+              <option value="">— Select category —</option>
+              {categories?.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
+            </select>
+          </label>
           <label>Price (CAD)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
           <label>Stock<input type="number" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} /></label>
+          <label>Low-stock alert at<input type="number" value={form.low_stock_threshold} onChange={e => setForm({ ...form, low_stock_threshold: e.target.value })} /></label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
-          <label className="ga-form-full">Image<input type="file" accept="image/*" onChange={e => e.target.files && uploadImage(e.target.files[0])} />
-            {form.image_url && <img src={form.image_url} alt="" style={{ marginTop: 8, maxHeight: 120, borderRadius: 8 }} />}
+          <label className="ga-form-full">Images (first is primary)
+            <input type="file" accept="image/*" multiple onChange={e => e.target.files && addImages(e.target.files)} />
+            {form.images.length > 0 && (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
+                {form.images.map(url => (
+                  <div key={url} style={{ position: "relative" }}>
+                    <img src={url} alt="" style={{ height: 90, borderRadius: 8, border: form.image_url === url ? "3px solid #0F8A5F" : "1px solid #ddd", cursor: "pointer" }} onClick={() => setForm(f => ({ ...f, image_url: url }))} />
+                    <button type="button" onClick={() => removeImage(url)} style={{ position: "absolute", top: -6, right: -6, background: "#e11", color: "#fff", border: 0, borderRadius: "50%", width: 22, height: 22, cursor: "pointer" }}>×</button>
+                  </div>
+                ))}
+              </div>
+            )}
           </label>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
@@ -89,18 +191,57 @@ function AdminParts() {
         </div>
       </div>
 
+      <div className="ga-admin-form" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+        <input placeholder="Search parts…" value={search} onChange={e => setSearch(e.target.value)} style={{ flex: "1 1 200px", minWidth: 180 }} />
+        <select value={filterCat} onChange={e => setFilterCat(e.target.value)}>
+          <option value="">All categories</option>
+          {categories?.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </select>
+        <select value={filterBrand} onChange={e => setFilterBrand(e.target.value)}>
+          <option value="">All brands</option>
+          {brands?.map((b: any) => <option key={b.id} value={b.id}>{b.name}</option>)}
+        </select>
+        <select value={filterStock} onChange={e => setFilterStock(e.target.value as any)}>
+          <option value="all">All stock</option>
+          <option value="low">Low stock</option>
+          <option value="out">Out of stock</option>
+        </select>
+        <span className="ga-admin-mini">{filtered.length} of {parts?.length ?? 0}</span>
+      </div>
+
+      {selected.size > 0 && (
+        <div className="ga-admin-form" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", background: "#fff8e1" }}>
+          <strong>{selected.size} selected</strong>
+          <button onClick={() => bulk({ active: true }, "activated")}>Activate</button>
+          <button onClick={() => bulk({ active: false }, "deactivated")}>Deactivate</button>
+          <button className="ga-danger" onClick={bulkDelete}>Delete</button>
+          <button className="ga-btn-ghost" onClick={clearSel}>Clear</button>
+        </div>
+      )}
+
       <div className="ga-admin-list">
-        {parts?.map((p: any) => (
-          <PartRow key={p.id} p={p} onEdit={edit} onToggle={toggle} onRemove={remove} />
+        {filtered.length > 0 && (
+          <div style={{ padding: "0 8px" }}>
+            <label style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13 }}>
+              <input type="checkbox" checked={selected.size === filtered.length} onChange={e => e.target.checked ? selectAll() : clearSel()} />
+              Select all visible
+            </label>
+          </div>
+        )}
+        {filtered.map((p: any) => (
+          <PartRow key={p.id} p={p} selected={selected.has(p.id)} onSelect={() => toggleSel(p.id)} onEdit={edit} onToggle={toggle} onRemove={remove} />
         ))}
+        {!filtered.length && <p className="ga-admin-empty">No parts match your filters.</p>}
       </div>
     </>
   );
 }
 
-function PartRow({ p, onEdit, onToggle, onRemove }: { p: any; onEdit: (p: any) => void; onToggle: (p: any) => void; onRemove: (id: string) => void }) {
+function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any; selected: boolean; onSelect: () => void; onEdit: (p: any) => void; onToggle: (p: any) => void; onRemove: (id: string) => void }) {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
+  const lowStock = p.stock > 0 && p.stock <= (p.low_stock_threshold ?? 5);
+  const outStock = p.stock === 0;
   const { data: vars } = useQuery({
     queryKey: ["variations", p.id],
     enabled: open,
@@ -135,10 +276,16 @@ function PartRow({ p, onEdit, onToggle, onRemove }: { p: any; onEdit: (p: any) =
   return (
     <div className="ga-admin-row-wrap">
       <div className="ga-admin-row">
+        <input type="checkbox" checked={selected} onChange={onSelect} style={{ marginRight: 4 }} />
         <img src={p.image_url || "/favicon.ico"} alt="" />
         <div>
           <strong>{p.name}</strong>
-          <span className="ga-muted">{p.brand} · {p.category} · Stock: {p.stock} {!p.active && "· inactive"}</span>
+          <span className="ga-muted">
+            {p.brand || "—"} · {p.category || "—"} · Stock: {p.stock}
+            {outStock && <span style={{ color: "#c00", fontWeight: 600 }}> · OUT OF STOCK</span>}
+            {lowStock && <span style={{ color: "#c60", fontWeight: 600 }}> · LOW</span>}
+            {!p.active && " · inactive"}
+          </span>
         </div>
         <div className="ga-admin-price">CAD {Number(p.price).toFixed(2)}</div>
         <div className="ga-admin-actions">

@@ -17,6 +17,7 @@ const NAV: { to: string; label: string; icon: string; exact?: boolean }[] = [
   { to: "/admin", label: "Overview", icon: "▦", exact: true },
   { to: "/admin/parts", label: "Spare Parts", icon: "⚙" },
   { to: "/admin/rentals", label: "Rental Fleet", icon: "🚗" },
+  { to: "/admin/catalog", label: "Catalog Setup", icon: "🏷" },
   { to: "/admin/orders", label: "Orders", icon: "🧾" },
   { to: "/admin/bookings", label: "Bookings", icon: "📅" },
   { to: "/admin/users", label: "Users", icon: "👥" },
