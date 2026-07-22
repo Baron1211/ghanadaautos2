@@ -4,6 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
+import engineImg from "@/assets/parts/engine.jpg.asset.json";
+import brakeImg from "@/assets/parts/brake.jpg.asset.json";
+import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
+import batteryImg from "@/assets/parts/battery.jpg.asset.json";
+import headlightImg from "@/assets/parts/headlight.jpg.asset.json";
+import clearingImg from "@/assets/parts/clearing.jpg.asset.json";
 
 const categories = [
   { name: "Car Sales", sub: "Browse Vehicles", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=120&q=80" },
@@ -31,12 +37,12 @@ const featuredCars = [
 ];
 
 const spareParts = [
-  { name: "Brake Pads", price: "GH₵ 350", img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80" },
-  { name: "Engine Oil Filter", price: "GH₵ 120", img: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=600&q=80" },
-  { name: "Alloy Wheel", price: "GH₵ 850", img: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=600&q=80" },
-  { name: "Car Battery", price: "GH₵ 650", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=600&q=80" },
-  { name: "Head Lamp", price: "GH₵ 1,200", img: "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=600&q=80" },
-  { name: "Shock Absorber", price: "GH₵ 450", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80" },
+  { name: "Brake Pads", price: "GH₵ 350", img: brakeImg.url },
+  { name: "Engine Parts", price: "GH₵ 1,250", img: engineImg.url },
+  { name: "Tyres", price: "GH₵ 690", img: tyreImg.url },
+  { name: "Car Battery", price: "GH₵ 650", img: batteryImg.url },
+  { name: "Head Lamp", price: "GH₵ 1,200", img: headlightImg.url },
+  { name: "Clearing & Forwarding", price: "Quote", img: clearingImg.url },
 ];
 
 const carTabs = ["All Vehicles", "SUV", "Sedan", "Hatchback", "Luxury", "Pickup"];
