@@ -464,11 +464,11 @@ function GhanadaHome() {
       {/* CLEARING & FORWARDING */}
       <section className="band" id="clearing">
         <div className="band-bg">
-          <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2000&q=80" alt="" />
+          <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=2000&q=80" alt="" />
         </div>
         <div
           className="band-overlay"
-          style={{ background: "linear-gradient(100deg, rgba(8,34,26,.95) 25%, rgba(8,34,26,.6) 65%, rgba(8,34,26,.25) 100%)" }}
+          style={{ background: "linear-gradient(100deg, rgba(8,34,26,.92) 30%, rgba(8,34,26,.78) 70%, rgba(8,34,26,.6) 100%)" }}
         />
         <div className="band-content">
           <div className="eyebrow">Clearing &amp; Forwarding</div>
