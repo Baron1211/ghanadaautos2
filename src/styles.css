@@ -776,7 +776,7 @@
   box-shadow: var(--shadow-md);
 }
 .ga .part-card .pimg {
-  height: 120px;
+  height: 200px;
   background: var(--ga-bg);
   display: flex;
   align-items: center;

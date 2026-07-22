@@ -5,6 +5,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
+import engineImg from "@/assets/parts/engine.jpg.asset.json";
+import brakeImg from "@/assets/parts/brake.jpg.asset.json";
+import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
+import batteryImg from "@/assets/parts/battery.jpg.asset.json";
+import headlightImg from "@/assets/parts/headlight.jpg.asset.json";
+import clearingImg from "@/assets/parts/clearing.jpg.asset.json";
 
 export default function HomeV1() {
   return <GhanadaHome />;
@@ -18,11 +24,11 @@ const vehicles = [
 ];
 
 const partsFallback = [
-  { name: "Engine Parts", stars: "★★★★★", price: "GH₵ 1,250", img: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=400&q=80" },
-  { name: "Brake Pads", stars: "★★★★☆", price: "GH₵ 380", img: "https://images.unsplash.com/photo-1600661653561-629509216228?auto=format&fit=crop&w=400&q=80" },
-  { name: "Tyres", stars: "★★★★★", price: "GH₵ 690", img: "https://images.unsplash.com/photo-1596638787647-904d822d751e?auto=format&fit=crop&w=400&q=80" },
-  { name: "Batteries", stars: "★★★★☆", price: "GH₵ 950", img: "https://images.unsplash.com/photo-1615469934246-9e353d811ee3?auto=format&fit=crop&w=400&q=80" },
-  { name: "Headlights", stars: "★★★★★", price: "GH₵ 540", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" },
+  { name: "Engine Parts", stars: "★★★★★", price: "GH₵ 1,250", img: engineImg.url },
+  { name: "Brake Pads", stars: "★★★★☆", price: "GH₵ 380", img: brakeImg.url },
+  { name: "Tyres", stars: "★★★★★", price: "GH₵ 690", img: tyreImg.url },
+  { name: "Batteries", stars: "★★★★☆", price: "GH₵ 950", img: batteryImg.url },
+  { name: "Headlights", stars: "★★★★★", price: "GH₵ 540", img: headlightImg.url },
 ];
 
 const rentalsFallback = [
@@ -464,11 +470,11 @@ function GhanadaHome() {
       {/* CLEARING & FORWARDING */}
       <section className="band" id="clearing">
         <div className="band-bg">
-          <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2000&q=80" alt="" />
+          <img src={clearingImg.url} alt="" />
         </div>
         <div
           className="band-overlay"
-          style={{ background: "linear-gradient(100deg, rgba(8,34,26,.95) 25%, rgba(8,34,26,.6) 65%, rgba(8,34,26,.25) 100%)" }}
+          style={{ background: "linear-gradient(100deg, rgba(8,34,26,.92) 30%, rgba(8,34,26,.78) 70%, rgba(8,34,26,.6) 100%)" }}
         />
         <div className="band-content">
           <div className="eyebrow">Clearing &amp; Forwarding</div>
