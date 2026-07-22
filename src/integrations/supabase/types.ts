@@ -25,6 +25,7 @@ export type Database = {
           rental_id: string | null
           rental_start: string | null
           user_id: string
+          variation_id: string | null
         }
         Insert: {
           created_at?: string
@@ -36,6 +37,7 @@ export type Database = {
           rental_id?: string | null
           rental_start?: string | null
           user_id: string
+          variation_id?: string | null
         }
         Update: {
           created_at?: string
@@ -47,6 +49,7 @@ export type Database = {
           rental_id?: string | null
           rental_start?: string | null
           user_id?: string
+          variation_id?: string | null
         }
         Relationships: [
           {
@@ -61,6 +64,13 @@ export type Database = {
             columns: ["rental_id"]
             isOneToOne: false
             referencedRelation: "rentals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_variation_id_fkey"
+            columns: ["variation_id"]
+            isOneToOne: false
+            referencedRelation: "part_variations"
             referencedColumns: ["id"]
           },
         ]
@@ -79,6 +89,8 @@ export type Database = {
           rental_id: string | null
           rental_start: string | null
           unit_price: number
+          variation_id: string | null
+          variation_label: string | null
         }
         Insert: {
           created_at?: string
@@ -93,6 +105,8 @@ export type Database = {
           rental_id?: string | null
           rental_start?: string | null
           unit_price: number
+          variation_id?: string | null
+          variation_label?: string | null
         }
         Update: {
           created_at?: string
@@ -107,6 +121,8 @@ export type Database = {
           rental_id?: string | null
           rental_start?: string | null
           unit_price?: number
+          variation_id?: string | null
+          variation_label?: string | null
         }
         Relationships: [
           {
@@ -136,46 +152,111 @@ export type Database = {
         Row: {
           created_at: string
           currency: string
+          guest_email: string | null
+          guest_name: string | null
           id: string
           notes: string | null
           order_number: string
+          payment_method: string | null
+          payment_ref: string | null
+          payment_status: string
           phone: string | null
           shipping_address: string | null
           status: string
           subtotal: number
           total: number
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           currency?: string
+          guest_email?: string | null
+          guest_name?: string | null
           id?: string
           notes?: string | null
           order_number?: string
+          payment_method?: string | null
+          payment_ref?: string | null
+          payment_status?: string
           phone?: string | null
           shipping_address?: string | null
           status?: string
           subtotal?: number
           total?: number
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           currency?: string
+          guest_email?: string | null
+          guest_name?: string | null
           id?: string
           notes?: string | null
           order_number?: string
+          payment_method?: string | null
+          payment_ref?: string | null
+          payment_status?: string
           phone?: string | null
           shipping_address?: string | null
           status?: string
           subtotal?: number
           total?: number
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
+      }
+      part_variations: {
+        Row: {
+          active: boolean
+          attributes: Json
+          created_at: string
+          id: string
+          image_url: string | null
+          label: string
+          part_id: string
+          price: number
+          sort_order: number
+          stock: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          attributes?: Json
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          label: string
+          part_id: string
+          price: number
+          sort_order?: number
+          stock?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          attributes?: Json
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          label?: string
+          part_id?: string
+          price?: number
+          sort_order?: number
+          stock?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "part_variations_part_id_fkey"
+            columns: ["part_id"]
+            isOneToOne: false
+            referencedRelation: "parts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       parts: {
         Row: {
@@ -249,6 +330,95 @@ export type Database = {
         }
         Relationships: []
       }
+      rental_bookings: {
+        Row: {
+          booking_number: string
+          created_at: string
+          currency: string
+          daily_rate: number
+          days: number
+          destination: string | null
+          driver_daily_fee: number
+          guest_email: string | null
+          guest_name: string | null
+          guest_phone: string | null
+          id: string
+          notes: string | null
+          payment_method: string | null
+          payment_ref: string | null
+          payment_status: string
+          pickup_date: string
+          rental_id: string
+          return_date: string
+          status: string
+          subtotal: number
+          total: number
+          updated_at: string
+          user_id: string | null
+          with_driver: boolean
+        }
+        Insert: {
+          booking_number?: string
+          created_at?: string
+          currency?: string
+          daily_rate: number
+          days: number
+          destination?: string | null
+          driver_daily_fee?: number
+          guest_email?: string | null
+          guest_name?: string | null
+          guest_phone?: string | null
+          id?: string
+          notes?: string | null
+          payment_method?: string | null
+          payment_ref?: string | null
+          payment_status?: string
+          pickup_date: string
+          rental_id: string
+          return_date: string
+          status?: string
+          subtotal: number
+          total: number
+          updated_at?: string
+          user_id?: string | null
+          with_driver?: boolean
+        }
+        Update: {
+          booking_number?: string
+          created_at?: string
+          currency?: string
+          daily_rate?: number
+          days?: number
+          destination?: string | null
+          driver_daily_fee?: number
+          guest_email?: string | null
+          guest_name?: string | null
+          guest_phone?: string | null
+          id?: string
+          notes?: string | null
+          payment_method?: string | null
+          payment_ref?: string | null
+          payment_status?: string
+          pickup_date?: string
+          rental_id?: string
+          return_date?: string
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string
+          user_id?: string | null
+          with_driver?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rental_bookings_rental_id_fkey"
+            columns: ["rental_id"]
+            isOneToOne: false
+            referencedRelation: "rentals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rentals: {
         Row: {
           active: boolean
@@ -282,6 +452,24 @@ export type Database = {
           name?: string
           updated_at?: string
           vehicle_type?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
         }
         Relationships: []
       }
