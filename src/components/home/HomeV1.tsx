@@ -766,11 +766,6 @@ function GhanadaHome() {
                 <img src={logoTransparentAsset.url} alt="Ghanada Autos" className="logo-img footer-logo-img" />
               </div>
               <p>Ghana &amp; Canada's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
-              <div className="footer-contact">
-                <div><strong>Toronto, Canada</strong><br />+1 437 436 4357</div>
-                <div><strong>Takoradi, Ghana</strong><br />+233 547 464 093</div>
-                <div><strong>WhatsApp</strong><br />+1 437 436 4357</div>
-              </div>
               <div className="social-row">
                 <div>f</div>
                 <div>ig</div>
