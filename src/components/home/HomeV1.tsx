@@ -682,25 +682,31 @@ function GhanadaHome() {
       {/* BLOG */}
       <section className="section">
         <div className="container">
-          <div className="section-head">
+          <div className="section-head" style={{ position: "relative" }}>
             <div className="eyebrow">Latest From The Blog</div>
             <h2>Automotive tips &amp; guides</h2>
           </div>
-          <div className="blog-grid">
-            {[
-              { tag: "Import Tips", title: "5 things to check before importing a car from Canada", date: "July 12, 2026", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=500&q=80" },
-              { tag: "Maintenance", title: "How often should you really change your oil?", date: "July 5, 2026", img: "https://images.unsplash.com/photo-1632823469850-1b7b1e8b7e70?auto=format&fit=crop&w=500&q=80" },
-              { tag: "Buying Advice", title: "New vs. certified pre-owned: what fits your budget?", date: "June 28, 2026", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=500&q=80" },
-            ].map((b) => (
-              <div key={b.title} className="blog-card">
-                <img src={b.img} alt={b.title} />
-                <div className="blog-body">
-                  <span className="badge badge-green">{b.tag}</span>
-                  <h4>{b.title}</h4>
-                  <span className="date">{b.date}</span>
+          <div className="ga-blog-grid">
+            {blogPosts.map((b) => (
+              <Link key={b.slug} to="/blog/$slug" params={{ slug: b.slug }} className="ga-blog-card">
+                <div className="ga-blog-card-media">
+                  <img src={b.img} alt={b.title} loading="lazy" />
+                  <span className="badge badge-green ga-blog-card-tag">{b.tag}</span>
                 </div>
-              </div>
+                <div className="ga-blog-card-body">
+                  <h3>{b.title}</h3>
+                  <p>{b.excerpt}</p>
+                  <div className="ga-blog-meta">
+                    <span>{b.date}</span>
+                    <span>·</span>
+                    <span>{b.readTime}</span>
+                  </div>
+                </div>
+              </Link>
             ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 32 }}>
+            <Link to="/blog" className="btn btn-primary">View all articles</Link>
           </div>
         </div>
       </section>
