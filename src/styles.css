@@ -2597,3 +2597,183 @@ a.ga-kpi:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(15,23,
   .ga-admin-row > img { width: 56px; height: 56px; }
   .ga-admin-price, .ga-admin-actions { grid-column: 1 / -1; justify-content: flex-start; }
 }
+
+/* ============ Sticky Cart Bar ============ */
+.ga-cart-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  background: #065F46; color: #fff;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.22);
+  animation: ga-cart-slide .3s ease-out;
+  font-family: 'Manrope','Inter',system-ui,sans-serif;
+}
+@keyframes ga-cart-slide { from { transform: translateY(100%);} to { transform: translateY(0);} }
+.ga-cart-bar-inner {
+  max-width: 1180px; margin: 0 auto; padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.ga-cart-bar-info { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.ga-cart-bar-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(255,255,255,.14); display: grid; place-items: center;
+  font-size: 22px; flex: 0 0 44px;
+}
+.ga-cart-bar-info strong { display: block; font-size: 15px; font-weight: 700; }
+.ga-cart-bar-info small { display: block; font-size: 12.5px; opacity: .82; }
+.ga-cart-bar-cta {
+  background: #F97316; color: #fff; padding: 12px 22px; border-radius: 999px;
+  font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap;
+  transition: transform .15s ease, background .15s ease; flex-shrink: 0;
+}
+.ga-cart-bar-cta:hover { background: #ea6a0e; transform: translateY(-1px); }
+@media (max-width: 640px) {
+  .ga-cart-bar-inner { padding: 10px 14px; gap: 10px; }
+  .ga-cart-bar-icon { width: 38px; height: 38px; flex-basis: 38px; font-size: 18px; }
+  .ga-cart-bar-info small { display: none; }
+  .ga-cart-bar-info strong { font-size: 13.5px; }
+  .ga-cart-bar-cta { padding: 10px 14px; font-size: 13px; }
+}
+/* Reserve space at bottom of page when cart bar could be visible */
+body { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ============ Vehicle / Product Shop Page ============ */
+.ga-shop-page {
+  max-width: 1180px; margin: 0 auto; padding: 28px 20px 100px;
+  font-family: 'Manrope','Inter',system-ui,sans-serif; color: #0f172a;
+}
+.ga-shop-nav { margin-bottom: 18px; }
+.ga-shop-nav a { color: #065F46; text-decoration: none; font-weight: 600; font-size: 14px; }
+.ga-shop-nav a:hover { text-decoration: underline; }
+
+.ga-shop-grid {
+  display: grid; grid-template-columns: 1.15fr .95fr; gap: 44px; align-items: start;
+}
+.ga-shop-gallery { position: sticky; top: 20px; }
+.ga-shop-hero-img {
+  position: relative;
+  background: linear-gradient(180deg, #f8fafc, #eef2f6);
+  border-radius: 22px; overflow: hidden; aspect-ratio: 4/3;
+  box-shadow: 0 10px 30px rgba(15,23,42,.08);
+}
+.ga-shop-hero-img img { width: 100%; height: 100%; object-fit: cover; }
+.ga-shop-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: #F97316; color: #fff; font-size: 11px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: 999px;
+}
+.ga-shop-thumbs { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.ga-shop-thumb {
+  width: 78px; height: 62px; border-radius: 10px; overflow: hidden;
+  border: 2px solid transparent; padding: 0; cursor: pointer; background: #f1f5f9;
+  transition: border-color .15s ease;
+}
+.ga-shop-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ga-shop-thumb.active { border-color: #065F46; }
+.ga-shop-thumb:hover { border-color: #94a3b8; }
+
+.ga-shop-info { display: flex; flex-direction: column; gap: 4px; }
+.ga-shop-eyebrow {
+  text-transform: uppercase; font-size: 11px; letter-spacing: .12em;
+  color: #0F8A5F; font-weight: 700;
+}
+.ga-shop-title {
+  font-size: 32px; font-weight: 800; margin: 6px 0 4px; line-height: 1.15; color: #0f172a;
+}
+.ga-shop-price {
+  font-size: 30px; font-weight: 800; color: #F97316; margin: 8px 0 18px;
+}
+.ga-shop-quick-specs {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px;
+}
+.ga-shop-quick-specs span {
+  background: #f1f5f9; color: #334155; padding: 8px 14px; border-radius: 999px;
+  font-size: 13px; font-weight: 600;
+}
+.ga-shop-buybox {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  padding: 18px; background: #f8fafc; border-radius: 16px;
+  border: 1px solid #e2e8f0; margin-bottom: 18px;
+}
+.ga-shop-buy, .ga-shop-add { padding: 14px 20px !important; font-size: 15px !important; font-weight: 700 !important; }
+.ga-shop-buy { grid-column: 1 / -1; }
+.ga-shop-secondary {
+  grid-column: 1 / -1; background: transparent; border: 1px dashed #94a3b8;
+  color: #334155; padding: 11px 16px; border-radius: 10px; font-weight: 600;
+  cursor: pointer; font-size: 13.5px; transition: all .15s ease;
+}
+.ga-shop-secondary:hover { border-color: #065F46; color: #065F46; background: #fff; }
+.ga-shop-trust {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 8px;
+  color: #475569; font-size: 14px;
+}
+.ga-shop-trust li { padding: 6px 0; }
+
+.ga-shop-details {
+  margin-top: 60px; display: grid; grid-template-columns: 1fr; gap: 40px;
+  padding-top: 40px; border-top: 1px solid #e2e8f0;
+}
+.ga-shop-details h2 {
+  font-size: 22px; font-weight: 800; margin: 0 0 14px; color: #0f172a;
+}
+.ga-shop-desc { color: #475569; line-height: 1.75; font-size: 15.5px; margin: 0; }
+.ga-shop-specs {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0;
+  border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; background: #fff;
+}
+.ga-shop-spec-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px; border-bottom: 1px solid #f1f5f9;
+}
+.ga-shop-spec-row span { color: #64748b; font-size: 13.5px; }
+.ga-shop-spec-row strong { color: #0f172a; font-size: 14px; font-weight: 700; }
+.ga-shop-features { display: flex; flex-wrap: wrap; gap: 10px; }
+.ga-shop-feature {
+  background: #ecfdf5; color: #065F46; padding: 8px 14px;
+  border-radius: 999px; font-size: 13px; font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .ga-shop-grid { grid-template-columns: 1fr; gap: 28px; }
+  .ga-shop-gallery { position: static; }
+  .ga-shop-title { font-size: 26px; }
+  .ga-shop-price { font-size: 26px; }
+}
+
+/* ============ Modal (reserve / finance form) ============ */
+.ga-modal-overlay {
+  position: fixed; inset: 0; background: rgba(15,23,42,.6); z-index: 80;
+  display: grid; place-items: center; padding: 20px;
+  animation: ga-fade .18s ease-out;
+}
+@keyframes ga-fade { from {opacity:0;} to {opacity:1;} }
+.ga-modal {
+  background: #fff; border-radius: 18px; max-width: 520px; width: 100%;
+  padding: 28px; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,.35);
+  max-height: 90vh; overflow-y: auto;
+}
+.ga-modal h3 { font-size: 20px; font-weight: 800; margin: 0 0 4px; }
+.ga-modal-close {
+  position: absolute; top: 12px; right: 14px; background: transparent;
+  border: 0; font-size: 26px; cursor: pointer; color: #64748b; line-height: 1;
+}
+.ga-modal-close:hover { color: #0f172a; }
+
+/* ============ Vehicle card polish for home ============ */
+.vcard-details {
+  background: transparent; border: 0; color: #065F46;
+  font-weight: 600; font-size: 13px; padding: 10px 0 4px;
+  cursor: pointer; text-align: left; width: 100%;
+}
+.vcard-details:hover { text-decoration: underline; }
+
+/* ============ Part card polish ============ */
+.part-title { cursor: pointer; }
+.part-title:hover { color: #065F46; }
+.part-actions { display: flex; gap: 8px; margin-top: 8px; }
+.part-actions .add-cart { flex: 1; }
+.part-add {
+  background: #f1f5f9; border: 0; padding: 0 14px; border-radius: 10px;
+  font-size: 16px; cursor: pointer; transition: background .15s ease;
+}
+.part-add:hover { background: #e2e8f0; }
