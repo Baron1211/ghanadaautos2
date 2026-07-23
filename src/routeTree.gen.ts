@@ -13,7 +13,6 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as VehiclesIdRouteImport } from './routes/vehicles.$id'
 import { Route as RentalsIdRouteImport } from './routes/rentals.$id'
 import { Route as PartsIdRouteImport } from './routes/parts.$id'
 import { Route as OrdersNumberRouteImport } from './routes/orders.$number'
@@ -47,11 +46,6 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VehiclesIdRoute = VehiclesIdRouteImport.update({
-  id: '/vehicles/$id',
-  path: '/vehicles/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RentalsIdRoute = RentalsIdRouteImport.update({
@@ -146,7 +140,6 @@ export interface FileRoutesByFullPath {
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
-  '/vehicles/$id': typeof VehiclesIdRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -166,7 +159,6 @@ export interface FileRoutesByTo {
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
-  '/vehicles/$id': typeof VehiclesIdRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -189,7 +181,6 @@ export interface FileRoutesById {
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
-  '/vehicles/$id': typeof VehiclesIdRoute
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -212,7 +203,6 @@ export interface FileRouteTypes {
     | '/orders/$number'
     | '/parts/$id'
     | '/rentals/$id'
-    | '/vehicles/$id'
     | '/admin/bookings'
     | '/admin/catalog'
     | '/admin/orders'
@@ -232,7 +222,6 @@ export interface FileRouteTypes {
     | '/orders/$number'
     | '/parts/$id'
     | '/rentals/$id'
-    | '/vehicles/$id'
     | '/admin/bookings'
     | '/admin/catalog'
     | '/admin/orders'
@@ -254,7 +243,6 @@ export interface FileRouteTypes {
     | '/orders/$number'
     | '/parts/$id'
     | '/rentals/$id'
-    | '/vehicles/$id'
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/catalog'
     | '/_authenticated/admin/orders'
@@ -275,7 +263,6 @@ export interface RootRouteChildren {
   OrdersNumberRoute: typeof OrdersNumberRoute
   PartsIdRoute: typeof PartsIdRoute
   RentalsIdRoute: typeof RentalsIdRoute
-  VehiclesIdRoute: typeof VehiclesIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -306,13 +293,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vehicles/$id': {
-      id: '/vehicles/$id'
-      path: '/vehicles/$id'
-      fullPath: '/vehicles/$id'
-      preLoaderRoute: typeof VehiclesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rentals/$id': {
@@ -472,7 +452,6 @@ const rootRouteChildren: RootRouteChildren = {
   OrdersNumberRoute: OrdersNumberRoute,
   PartsIdRoute: PartsIdRoute,
   RentalsIdRoute: RentalsIdRoute,
-  VehiclesIdRoute: VehiclesIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
