@@ -315,13 +315,13 @@ function GhanadaHome() {
               : []
             ).map((v: any) => (
               <div key={v.id} className="vcard">
-                <div className="vimg">
-                  {v.finance_available && <span className="finance-tag">Finance Available</span>}
-                  <span className="fav-btn">♡</span>
-                  <img src={v.image_url || vehicles[0].img} alt={v.name} />
-                </div>
-                <div className="vbody">
-                  <h4>{v.name}</h4>
+                 <div className="vimg" onClick={() => openVehicle(v.id)} style={{ cursor: "pointer" }}>
+                   {v.finance_available && <span className="finance-tag">Finance Available</span>}
+                   <span className="fav-btn">♡</span>
+                   <img src={v.image_url || vehicles[0].img} alt={v.name} />
+                 </div>
+                 <div className="vbody">
+                   <h4><Link to="/vehicles/$id" params={{ id: v.id }} className="ga-link-plain">{v.name}</Link></h4>
                   <div className="vprice">GHS {Number(v.price).toLocaleString()}</div>
                   <div className="vmeta">
                     {v.year && <span>📅 {v.year}</span>}
@@ -375,9 +375,9 @@ function GhanadaHome() {
             {(dbParts && dbParts.length > 0
               ? dbParts.map((p: any) => (
                   <div key={p.id} className="part-card">
-                    <div className="pimg"><img src={p.image_url || partsFallback[0].img} alt={p.name} /></div>
+                     <div className="pimg" onClick={() => openPart(p.id)} style={{ cursor: "pointer" }}><img src={p.image_url || partsFallback[0].img} alt={p.name} /></div>
                     <div className="part-body">
-                      <h5 className="part-title" onClick={() => openPart(p.id)}>{p.name}</h5>
+                       <h5 className="part-title"><Link to="/parts/$id" params={{ id: p.id }} className="ga-link-plain">{p.name}</Link></h5>
                       <div className="stars">★★★★★</div>
                       <div className="part-price">GHS {Number(p.price).toFixed(2)}</div>
                       <div className="part-actions">
@@ -421,9 +421,9 @@ function GhanadaHome() {
             {(dbRentals && dbRentals.length > 0
               ? dbRentals.map((r: any) => (
                   <div key={r.id} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
-                    <div className="vimg"><img src={r.image_url || rentalsFallback[0].img} alt={r.name} /></div>
+                     <div className="vimg" onClick={() => openRental(r.id)} style={{ cursor: "pointer" }}><img src={r.image_url || rentalsFallback[0].img} alt={r.name} /></div>
                     <div className="vbody">
-                      <h4>{r.name}</h4>
+                       <h4><Link to="/rentals/$id" params={{ id: r.id }} className="ga-link-plain">{r.name}</Link></h4>
                       <div className="vprice">GHS {Number(r.daily_rate).toFixed(2)} / day</div>
                       <div className="vmeta"><span>{r.vehicle_type || "Vehicle"}</span></div>
                       <div className="vactions">
