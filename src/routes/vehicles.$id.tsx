@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
+import { normalizeImages } from "@/lib/images";
 
 export const Route = createFileRoute("/vehicles/$id")({
   head: () => ({
@@ -29,7 +30,7 @@ function VehicleDetail() {
   const [preferredDate, setPreferredDate] = useState("");
   const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   const { data: vehicle, isLoading } = useQuery({
     queryKey: ["vehicle", id],
@@ -48,11 +49,9 @@ function VehicleDetail() {
     </div>
   );
 
-  const gallery: string[] = Array.isArray(vehicle.images) && vehicle.images.length
-    ? vehicle.images
-    : [vehicle.image_url].filter(Boolean);
+  const gallery = normalizeImages(vehicle.images, vehicle.image_url);
   const features: string[] = Array.isArray(vehicle.features) ? vehicle.features : [];
-  const heroImg = activeImage || vehicle.image_url || gallery[0] || "/favicon.ico";
+  const active = gallery[activeIdx] || gallery[0] || { url: vehicle.image_url || "/favicon.ico", caption: "" };
 
   const handleAdd = async (goToCheckout: boolean) => {
     try {
@@ -110,19 +109,21 @@ function VehicleDetail() {
       <div className="ga-shop-grid">
         <div className="ga-shop-gallery">
           <div className="ga-shop-hero-img">
-            <img src={heroImg} alt={vehicle.name} />
+            <img src={active.url} alt={active.caption || vehicle.name} />
             {vehicle.finance_available && <span className="ga-shop-badge">Financing Available</span>}
+            {active.caption && <span className="ga-shop-caption">{active.caption}</span>}
           </div>
           {gallery.length > 1 && (
             <div className="ga-shop-thumbs">
-              {gallery.slice(0, 6).map((u) => (
+              {gallery.slice(0, 20).map((img, i) => (
                 <button
-                  key={u}
-                  className={`ga-shop-thumb ${heroImg === u ? "active" : ""}`}
-                  onClick={() => setActiveImage(u)}
-                  aria-label="View image"
+                  key={img.url + i}
+                  className={`ga-shop-thumb ${activeIdx === i ? "active" : ""}`}
+                  onClick={() => setActiveIdx(i)}
+                  aria-label={img.caption || "View image"}
+                  title={img.caption || ""}
                 >
-                  <img src={u} alt="" />
+                  <img src={img.url} alt={img.caption || ""} />
                 </button>
               ))}
             </div>

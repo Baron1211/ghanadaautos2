@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
+import { normalizeImages } from "@/lib/images";
 
 export const Route = createFileRoute("/parts/$id")({
   head: ({ params }) => ({
@@ -23,6 +24,7 @@ function PartDetail() {
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [variationId, setVariationId] = useState<string | null>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   const { data: part, isLoading } = useQuery({
     queryKey: ["part", id],
@@ -43,7 +45,9 @@ function PartDetail() {
   const chosen = variations?.find((v: any) => v.id === variationId);
   const displayPrice = chosen ? Number(chosen.price) : part ? Number(part.price) : 0;
   const displayStock = chosen ? chosen.stock : part?.stock ?? 0;
-  const displayImage = chosen?.image_url || part?.image_url;
+  const gallery = normalizeImages(part?.images, chosen?.image_url || part?.image_url);
+  const active = gallery[activeIdx] || gallery[0] || { url: "/favicon.ico", caption: "" };
+  const displayImage = active.url;
 
   const handleAdd = async (goToCheckout: boolean) => {
     if (variations && variations.length > 0 && !variationId) { toast.error("Choose an option"); return; }
@@ -80,7 +84,22 @@ function PartDetail() {
       </div>
       <div className="ga-detail-grid">
         <div className="ga-detail-media">
-          <img src={displayImage || "/favicon.ico"} alt={part.name} />
+          <img src={displayImage} alt={active.caption || part.name} />
+          {active.caption && <div className="ga-shop-caption ga-shop-caption-static">{active.caption}</div>}
+          {gallery.length > 1 && (
+            <div className="ga-shop-thumbs" style={{ marginTop: 10 }}>
+              {gallery.slice(0, 20).map((img, i) => (
+                <button
+                  key={img.url + i}
+                  className={`ga-shop-thumb ${activeIdx === i ? "active" : ""}`}
+                  onClick={() => setActiveIdx(i)}
+                  title={img.caption || ""}
+                >
+                  <img src={img.url} alt={img.caption || ""} />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="ga-detail-body">
           <div className="ga-detail-eyebrow">{part.brand || "Spare Part"} · {part.category || "Genuine"}</div>

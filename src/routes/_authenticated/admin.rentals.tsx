@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { ImageGalleryEditor } from "@/components/admin/ImageGalleryEditor";
+import { GalleryImage, normalizeImages, serializeImages } from "@/lib/images";
 
 export const Route = createFileRoute("/_authenticated/admin/rentals")({
   component: AdminRentals,
@@ -10,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/admin/rentals")({
 
 function AdminRentals() {
   const qc = useQueryClient();
-  const empty = { name: "", description: "", vehicle_type: "", daily_rate: "", seats: "", transmission: "Automatic", fuel: "Petrol", features: "", image_url: "", images: [] as string[] };
+  const empty = { name: "", description: "", vehicle_type: "", daily_rate: "", seats: "", transmission: "Automatic", fuel: "Petrol", features: "", image_url: "", images: [] as GalleryImage[] };
   const [form, setForm] = useState(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -27,25 +29,6 @@ function AdminRentals() {
 
   const reset = () => { setForm(empty); setEditingId(null); };
 
-  const uploadOne = async (file: File): Promise<string | null> => {
-    const path = `${Date.now()}-${file.name}`;
-    const { error } = await supabase.storage.from("product-images").upload(path, file);
-    if (error) { toast.error(error.message); return null; }
-    const { data } = await supabase.storage.from("product-images").createSignedUrl(path, 60 * 60 * 24 * 365);
-    return data?.signedUrl || null;
-  };
-  const addImages = async (files: FileList) => {
-    const urls: string[] = [];
-    for (const f of Array.from(files)) {
-      const u = await uploadOne(f); if (u) urls.push(u);
-    }
-    if (urls.length) setForm(f => ({ ...f, image_url: f.image_url || urls[0], images: [...f.images, ...urls] }));
-  };
-  const removeImage = (url: string) => setForm(f => ({
-    ...f, images: f.images.filter(u => u !== url),
-    image_url: f.image_url === url ? (f.images.filter(u => u !== url)[0] || "") : f.image_url,
-  }));
-
   const save = async () => {
     const payload: any = {
       name: form.name, description: form.description, vehicle_type: form.vehicle_type,
@@ -54,7 +37,7 @@ function AdminRentals() {
       transmission: form.transmission || null,
       fuel: form.fuel || null,
       features: form.features ? form.features.split(",").map(s => s.trim()).filter(Boolean) : [],
-      image_url: form.image_url, images: form.images,
+      image_url: form.image_url, images: serializeImages(form.images),
     };
     const res = editingId
       ? await supabase.from("rentals").update(payload).eq("id", editingId)
@@ -75,7 +58,7 @@ function AdminRentals() {
       fuel: p.fuel || "Petrol",
       features: Array.isArray(p.features) ? p.features.join(", ") : "",
       image_url: p.image_url || "",
-      images: Array.isArray(p.images) ? p.images : (p.image_url ? [p.image_url] : []),
+      images: normalizeImages(p.images, p.image_url),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -129,19 +112,15 @@ function AdminRentals() {
           </label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
           <label className="ga-form-full">Features (comma separated)<input value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} placeholder="Bluetooth, Reverse camera, Cruise control" /></label>
-          <label className="ga-form-full">Images (first is primary)
-            <input type="file" accept="image/*" multiple onChange={e => e.target.files && addImages(e.target.files)} />
-            {form.images.length > 0 && (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
-                {form.images.map(url => (
-                  <div key={url} style={{ position: "relative" }}>
-                    <img src={url} alt="" style={{ height: 90, borderRadius: 8, border: form.image_url === url ? "3px solid #0F8A5F" : "1px solid #ddd", cursor: "pointer" }} onClick={() => setForm(f => ({ ...f, image_url: url }))} />
-                    <button type="button" onClick={() => removeImage(url)} style={{ position: "absolute", top: -6, right: -6, background: "#e11", color: "#fff", border: 0, borderRadius: "50%", width: 22, height: 22, cursor: "pointer" }}>×</button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </label>
+          <div className="ga-form-full">
+            <label>Images (up to 20, first is primary, add captions per image)</label>
+            <ImageGalleryEditor
+              images={form.images}
+              primaryUrl={form.image_url}
+              onChange={(images, primary) => setForm(f => ({ ...f, images, image_url: primary }))}
+              bucketPrefix="rent"
+            />
+          </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <button className="ga-btn-primary" onClick={save} disabled={!form.name || !form.daily_rate}>{editingId ? "Update" : "Add rental"}</button>

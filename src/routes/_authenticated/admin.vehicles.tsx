@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { ImageGalleryEditor } from "@/components/admin/ImageGalleryEditor";
+import { GalleryImage, normalizeImages, serializeImages } from "@/lib/images";
 
 export const Route = createFileRoute("/_authenticated/admin/vehicles")({
   component: AdminVehicles,
@@ -15,7 +17,7 @@ function AdminVehicles() {
   const empty = {
     name: "", brand: "", model: "", year: "", body_type: "SUV",
     price: "", mileage_km: "", fuel: "Petrol", transmission: "Automatic",
-    seats: "", color: "", description: "", image_url: "", images: [] as string[],
+    seats: "", color: "", description: "", image_url: "", images: [] as GalleryImage[],
     features: "", finance_available: false, featured: false,
   };
   const [form, setForm] = useState(empty);
@@ -34,23 +36,6 @@ function AdminVehicles() {
 
   const reset = () => { setForm(empty); setEditingId(null); };
 
-  const uploadOne = async (file: File): Promise<string | null> => {
-    const path = `veh-${Date.now()}-${file.name}`;
-    const { error } = await supabase.storage.from("product-images").upload(path, file);
-    if (error) { toast.error(error.message); return null; }
-    const { data } = await supabase.storage.from("product-images").createSignedUrl(path, 60 * 60 * 24 * 365);
-    return data?.signedUrl || null;
-  };
-  const addImages = async (files: FileList) => {
-    const urls: string[] = [];
-    for (const f of Array.from(files)) { const u = await uploadOne(f); if (u) urls.push(u); }
-    if (urls.length) setForm(f => ({ ...f, image_url: f.image_url || urls[0], images: [...f.images, ...urls] }));
-  };
-  const removeImage = (url: string) => setForm(f => ({
-    ...f, images: f.images.filter(u => u !== url),
-    image_url: f.image_url === url ? (f.images.filter(u => u !== url)[0] || "") : f.image_url,
-  }));
-
   const save = async () => {
     const payload: any = {
       name: form.name, brand: form.brand, model: form.model,
@@ -61,7 +46,7 @@ function AdminVehicles() {
       fuel: form.fuel, transmission: form.transmission,
       seats: form.seats ? Number(form.seats) : null,
       color: form.color, description: form.description,
-      image_url: form.image_url, images: form.images,
+      image_url: form.image_url, images: serializeImages(form.images),
       features: form.features ? form.features.split(",").map(s => s.trim()).filter(Boolean) : [],
       finance_available: form.finance_available, featured: form.featured,
     };
@@ -83,7 +68,7 @@ function AdminVehicles() {
       fuel: p.fuel || "Petrol", transmission: p.transmission || "Automatic",
       seats: p.seats ? String(p.seats) : "", color: p.color || "",
       description: p.description || "", image_url: p.image_url || "",
-      images: Array.isArray(p.images) ? p.images : (p.image_url ? [p.image_url] : []),
+      images: normalizeImages(p.images, p.image_url),
       features: Array.isArray(p.features) ? p.features.join(", ") : "",
       finance_available: !!p.finance_available, featured: !!p.featured,
     });
@@ -141,19 +126,15 @@ function AdminVehicles() {
           <label className="ga-form-full">Features (comma separated)<input value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} placeholder="Leather seats, Sunroof, 360° camera" /></label>
           <label><input type="checkbox" checked={form.finance_available} onChange={e => setForm({ ...form, finance_available: e.target.checked })} /> Finance available</label>
           <label><input type="checkbox" checked={form.featured} onChange={e => setForm({ ...form, featured: e.target.checked })} /> Featured</label>
-          <label className="ga-form-full">Images (first is primary)
-            <input type="file" accept="image/*" multiple onChange={e => e.target.files && addImages(e.target.files)} />
-            {form.images.length > 0 && (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
-                {form.images.map(url => (
-                  <div key={url} style={{ position: "relative" }}>
-                    <img src={url} alt="" style={{ height: 90, borderRadius: 8, border: form.image_url === url ? "3px solid #0F8A5F" : "1px solid #ddd", cursor: "pointer" }} onClick={() => setForm(f => ({ ...f, image_url: url }))} />
-                    <button type="button" onClick={() => removeImage(url)} style={{ position: "absolute", top: -6, right: -6, background: "#e11", color: "#fff", border: 0, borderRadius: "50%", width: 22, height: 22, cursor: "pointer" }}>×</button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </label>
+          <div className="ga-form-full">
+            <label>Images (up to 20, first is primary, add captions per image)</label>
+            <ImageGalleryEditor
+              images={form.images}
+              primaryUrl={form.image_url}
+              onChange={(images, primary) => setForm(f => ({ ...f, images, image_url: primary }))}
+              bucketPrefix="veh"
+            />
+          </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <button className="ga-btn-primary" onClick={save} disabled={!form.name || !form.price}>{editingId ? "Update" : "Add vehicle"}</button>
