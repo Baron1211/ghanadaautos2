@@ -299,7 +299,7 @@ function GhanadaHome() {
                     <div className="part-body">
                       <h5>{p.name}</h5>
                       <div className="stars">★★★★★</div>
-                      <div className="part-price">CAD {Number(p.price).toFixed(2)}</div>
+                      <div className="part-price">GHS {Number(p.price).toFixed(2)}</div>
                       <button className="add-cart" onClick={() => openPart(p.id)}>View & Buy</button>
                     </div>
                   </div>
@@ -311,7 +311,7 @@ function GhanadaHome() {
                       <h5>{p.name}</h5>
                       <div className="stars">{p.stars}</div>
                       <div className="part-price">{p.price}</div>
-                      <button className="add-cart" onClick={() => toast("Live parts coming soon — admin can add them")}>Add to Cart</button>
+                      <button className="add-cart" onClick={() => toast("No live products yet — please check back soon.")}>Notify me</button>
                     </div>
                   </div>
                 )))}
@@ -339,7 +339,7 @@ function GhanadaHome() {
                     <div className="vimg"><img src={r.image_url || rentalsFallback[0].img} alt={r.name} /></div>
                     <div className="vbody">
                       <h4>{r.name}</h4>
-                      <div className="vprice">CAD {Number(r.daily_rate).toFixed(2)} / day</div>
+                      <div className="vprice">GHS {Number(r.daily_rate).toFixed(2)} / day</div>
                       <div className="vmeta"><span>{r.vehicle_type || "Vehicle"}</span></div>
                       <div className="vactions">
                         <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => openRental(r.id)}>Book Now</button>
@@ -355,7 +355,7 @@ function GhanadaHome() {
                       <div className="vprice">{r.price}</div>
                       <div className="vmeta"><span>👤 {r.seats}</span><span>⚙️ {r.trans}</span><span>⛽ {r.fuel}</span></div>
                       <div className="vactions">
-                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => toast("Live rentals coming soon — admin can add them")}>Book Now</button>
+                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => toast("No live rentals yet — please check back soon.")}>Notify me</button>
                       </div>
                     </div>
                   </div>

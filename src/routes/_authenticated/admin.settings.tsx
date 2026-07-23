@@ -28,7 +28,7 @@ function AdminSettings() {
   const save = async () => {
     setSaving(true);
     const rows = [
-      { key: "driver_daily_fee", value: { amount: Number(driverFee), currency: "CAD" } },
+      { key: "driver_daily_fee", value: { amount: Number(driverFee), currency: "GHS" } },
       { key: "contact", value: contact },
       { key: "hero", value: hero },
     ];
@@ -44,7 +44,7 @@ function AdminSettings() {
       <div className="ga-admin-form">
         <h3>Rental driver fee</h3>
         <div className="ga-form-grid">
-          <label>Driver daily fee (CAD)<input type="number" step="0.01" value={driverFee} onChange={e => setDriverFee(e.target.value)} /></label>
+          <label>Driver daily fee (GHS)<input type="number" step="0.01" value={driverFee} onChange={e => setDriverFee(e.target.value)} /></label>
         </div>
       </div>
 

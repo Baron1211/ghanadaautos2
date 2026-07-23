@@ -101,7 +101,7 @@ function RentalDetail() {
         <div className="ga-detail-body">
           <div className="ga-detail-eyebrow">{rental.vehicle_type || "Rental"}</div>
           <h1>{rental.name}</h1>
-          <div className="ga-detail-price">CAD {rate.toFixed(2)} / day</div>
+          <div className="ga-detail-price">GHS {rate.toFixed(2)} / day</div>
           <p className="ga-detail-desc">{rental.description || "Ready for pickup at Toronto or Takoradi."}</p>
 
           <div className="ga-booking-form">
@@ -114,7 +114,7 @@ function RentalDetail() {
                 <input type="checkbox" checked={withDriver} onChange={e => setWithDriver(e.target.checked)} />
                 <span>
                   <strong>Request a driver</strong>
-                  <small>+ CAD {driverFee.toFixed(2)} / day — professional chauffeur included</small>
+                  <small>+ GHS {driverFee.toFixed(2)} / day — professional chauffeur included</small>
                 </span>
               </label>
               <label>Your name<input value={name} onChange={e => setName(e.target.value)} /></label>
@@ -124,9 +124,9 @@ function RentalDetail() {
             </div>
 
             <div className="ga-booking-summary">
-              <div><span>Daily rate × {days} day(s)</span><strong>CAD {subtotal.toFixed(2)}</strong></div>
-              {withDriver && <div><span>Driver × {days} day(s)</span><strong>CAD {driverCost.toFixed(2)}</strong></div>}
-              <div className="ga-booking-total"><span>Total</span><strong>CAD {total.toFixed(2)}</strong></div>
+              <div><span>Daily rate × {days} day(s)</span><strong>GHS {subtotal.toFixed(2)}</strong></div>
+              {withDriver && <div><span>Driver × {days} day(s)</span><strong>GHS {driverCost.toFixed(2)}</strong></div>}
+              <div className="ga-booking-total"><span>Total</span><strong>GHS {total.toFixed(2)}</strong></div>
             </div>
 
             <button className="ga-btn-primary" onClick={book} disabled={busy}>{busy ? "Submitting…" : "Confirm booking"}</button>

@@ -35,9 +35,13 @@ function Dashboard() {
         .eq("user_id", data.user.id)
         .eq("role", "admin")
         .maybeSingle();
-      setIsAdmin(!!r);
+      if (r) {
+        navigate({ to: "/admin", replace: true });
+        return;
+      }
+      setIsAdmin(false);
     });
-  }, []);
+  }, [navigate]);
 
   const signOut = async () => {
     await qc.cancelQueries();
@@ -328,7 +332,7 @@ function CartTab({ userId }: { userId: string }) {
         <label>Notes (optional)<textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></label>
         <div className="ga-checkout-total">
           <span>Total</span>
-          <strong>CAD {total.toFixed(2)}</strong>
+          <strong>GHS {total.toFixed(2)}</strong>
         </div>
         <button className="ga-btn-primary" onClick={checkout} disabled={placing}>
           {placing ? "Placing order…" : "Place order"}

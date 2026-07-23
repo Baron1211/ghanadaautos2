@@ -38,11 +38,11 @@ function BookingView() {
         <h3>{data.rental?.name}</h3>
         <p><strong>Pickup:</strong> {data.pickup_date} → <strong>Return:</strong> {data.return_date} ({data.days} days)</p>
         <p><strong>Destination:</strong> {data.destination || "—"}</p>
-        <p><strong>Driver:</strong> {data.with_driver ? `Yes (+ CAD ${Number(data.driver_daily_fee).toFixed(2)}/day)` : "Self-drive"}</p>
+        <p><strong>Driver:</strong> {data.with_driver ? `Yes (+ GHS ${Number(data.driver_daily_fee).toFixed(2)}/day)` : "Self-drive"}</p>
         <table className="ga-receipt">
           <tbody>
-            <tr><td>Rental ({data.days} × CAD {Number(data.daily_rate).toFixed(2)})</td><td>CAD {Number(data.subtotal).toFixed(2)}</td></tr>
-            {data.with_driver && <tr><td>Driver ({data.days} × CAD {Number(data.driver_daily_fee).toFixed(2)})</td><td>CAD {(Number(data.driver_daily_fee) * data.days).toFixed(2)}</td></tr>}
+            <tr><td>Rental ({data.days} × GHS {Number(data.daily_rate).toFixed(2)})</td><td>GHS {Number(data.subtotal).toFixed(2)}</td></tr>
+            {data.with_driver && <tr><td>Driver ({data.days} × GHS {Number(data.driver_daily_fee).toFixed(2)})</td><td>GHS {(Number(data.driver_daily_fee) * data.days).toFixed(2)}</td></tr>}
             <tr><td><strong>Total</strong></td><td><strong>{data.currency} {Number(data.total).toFixed(2)}</strong></td></tr>
           </tbody>
         </table>

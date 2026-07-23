@@ -98,7 +98,7 @@ function AdminRentals() {
         <div className="ga-form-grid">
           <label>Name<input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
           <label>Vehicle type<input value={form.vehicle_type} onChange={e => setForm({ ...form, vehicle_type: e.target.value })} /></label>
-          <label>Daily rate (CAD)<input type="number" step="0.01" value={form.daily_rate} onChange={e => setForm({ ...form, daily_rate: e.target.value })} /></label>
+          <label>Daily rate (GHS)<input type="number" step="0.01" value={form.daily_rate} onChange={e => setForm({ ...form, daily_rate: e.target.value })} /></label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
           <label className="ga-form-full">Images (first is primary)
             <input type="file" accept="image/*" multiple onChange={e => e.target.files && addImages(e.target.files)} />
@@ -140,7 +140,7 @@ function AdminRentals() {
             <input type="checkbox" checked={selected.has(p.id)} onChange={() => toggleSel(p.id)} />
             <img src={p.image_url || "/favicon.ico"} alt="" />
             <div><strong>{p.name}</strong><span className="ga-muted">{p.vehicle_type} {!p.active && "· inactive"}</span></div>
-            <div className="ga-admin-price">CAD {Number(p.daily_rate).toFixed(2)} / day</div>
+            <div className="ga-admin-price">GHS {Number(p.daily_rate).toFixed(2)} / day</div>
             <div className="ga-admin-actions">
               <button onClick={() => edit(p)}>Edit</button>
               <button onClick={() => toggle(p)}>{p.active ? "Hide" : "Show"}</button>
