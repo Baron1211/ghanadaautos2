@@ -86,6 +86,7 @@ export type Database = {
           rental_start: string | null
           user_id: string
           variation_id: string | null
+          vehicle_id: string | null
         }
         Insert: {
           created_at?: string
@@ -98,6 +99,7 @@ export type Database = {
           rental_start?: string | null
           user_id: string
           variation_id?: string | null
+          vehicle_id?: string | null
         }
         Update: {
           created_at?: string
@@ -110,6 +112,7 @@ export type Database = {
           rental_start?: string | null
           user_id?: string
           variation_id?: string | null
+          vehicle_id?: string | null
         }
         Relationships: [
           {
@@ -131,6 +134,13 @@ export type Database = {
             columns: ["variation_id"]
             isOneToOne: false
             referencedRelation: "part_variations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
             referencedColumns: ["id"]
           },
         ]
@@ -187,6 +197,7 @@ export type Database = {
           unit_price: number
           variation_id: string | null
           variation_label: string | null
+          vehicle_id: string | null
         }
         Insert: {
           created_at?: string
@@ -203,6 +214,7 @@ export type Database = {
           unit_price: number
           variation_id?: string | null
           variation_label?: string | null
+          vehicle_id?: string | null
         }
         Update: {
           created_at?: string
@@ -219,6 +231,7 @@ export type Database = {
           unit_price?: number
           variation_id?: string | null
           variation_label?: string | null
+          vehicle_id?: string | null
         }
         Relationships: [
           {
@@ -240,6 +253,13 @@ export type Database = {
             columns: ["rental_id"]
             isOneToOne: false
             referencedRelation: "rentals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
             referencedColumns: ["id"]
           },
         ]
