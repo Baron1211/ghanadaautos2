@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Trash2, Mail, ShieldCheck, UserRound, LogIn } from "lucide-react";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -22,6 +23,7 @@ type LineItem = {
   variation_id?: string | null;
   vehicle_id?: string | null;
   name: string;
+  image_url?: string | null;
   unit_price: number;
   quantity: number;
   rental_days?: number | null;
@@ -40,6 +42,7 @@ function Checkout() {
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"paystack" | "cod">("cod");
   const [placing, setPlacing] = useState(false);
+  const [guestMode, setGuestMode] = useState<"choose" | "guest">("choose");
 
   useEffect(() => {
     (async () => {
@@ -72,6 +75,7 @@ function Checkout() {
               : isVehicle
                 ? c.vehicle?.name || "Vehicle"
                 : c.rental?.name || "Rental",
+            image_url: isPart ? c.part?.image_url : isVehicle ? c.vehicle?.image_url : c.rental?.image_url,
             unit_price: unit,
             quantity: c.quantity,
             rental_days: c.rental_days,
@@ -162,14 +166,47 @@ function Checkout() {
     </div>
   );
 
+  // Guest choice screen: pick guest checkout or sign in
+  if (!userId && guestMode === "choose") {
+    return (
+      <div className="ga-detail">
+        <div className="ga-detail-nav"><Link to="/">← Continue shopping</Link></div>
+        <h1>Checkout</h1>
+        <p className="ga-muted">How would you like to check out?</p>
+        <div className="ga-checkout-choice">
+          <button className="ga-choice-card" onClick={() => setGuestMode("guest")}>
+            <div className="ga-choice-icon"><UserRound size={28} /></div>
+            <strong>Continue as guest</strong>
+            <small>Fast checkout — no account needed. We'll confirm your payment details and send your invoice by email.</small>
+            <span className="ga-choice-cta">Continue as guest →</span>
+          </button>
+          <Link to="/auth" search={{ redirect: "/checkout" } as any} className="ga-choice-card ga-choice-card-primary">
+            <div className="ga-choice-icon"><LogIn size={28} /></div>
+            <strong>Sign in / Create account</strong>
+            <small>Track your orders, view receipts, save addresses and manage everything from your dashboard.</small>
+            <span className="ga-choice-cta">Sign in to checkout →</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="ga-detail">
       <div className="ga-detail-nav"><Link to="/">← Continue shopping</Link></div>
       <h1>Checkout</h1>
+      {!userId && (
+        <div className="ga-guest-banner">
+          <Mail size={18} />
+          <div>
+            <strong>Checking out as guest</strong>
+            <small>Payment details and your invoice will be confirmed via email. <Link to="/auth">Sign in</Link> to save this order to a dashboard.</small>
+          </div>
+        </div>
+      )}
       <div className="ga-checkout-grid">
         <div>
           <h3>Your details</h3>
-          {!userId && <p className="ga-muted ga-small">Checking out as guest. <Link to="/auth">Sign in</Link> to save your order to your account.</p>}
           <div className="ga-form-grid">
             <label>Full name<input value={name} onChange={e => setName(e.target.value)} /></label>
             <label>Email<input type="email" value={email} onChange={e => setEmail(e.target.value)} /></label>
@@ -198,30 +235,44 @@ function Checkout() {
         </div>
 
         <div className="ga-checkout-summary">
-          <h3>Order summary</h3>
-          {items.map(i => {
-            const qtyForTotal = lineUnits(i);
-            return (
-              <div key={i.key} className="ga-summary-row">
-                <div>
-                  <strong>{i.name}</strong>
-                  <small>
-                    {i.item_type === "rental"
-                      ? `${i.rental_days || 1} days`
-                      : `Qty: ${i.quantity}`} · GHS {i.unit_price.toLocaleString()} {i.item_type === "rental" ? "/ day" : "each"}
-                  </small>
-                </div>
-                <div>
-                  <span>GHS {(i.unit_price * qtyForTotal).toLocaleString()}</span>
-                  <button className="ga-cart-remove" onClick={() => removeItem(i.key)}>×</button>
-                </div>
-              </div>
-            );
-          })}
+          <h3>Order summary <span className="ga-summary-count">({items.length} {items.length === 1 ? "item" : "items"})</span></h3>
+          <ul className="ga-cart-list">
+            {items.map(i => {
+              const qtyForTotal = lineUnits(i);
+              const typeLabel = i.item_type === "rental" ? "Rental" : i.item_type === "vehicle" ? "Vehicle" : "Part";
+              return (
+                <li key={i.key} className="ga-cart-line">
+                  <div className="ga-cart-thumb">
+                    {i.image_url ? <img src={i.image_url} alt={i.name} /> : <div className="ga-cart-thumb-fallback" aria-hidden />}
+                    <span className={`ga-cart-type ga-cart-type-${i.item_type}`}>{typeLabel}</span>
+                  </div>
+                  <div className="ga-cart-body">
+                    <strong className="ga-cart-name">{i.name}</strong>
+                    <small className="ga-cart-meta">
+                      {i.item_type === "rental"
+                        ? <>{i.rental_days || 1} day{(i.rental_days || 1) > 1 ? "s" : ""} × GHS {i.unit_price.toLocaleString()} / day</>
+                        : <>Qty {i.quantity} × GHS {i.unit_price.toLocaleString()}</>}
+                    </small>
+                    <div className="ga-cart-line-foot">
+                      <span className="ga-cart-line-total">GHS {(i.unit_price * qtyForTotal).toLocaleString()}</span>
+                      <button
+                        className="ga-cart-delete"
+                        aria-label={`Remove ${i.name} from cart`}
+                        onClick={() => removeItem(i.key)}
+                      >
+                        <Trash2 size={16} /> Remove
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
           <div className="ga-summary-total"><span>Total</span><strong>GHS {subtotal.toLocaleString()}</strong></div>
-          <button className="ga-btn-primary" onClick={place} disabled={placing}>
+          <button className="ga-btn-primary ga-checkout-cta" onClick={place} disabled={placing}>
             {placing ? "Placing order…" : "Place order"}
           </button>
+          <p className="ga-checkout-trust"><ShieldCheck size={14} /> Secure checkout — we'll email your invoice and payment confirmation.</p>
         </div>
       </div>
     </div>
