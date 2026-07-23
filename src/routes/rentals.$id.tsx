@@ -142,21 +142,42 @@ function RentalDetail() {
 
           <div className="ga-booking-form">
             <h3>Book this vehicle</h3>
+
+            <div className="ga-driver-choice">
+              <button
+                type="button"
+                className={`ga-driver-card ${!withDriver ? "selected" : ""}`}
+                onClick={() => setWithDriver(false)}
+              >
+                <div className="ga-driver-icon" aria-hidden>🚗</div>
+                <div>
+                  <strong>Self-drive</strong>
+                  <small>Pick up the keys and go — valid licence required.</small>
+                </div>
+                <span className="ga-driver-price">Included</span>
+              </button>
+              <button
+                type="button"
+                className={`ga-driver-card ${withDriver ? "selected" : ""}`}
+                onClick={() => setWithDriver(true)}
+              >
+                <div className="ga-driver-icon" aria-hidden>🧑‍✈️</div>
+                <div>
+                  <strong>Driver on request</strong>
+                  <small>We assign a vetted driver for your trip.</small>
+                </div>
+                <span className="ga-driver-price">+ GHS {driverFee.toFixed(2)} / day</span>
+              </button>
+            </div>
+
             <div className="ga-form-grid">
               <label>Pickup date<input type="date" value={pickup} min={today} onChange={e => setPickup(e.target.value)} /></label>
               <label>Return date<input type="date" value={ret} min={pickup} onChange={e => setRet(e.target.value)} /></label>
               <label className="ga-form-full">Destination / Trip purpose<input value={destination} onChange={e => setDestination(e.target.value)} placeholder="e.g. Accra → Kumasi, or Airport transfer" /></label>
-              <label className="ga-form-full ga-driver-toggle">
-                <input type="checkbox" checked={withDriver} onChange={e => setWithDriver(e.target.checked)} />
-                <span>
-                  <strong>Request a driver</strong>
-                  <small>+ GHS {driverFee.toFixed(2)} / day — professional chauffeur included</small>
-                </span>
-              </label>
               <label>Your name<input value={name} onChange={e => setName(e.target.value)} /></label>
               <label>Email<input type="email" value={email} onChange={e => setEmail(e.target.value)} /></label>
               <label>Phone<input value={phone} onChange={e => setPhone(e.target.value)} /></label>
-              <label className="ga-form-full">Notes<textarea value={notes} onChange={e => setNotes(e.target.value)} /></label>
+              <label className="ga-form-full">Notes<textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Flight number, special requests, pickup time…" /></label>
             </div>
 
             <div className="ga-booking-summary">
