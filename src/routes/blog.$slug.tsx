@@ -61,7 +61,7 @@ function BlogPost() {
 
       <div className="container ga-blog-article-body">
         <p className="ga-blog-lead">{post.excerpt}</p>
-        {post.body.map((para, i) => (
+        {post.body.map((para: string, i: number) => (
           <p key={i}>{para}</p>
         ))}
 
