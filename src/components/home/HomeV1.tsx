@@ -421,13 +421,24 @@ function GhanadaHome() {
           <div className="vehicle-grid rental-grid">
             {(dbRentals && dbRentals.length > 0
               ? dbRentals.map((r: any) => (
-                  <div key={r.id} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
-                     <div className="vimg" onClick={() => openRental(r.id)} style={{ cursor: "pointer" }}><img src={r.image_url || rentalsFallback[0].img} alt={r.name} /></div>
+                  <div key={r.id} className="vcard rental-card">
+                    <Link to="/rentals/$id" params={{ id: r.id }} className="vimg rental-image-link" aria-label={`View ${r.name} rental details`}>
+                      <img src={r.image_url || rentalsFallback[0].img} alt={r.name} />
+                    </Link>
                     <div className="vbody">
-                       <h4><Link to="/rentals/$id" params={{ id: r.id }} className="ga-link-plain">{r.name}</Link></h4>
-                      <div className="vprice">GHS {Number(r.daily_rate).toFixed(2)} / day</div>
+                      <div className="rental-card-head">
+                        {r.vehicle_type && <span className="rental-type-pill">{r.vehicle_type}</span>}
+                        <h4 className="rental-title">
+                          <Link to="/rentals/$id" params={{ id: r.id }} className="rental-title-link">
+                            {r.name}
+                          </Link>
+                        </h4>
+                      </div>
+                      <div className="rental-rate">
+                        <span>Daily rental</span>
+                        <strong>GHS {Number(r.daily_rate).toFixed(2)}</strong>
+                      </div>
                       <div className="vmeta">
-                        {r.vehicle_type && <span>🚗 {r.vehicle_type}</span>}
                         {r.seats && <span>👤 {r.seats} seats</span>}
                         {r.transmission && <span>⚙️ {r.transmission}</span>}
                         {r.fuel && <span>⛽ {r.fuel}</span>}
@@ -440,12 +451,18 @@ function GhanadaHome() {
                 ))
               : rentalsLoading ? (
                 <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center", color: "rgba(255,255,255,.86)" }}>Loading rental cars…</p>
-              ) : rentalsFallback.map((r) => (
-                  <div key={r.name} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
+                ) : rentalsFallback.map((r) => (
+                  <div key={r.name} className="vcard rental-card">
                     <div className="vimg"><img src={r.img} alt={r.name} /></div>
                     <div className="vbody">
-                      <h4>{r.name}</h4>
-                      <div className="vprice">{r.price}</div>
+                      <div className="rental-card-head">
+                        <span className="rental-type-pill">Rental Car</span>
+                        <h4 className="rental-title">{r.name}</h4>
+                      </div>
+                      <div className="rental-rate">
+                        <span>Daily rental</span>
+                        <strong>{r.price.replace(" / day", "")}</strong>
+                      </div>
                       <div className="vmeta"><span>👤 {r.seats}</span><span>⚙️ {r.trans}</span><span>⛽ {r.fuel}</span></div>
                       <div className="vactions">
                         <a className="btn btn-primary" style={{ width: "100%", textAlign: "center" }} href="#quote">Book this rental</a>
