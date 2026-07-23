@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { addToCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/parts/$id")({
   head: ({ params }) => ({
@@ -44,24 +45,24 @@ function PartDetail() {
   const displayStock = chosen ? chosen.stock : part?.stock ?? 0;
   const displayImage = chosen?.image_url || part?.image_url;
 
-  const addToCart = async () => {
-    if (variations && variations.length > 0 && !variationId) { toast.error("Choose a variation"); return; }
+  const handleAdd = async (goToCheckout: boolean) => {
+    if (variations && variations.length > 0 && !variationId) { toast.error("Choose an option"); return; }
     if (qty < 1 || qty > displayStock) { toast.error("Invalid quantity"); return; }
-    const { data: u } = await supabase.auth.getUser();
-    if (!u.user) {
-      // guest — buy now flow
-      const cart = JSON.parse(localStorage.getItem("guest_cart") || "[]");
-      cart.push({ item_type: "part", part_id: id, variation_id: variationId, quantity: qty, name: (chosen ? `${part!.name} — ${chosen.label}` : part!.name), unit_price: displayPrice });
-      localStorage.setItem("guest_cart", JSON.stringify(cart));
+    try {
+      await addToCart({
+        item_type: "part",
+        part_id: id,
+        variation_id: variationId || null,
+        quantity: qty,
+        name: chosen ? `${part!.name} — ${chosen.label}` : part!.name,
+        unit_price: displayPrice,
+        image_url: displayImage || null,
+      });
       toast.success("Added to cart");
-      navigate({ to: "/checkout" });
-      return;
+      if (goToCheckout) navigate({ to: "/checkout" });
+    } catch (e: any) {
+      toast.error(e.message || "Could not add to cart");
     }
-    const { error } = await supabase.from("cart_items").insert({
-      user_id: u.user.id, item_type: "part", part_id: id, variation_id: variationId, quantity: qty,
-    });
-    if (error) return toast.error(error.message);
-    toast.success("Added to cart");
   };
 
   if (isLoading) return <div className="ga-app-main"><p className="ga-muted">Loading…</p></div>;
@@ -118,10 +119,12 @@ function PartDetail() {
           </div>
 
           <div className="ga-detail-actions">
-            <button className="ga-btn-primary" onClick={addToCart} disabled={displayStock < 1}>
-              {displayStock < 1 ? "Out of stock" : "Add to Cart"}
+            <button className="ga-btn-primary" onClick={() => handleAdd(true)} disabled={displayStock < 1}>
+              {displayStock < 1 ? "Out of stock" : "Buy Now"}
             </button>
-            <Link to="/checkout" className="ga-btn-ghost">Go to checkout</Link>
+            <button className="ga-btn-ghost" onClick={() => handleAdd(false)} disabled={displayStock < 1}>
+              Add to Cart
+            </button>
           </div>
 
           <div className="ga-detail-meta">

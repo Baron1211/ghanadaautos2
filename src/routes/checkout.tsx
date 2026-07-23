@@ -16,10 +16,11 @@ export const Route = createFileRoute("/checkout")({
 
 type LineItem = {
   key: string;
-  item_type: "part" | "rental";
+  item_type: "part" | "rental" | "vehicle";
   part_id?: string | null;
   rental_id?: string | null;
   variation_id?: string | null;
+  vehicle_id?: string | null;
   name: string;
   unit_price: number;
   quantity: number;
@@ -48,22 +49,29 @@ function Checkout() {
       if (uid) {
         setEmail(data.user!.email || "");
         const [{ data: cart }, { data: profile }] = await Promise.all([
-          supabase.from("cart_items")
-            .select("*, part:parts(name, price), variation:part_variations(label, price), rental:rentals(name, daily_rate)")
+          (supabase as any).from("cart_items")
+            .select("*, part:parts(name, price, image_url), variation:part_variations(label, price), rental:rentals(name, daily_rate, image_url), vehicle:vehicles(name, price, image_url)")
             .eq("user_id", uid),
           supabase.from("profiles").select("full_name, phone, address").eq("id", uid).maybeSingle(),
         ]);
         if (profile) { setName(profile.full_name || ""); setPhone(profile.phone || ""); setAddress(profile.address || ""); }
         setItems((cart || []).map((c: any) => {
           const isPart = c.item_type === "part";
-          const unit = isPart ? Number(c.variation?.price ?? c.part?.price ?? 0) : Number(c.rental?.daily_rate ?? 0);
+          const isVehicle = c.item_type === "vehicle";
+          const unit = isPart
+            ? Number(c.variation?.price ?? c.part?.price ?? 0)
+            : isVehicle
+              ? Number(c.vehicle?.price ?? 0)
+              : Number(c.rental?.daily_rate ?? 0);
           return {
             key: c.id,
             item_type: c.item_type,
-            part_id: c.part_id, rental_id: c.rental_id, variation_id: c.variation_id,
+            part_id: c.part_id, rental_id: c.rental_id, variation_id: c.variation_id, vehicle_id: c.vehicle_id,
             name: isPart
               ? (c.variation ? `${c.part?.name} — ${c.variation.label}` : c.part?.name || "Part")
-              : c.rental?.name || "Rental",
+              : isVehicle
+                ? c.vehicle?.name || "Vehicle"
+                : c.rental?.name || "Rental",
             unit_price: unit,
             quantity: c.quantity,
             rental_days: c.rental_days,
@@ -78,9 +86,22 @@ function Checkout() {
     })();
   }, []);
 
-  const subtotal = items.reduce((s, i) => s + i.unit_price * (i.item_type === "part" ? i.quantity : (i.rental_days || 1)), 0);
+  const lineUnits = (i: LineItem) =>
+    i.item_type === "rental" ? (i.rental_days || 1) : i.quantity;
+  const subtotal = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
 
-  const removeItem = (key: string) => setItems(items.filter(i => i.key !== key));
+  const removeItem = async (key: string) => {
+    setItems(items.filter(i => i.key !== key));
+    if (userId && !key.startsWith("g")) {
+      await supabase.from("cart_items").delete().eq("id", key);
+    } else if (!userId) {
+      const idx = Number(key.replace(/^g/, ""));
+      const cart = JSON.parse(localStorage.getItem("guest_cart") || "[]") as any[];
+      cart.splice(idx, 1);
+      localStorage.setItem("guest_cart", JSON.stringify(cart));
+    }
+    window.dispatchEvent(new Event("cart:changed"));
+  };
 
   const place = async () => {
     if (!items.length) return;
@@ -98,13 +119,14 @@ function Checkout() {
       if (error) throw error;
 
       const rows = items.map(i => {
-        const qtyForTotal = i.item_type === "part" ? i.quantity : (i.rental_days || 1);
+        const qtyForTotal = lineUnits(i);
         return {
           order_id: order.id,
           item_type: i.item_type,
           part_id: i.part_id || null,
           rental_id: i.rental_id || null,
           variation_id: i.variation_id || null,
+          vehicle_id: i.vehicle_id || null,
           name: i.name,
           unit_price: i.unit_price,
           quantity: i.quantity,
@@ -118,6 +140,7 @@ function Checkout() {
 
       if (userId) await supabase.from("cart_items").delete().eq("user_id", userId);
       else localStorage.removeItem("guest_cart");
+      window.dispatchEvent(new Event("cart:changed"));
 
       if (payment === "paystack") {
         toast.info("Paystack integration coming soon — we'll contact you to complete payment.");
@@ -177,21 +200,25 @@ function Checkout() {
         <div className="ga-checkout-summary">
           <h3>Order summary</h3>
           {items.map(i => {
-            const qtyForTotal = i.item_type === "part" ? i.quantity : (i.rental_days || 1);
+            const qtyForTotal = lineUnits(i);
             return (
               <div key={i.key} className="ga-summary-row">
                 <div>
                   <strong>{i.name}</strong>
-                  <small>{i.item_type === "part" ? `Qty: ${i.quantity}` : `${i.rental_days} days`} · GHS {i.unit_price.toFixed(2)} {i.item_type === "rental" ? "/ day" : "each"}</small>
+                  <small>
+                    {i.item_type === "rental"
+                      ? `${i.rental_days || 1} days`
+                      : `Qty: ${i.quantity}`} · GHS {i.unit_price.toLocaleString()} {i.item_type === "rental" ? "/ day" : "each"}
+                  </small>
                 </div>
                 <div>
-                  <span>GHS {(i.unit_price * qtyForTotal).toFixed(2)}</span>
+                  <span>GHS {(i.unit_price * qtyForTotal).toLocaleString()}</span>
                   <button className="ga-cart-remove" onClick={() => removeItem(i.key)}>×</button>
                 </div>
               </div>
             );
           })}
-          <div className="ga-summary-total"><span>Total</span><strong>GHS {subtotal.toFixed(2)}</strong></div>
+          <div className="ga-summary-total"><span>Total</span><strong>GHS {subtotal.toLocaleString()}</strong></div>
           <button className="ga-btn-primary" onClick={place} disabled={placing}>
             {placing ? "Placing order…" : "Place order"}
           </button>

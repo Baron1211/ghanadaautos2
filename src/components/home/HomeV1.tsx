@@ -2,6 +2,8 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { addToCart } from "@/lib/cart";
+import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
@@ -95,6 +97,46 @@ function GhanadaHome() {
   const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
   const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
   const openVehicle = (id: string) => navigate({ to: "/vehicles/$id", params: { id } });
+
+  const quickAddVehicle = async (v: any, buyNow: boolean) => {
+    try {
+      await addToCart({
+        item_type: "vehicle",
+        vehicle_id: v.id,
+        quantity: 1,
+        name: v.name,
+        unit_price: Number(v.price),
+        image_url: v.image_url,
+      });
+      toast.success(buyNow ? "Proceeding to checkout" : "Added to cart");
+      if (buyNow) navigate({ to: "/checkout" });
+    } catch (e: any) {
+      toast.error(e.message || "Could not add to cart");
+    }
+  };
+
+  const quickAddPart = async (p: any, buyNow: boolean) => {
+    // If part has variations, force user into the detail page to pick one
+    const { data: vars } = await supabase.from("part_variations").select("id").eq("part_id", p.id).eq("active", true).limit(1);
+    if (vars && vars.length > 0) {
+      navigate({ to: "/parts/$id", params: { id: p.id } });
+      return;
+    }
+    try {
+      await addToCart({
+        item_type: "part",
+        part_id: p.id,
+        quantity: 1,
+        name: p.name,
+        unit_price: Number(p.price),
+        image_url: p.image_url,
+      });
+      toast.success(buyNow ? "Proceeding to checkout" : "Added to cart");
+      if (buyNow) navigate({ to: "/checkout" });
+    } catch (e: any) {
+      toast.error(e.message || "Could not add to cart");
+    }
+  };
 
   return (
     <div className="ga">
@@ -288,9 +330,10 @@ function GhanadaHome() {
                     {v.transmission && <span>⚙️ {v.transmission}</span>}
                   </div>
                   <div className="vactions">
-                    <button className="btn btn-ghost" onClick={() => openVehicle(v.id)}>View Details</button>
-                    <button className="btn btn-primary" onClick={() => openVehicle(v.id)}>Reserve</button>
+                    <button className="btn btn-ghost" onClick={() => quickAddVehicle(v, false)} aria-label="Add to cart">🛒 Add</button>
+                    <button className="btn btn-primary" onClick={() => quickAddVehicle(v, true)}>Buy Now</button>
                   </div>
+                  <button className="vcard-details" onClick={() => openVehicle(v.id)}>View full details →</button>
                 </div>
               </div>
             ))}
@@ -334,10 +377,13 @@ function GhanadaHome() {
                   <div key={p.id} className="part-card">
                     <div className="pimg"><img src={p.image_url || partsFallback[0].img} alt={p.name} /></div>
                     <div className="part-body">
-                      <h5>{p.name}</h5>
+                      <h5 className="part-title" onClick={() => openPart(p.id)}>{p.name}</h5>
                       <div className="stars">★★★★★</div>
                       <div className="part-price">GHS {Number(p.price).toFixed(2)}</div>
-                      <button className="add-cart" onClick={() => openPart(p.id)}>View & Buy</button>
+                      <div className="part-actions">
+                        <button className="part-add" onClick={() => quickAddPart(p, false)} aria-label="Add to cart">🛒</button>
+                        <button className="add-cart" onClick={() => quickAddPart(p, true)}>Buy Now</button>
+                      </div>
                     </div>
                   </div>
                 ))
