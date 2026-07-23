@@ -426,7 +426,12 @@ function GhanadaHome() {
                     <div className="vbody">
                        <h4><Link to="/rentals/$id" params={{ id: r.id }} className="ga-link-plain">{r.name}</Link></h4>
                       <div className="vprice">GHS {Number(r.daily_rate).toFixed(2)} / day</div>
-                      <div className="vmeta"><span>{r.vehicle_type || "Vehicle"}</span></div>
+                      <div className="vmeta">
+                        {r.vehicle_type && <span>🚗 {r.vehicle_type}</span>}
+                        {r.seats && <span>👤 {r.seats} seats</span>}
+                        {r.transmission && <span>⚙️ {r.transmission}</span>}
+                        {r.fuel && <span>⛽ {r.fuel}</span>}
+                      </div>
                       <div className="vactions">
                         <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => openRental(r.id)}>Book Now</button>
                       </div>
