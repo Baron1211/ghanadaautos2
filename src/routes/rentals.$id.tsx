@@ -104,6 +104,22 @@ function RentalDetail() {
           <div className="ga-detail-price">GHS {rate.toFixed(2)} / day</div>
           <p className="ga-detail-desc">{rental.description || "Ready for pickup at Toronto or Takoradi."}</p>
 
+          {(rental.seats || rental.transmission || rental.fuel) && (
+            <div className="ga-shop-specs" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(120px,1fr))", gap: 12, margin: "16px 0" }}>
+              {rental.seats && <div><small>Seats</small><strong>👤 {rental.seats}</strong></div>}
+              {rental.transmission && <div><small>Transmission</small><strong>⚙️ {rental.transmission}</strong></div>}
+              {rental.fuel && <div><small>Fuel</small><strong>⛽ {rental.fuel}</strong></div>}
+            </div>
+          )}
+          {Array.isArray(rental.features) && rental.features.length > 0 && (
+            <div>
+              <h3 style={{ marginTop: 8 }}>Features</h3>
+              <div className="ga-shop-features">
+                {(rental.features as any[]).map((f: any) => <span key={String(f)} className="ga-shop-feature">✓ {String(f)}</span>)}
+              </div>
+            </div>
+          )}
+
           <div className="ga-booking-form">
             <h3>Book this vehicle</h3>
             <div className="ga-form-grid">

@@ -568,10 +568,14 @@ export type Database = {
           created_at: string
           daily_rate: number
           description: string | null
+          features: Json
+          fuel: string | null
           id: string
           image_url: string | null
           images: Json
           name: string
+          seats: number | null
+          transmission: string | null
           updated_at: string
           vehicle_type: string | null
         }
@@ -580,10 +584,14 @@ export type Database = {
           created_at?: string
           daily_rate: number
           description?: string | null
+          features?: Json
+          fuel?: string | null
           id?: string
           image_url?: string | null
           images?: Json
           name: string
+          seats?: number | null
+          transmission?: string | null
           updated_at?: string
           vehicle_type?: string | null
         }
@@ -592,10 +600,14 @@ export type Database = {
           created_at?: string
           daily_rate?: number
           description?: string | null
+          features?: Json
+          fuel?: string | null
           id?: string
           image_url?: string | null
           images?: Json
           name?: string
+          seats?: number | null
+          transmission?: string | null
           updated_at?: string
           vehicle_type?: string | null
         }
