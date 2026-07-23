@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { ImageGalleryEditor } from "@/components/admin/ImageGalleryEditor";
+import { GalleryImage, normalizeImages, serializeImages } from "@/lib/images";
 
 export const Route = createFileRoute("/_authenticated/admin/parts")({
   component: AdminParts,
@@ -10,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/admin/parts")({
 
 function AdminParts() {
   const qc = useQueryClient();
-  const emptyForm = { name: "", description: "", brand: "", category: "", brand_id: "", category_id: "", price: "", stock: "", low_stock_threshold: "5", image_url: "", images: [] as string[] };
+  const emptyForm = { name: "", description: "", brand: "", category: "", brand_id: "", category_id: "", price: "", stock: "", low_stock_threshold: "5", image_url: "", images: [] as GalleryImage[] };
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -39,34 +41,13 @@ function AdminParts() {
 
   const reset = () => { setForm(emptyForm); setEditingId(null); };
 
-  const uploadImage = async (file: File): Promise<string | null> => {
-    const path = `${Date.now()}-${file.name}`;
-    const { error } = await supabase.storage.from("product-images").upload(path, file);
-    if (error) { toast.error(error.message); return null; }
-    const { data } = await supabase.storage.from("product-images").createSignedUrl(path, 60 * 60 * 24 * 365);
-    return data?.signedUrl || null;
-  };
-  const addImages = async (files: FileList) => {
-    const urls: string[] = [];
-    for (const f of Array.from(files)) {
-      const u = await uploadImage(f);
-      if (u) urls.push(u);
-    }
-    if (urls.length) setForm(f => ({ ...f, image_url: f.image_url || urls[0], images: [...f.images, ...urls] }));
-  };
-  const removeImage = (url: string) => setForm(f => ({
-    ...f,
-    images: f.images.filter(u => u !== url),
-    image_url: f.image_url === url ? (f.images.filter(u => u !== url)[0] || "") : f.image_url,
-  }));
-
   const save = async () => {
     const payload: any = {
       name: form.name, description: form.description, brand: form.brand, category: form.category,
       brand_id: form.brand_id || null, category_id: form.category_id || null,
       price: Number(form.price), stock: Number(form.stock), image_url: form.image_url,
       low_stock_threshold: Number(form.low_stock_threshold || 5),
-      images: form.images,
+      images: serializeImages(form.images),
     };
     if (editingId) {
       const { error } = await supabase.from("parts").update(payload).eq("id", editingId);
@@ -89,7 +70,7 @@ function AdminParts() {
       price: String(p.price), stock: String(p.stock),
       low_stock_threshold: String(p.low_stock_threshold ?? 5),
       image_url: p.image_url || "",
-      images: Array.isArray(p.images) ? p.images : (p.image_url ? [p.image_url] : []),
+      images: normalizeImages(p.images, p.image_url),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -171,19 +152,15 @@ function AdminParts() {
           <label>Stock<input type="number" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} /></label>
           <label>Low-stock alert at<input type="number" value={form.low_stock_threshold} onChange={e => setForm({ ...form, low_stock_threshold: e.target.value })} /></label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
-          <label className="ga-form-full">Images (first is primary)
-            <input type="file" accept="image/*" multiple onChange={e => e.target.files && addImages(e.target.files)} />
-            {form.images.length > 0 && (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
-                {form.images.map(url => (
-                  <div key={url} style={{ position: "relative" }}>
-                    <img src={url} alt="" style={{ height: 90, borderRadius: 8, border: form.image_url === url ? "3px solid #0F8A5F" : "1px solid #ddd", cursor: "pointer" }} onClick={() => setForm(f => ({ ...f, image_url: url }))} />
-                    <button type="button" onClick={() => removeImage(url)} style={{ position: "absolute", top: -6, right: -6, background: "#e11", color: "#fff", border: 0, borderRadius: "50%", width: 22, height: 22, cursor: "pointer" }}>×</button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </label>
+          <div className="ga-form-full">
+            <label>Images (up to 20, first is primary, add captions per image)</label>
+            <ImageGalleryEditor
+              images={form.images}
+              primaryUrl={form.image_url}
+              onChange={(images, primary) => setForm(f => ({ ...f, images, image_url: primary }))}
+              bucketPrefix="part"
+            />
+          </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <button className="ga-btn-primary" onClick={save} disabled={!form.name || !form.price}>{editingId ? "Update" : "Add part"}</button>

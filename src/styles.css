@@ -2781,3 +2781,20 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 .ga-link-plain { color: inherit; text-decoration: none; }
 .ga-link-plain:hover { color: #0F8A5F; }
 
+
+/* Admin: image gallery editor */
+.ga-gallery-editor { display: block; }
+.ga-gallery-meta { margin: 6px 0 10px; color: #64748b; }
+.ga-gallery-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 8px; }
+.ga-gallery-item { position: relative; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; display: flex; flex-direction: column; gap: 6px; }
+.ga-gallery-item.primary { border-color: #0F8A5F; box-shadow: 0 0 0 2px rgba(15,138,95,.15); }
+.ga-gallery-item img { width: 100%; height: 110px; object-fit: cover; border-radius: 6px; cursor: pointer; background: #f1f5f9; }
+.ga-gallery-item input[type="text"] { width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid #e2e8f0; border-radius: 6px; }
+.ga-gallery-actions { display: flex; gap: 4px; justify-content: space-between; }
+.ga-gallery-actions button { flex: 1; padding: 4px; font-size: 12px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; }
+.ga-gallery-actions button.ga-danger { background: #fee2e2; border-color: #fca5a5; color: #b91c1c; }
+.ga-gallery-badge { position: absolute; top: 8px; left: 8px; background: #0F8A5F; color: #fff; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+
+/* Product page: caption overlay */
+.ga-shop-caption { position: absolute; left: 12px; bottom: 12px; background: rgba(15,23,42,.78); color: #fff; padding: 6px 12px; border-radius: 999px; font-size: 13px; max-width: calc(100% - 24px); }
+.ga-shop-caption-static { display: inline-block; margin-top: 10px; padding: 6px 12px; background: #f1f5f9; color: #334155; border-radius: 8px; font-size: 13px; }

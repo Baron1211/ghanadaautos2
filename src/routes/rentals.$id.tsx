@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { normalizeImages } from "@/lib/images";
 
 export const Route = createFileRoute("/rentals/$id")({
   head: () => ({
@@ -37,6 +38,7 @@ function RentalDetail() {
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   const { data: rental, isLoading } = useQuery({
     queryKey: ["rental", id],
@@ -91,12 +93,30 @@ function RentalDetail() {
     </div>
   );
 
+  const gallery = normalizeImages(rental.images, rental.image_url);
+  const active = gallery[activeIdx] || gallery[0] || { url: rental.image_url || "/favicon.ico", caption: "" };
+
   return (
     <div className="ga-detail">
       <div className="ga-detail-nav"><Link to="/">← Back to rentals</Link></div>
       <div className="ga-detail-grid">
         <div className="ga-detail-media">
-          <img src={rental.image_url || "/favicon.ico"} alt={rental.name} />
+          <img src={active.url} alt={active.caption || rental.name} />
+          {active.caption && <div className="ga-shop-caption ga-shop-caption-static">{active.caption}</div>}
+          {gallery.length > 1 && (
+            <div className="ga-shop-thumbs" style={{ marginTop: 10 }}>
+              {gallery.slice(0, 20).map((img, i) => (
+                <button
+                  key={img.url + i}
+                  className={`ga-shop-thumb ${activeIdx === i ? "active" : ""}`}
+                  onClick={() => setActiveIdx(i)}
+                  title={img.caption || ""}
+                >
+                  <img src={img.url} alt={img.caption || ""} />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="ga-detail-body">
           <div className="ga-detail-eyebrow">{rental.vehicle_type || "Rental"}</div>
