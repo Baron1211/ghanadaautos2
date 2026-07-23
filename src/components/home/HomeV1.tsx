@@ -2,7 +2,6 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
