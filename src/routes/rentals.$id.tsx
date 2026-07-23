@@ -149,24 +149,36 @@ function RentalDetail() {
                 className={`ga-driver-card ${!withDriver ? "selected" : ""}`}
                 onClick={() => setWithDriver(false)}
               >
-                <div className="ga-driver-icon" aria-hidden>🚗</div>
-                <div>
-                  <strong>Self-drive</strong>
-                  <small>Pick up the keys and go — valid licence required.</small>
+                <div className="ga-driver-head">
+                  <div className="ga-driver-icon" aria-hidden>🚗</div>
+                  <div className="ga-driver-title">
+                    <span className="ga-driver-tag">Most popular</span>
+                    <strong>Self-drive</strong>
+                  </div>
                 </div>
-                <span className="ga-driver-price">Included</span>
+                <small>Grab the keys and hit the road on your own schedule. A valid driver's licence is all you need.</small>
+                <div className="ga-driver-foot">
+                  <span className="ga-driver-price">Included <em>in daily rate</em></span>
+                  <span className="ga-driver-check" aria-hidden>✓</span>
+                </div>
               </button>
               <button
                 type="button"
                 className={`ga-driver-card ${withDriver ? "selected" : ""}`}
                 onClick={() => setWithDriver(true)}
               >
-                <div className="ga-driver-icon" aria-hidden>🧑‍✈️</div>
-                <div>
-                  <strong>Driver on request</strong>
-                  <small>We assign a vetted driver for your trip.</small>
+                <div className="ga-driver-head">
+                  <div className="ga-driver-icon" aria-hidden>🧑‍✈️</div>
+                  <div className="ga-driver-title">
+                    <span className="ga-driver-tag">Sit back & relax</span>
+                    <strong>With a driver</strong>
+                  </div>
                 </div>
-                <span className="ga-driver-price">+ GHS {driverFee.toFixed(2)} / day</span>
+                <small>We pair you with a vetted, professional driver so you can focus on the trip — perfect for airport runs and long routes.</small>
+                <div className="ga-driver-foot">
+                  <span className="ga-driver-price">+ GHS {driverFee.toFixed(2)} <em>/ day</em></span>
+                  <span className="ga-driver-check" aria-hidden>✓</span>
+                </div>
               </button>
             </div>
 
