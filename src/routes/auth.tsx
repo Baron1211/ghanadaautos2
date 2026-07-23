@@ -125,7 +125,7 @@ function AuthPage() {
               import in one place — from Toronto to Takoradi.
             </p>
             <ul className="ga-auth-hero-features">
-              <li><span className="dot">✓</span> Book self-drive or chauffeured rentals in seconds</li>
+              <li><span className="dot">✓</span> Book self-drive rentals or request a driver in seconds</li>
               <li><span className="dot">✓</span> Track parts orders and reorder with one tap</li>
               <li><span className="dot">✓</span> Manage Canada imports and clearing from your dashboard</li>
             </ul>
