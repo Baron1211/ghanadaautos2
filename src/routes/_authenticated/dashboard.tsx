@@ -35,9 +35,13 @@ function Dashboard() {
         .eq("user_id", data.user.id)
         .eq("role", "admin")
         .maybeSingle();
-      setIsAdmin(!!r);
+      if (r) {
+        navigate({ to: "/admin", replace: true });
+        return;
+      }
+      setIsAdmin(false);
     });
-  }, []);
+  }, [navigate]);
 
   const signOut = async () => {
     await qc.cancelQueries();
