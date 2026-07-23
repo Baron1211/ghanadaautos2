@@ -261,12 +261,41 @@ function GhanadaHome() {
             <h2>Find your next car</h2>
           </div>
           <div className="filter-tabs">
-            {["All", "SUV", "Sedan", "Luxury", "Pickup", "Electric", "Commercial"].map((t, i) => (
-              <button key={t} className={i === 0 ? "active" : ""}>{t}</button>
+            {["All", "SUV", "Sedan", "Luxury", "Pickup", "Electric", "Commercial"].map((t) => (
+              <button key={t} className={vehicleFilter === t ? "active" : ""} onClick={() => setVehicleFilter(t)}>{t}</button>
             ))}
           </div>
           <div className="vehicle-grid">
-            {vehicles.map((v) => (
+            {(dbVehicles && dbVehicles.length > 0
+              ? (dbVehicles as any[]).filter((v) => vehicleFilter === "All" || v.body_type === vehicleFilter)
+              : []
+            ).map((v: any) => (
+              <div key={v.id} className="vcard">
+                <div className="vimg">
+                  {v.finance_available && <span className="finance-tag">Finance Available</span>}
+                  <span className="fav-btn">♡</span>
+                  <img src={v.image_url || vehicles[0].img} alt={v.name} />
+                </div>
+                <div className="vbody">
+                  <h4>{v.name}</h4>
+                  <div className="vprice">GHS {Number(v.price).toLocaleString()}</div>
+                  <div className="vmeta">
+                    {v.year && <span>📅 {v.year}</span>}
+                    {v.mileage_km ? <span>🛣️ {Number(v.mileage_km).toLocaleString()} km</span> : null}
+                    {v.fuel && <span>⛽ {v.fuel}</span>}
+                    {v.transmission && <span>⚙️ {v.transmission}</span>}
+                  </div>
+                  <div className="vactions">
+                    <button className="btn btn-ghost" onClick={() => openVehicle(v.id)}>View Details</button>
+                    <button className="btn btn-primary" onClick={() => openVehicle(v.id)}>Reserve</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {dbVehicles && dbVehicles.length > 0 && (dbVehicles as any[]).filter((v) => vehicleFilter === "All" || v.body_type === vehicleFilter).length === 0 && (
+              <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>No {vehicleFilter} vehicles right now. Try another category.</p>
+            )}
+            {(!dbVehicles || dbVehicles.length === 0) && vehicles.map((v) => (
               <div key={v.name} className="vcard">
                 <div className="vimg">
                   {v.finance && <span className="finance-tag">Finance Available</span>}
@@ -277,14 +306,10 @@ function GhanadaHome() {
                   <h4>{v.name}</h4>
                   <div className="vprice">{v.price}</div>
                   <div className="vmeta">
-                    <span>📅 {v.year}</span>
-                    <span>🛣️ {v.miles}</span>
-                    <span>⛽ {v.fuel}</span>
-                    <span>⚙️ {v.trans}</span>
+                    <span>📅 {v.year}</span><span>🛣️ {v.miles}</span><span>⛽ {v.fuel}</span><span>⚙️ {v.trans}</span>
                   </div>
                   <div className="vactions">
-                    <a className="btn btn-ghost">View Details</a>
-                    <a className="btn btn-primary">Reserve</a>
+                    <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => toast("Demo listing — admin can add live inventory")}>Preview</button>
                   </div>
                 </div>
               </div>
