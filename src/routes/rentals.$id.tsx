@@ -158,7 +158,7 @@ function RentalDetail() {
                 <small>Grab the keys and hit the road on your own schedule. A valid driver's licence is all you need.</small>
                 <div className="ga-driver-foot">
                   <span className="ga-driver-price">Included <em>in daily rate</em></span>
-                  <span className="ga-driver-check" aria-hidden>✓</span>
+                  <span className="ga-driver-check" aria-hidden></span>
                 </div>
               </button>
               <button
