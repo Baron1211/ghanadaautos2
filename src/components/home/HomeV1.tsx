@@ -2,7 +2,6 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
@@ -67,24 +66,27 @@ function GhanadaHome() {
   }, [menuOpen]);
   const closeMenu = () => setMenuOpen(false);
 
-  const { data: dbParts } = useQuery({
+  const { data: dbParts, isLoading: partsLoading } = useQuery({
     queryKey: ["home-parts"],
     queryFn: async () => {
-      const { data } = await supabase.from("parts").select("*").eq("active", true).limit(8);
+      const { data, error } = await supabase.from("parts").select("*").eq("active", true).limit(8);
+      if (error) throw error;
       return data || [];
     },
   });
-  const { data: dbRentals } = useQuery({
+  const { data: dbRentals, isLoading: rentalsLoading } = useQuery({
     queryKey: ["home-rentals"],
     queryFn: async () => {
-      const { data } = await supabase.from("rentals").select("*").eq("active", true).limit(8);
+      const { data, error } = await supabase.from("rentals").select("*").eq("active", true).limit(8);
+      if (error) throw error;
       return data || [];
     },
   });
-  const { data: dbVehicles } = useQuery({
+  const { data: dbVehicles, isLoading: vehiclesLoading } = useQuery({
     queryKey: ["home-vehicles"],
     queryFn: async () => {
-      const { data } = await (supabase as any).from("vehicles").select("*").eq("active", true).order("featured", { ascending: false }).limit(12);
+      const { data, error } = await (supabase as any).from("vehicles").select("*").eq("active", true).order("featured", { ascending: false }).limit(12);
+      if (error) throw error;
       return data || [];
     },
   });
@@ -295,7 +297,8 @@ function GhanadaHome() {
             {dbVehicles && dbVehicles.length > 0 && (dbVehicles as any[]).filter((v) => vehicleFilter === "All" || v.body_type === vehicleFilter).length === 0 && (
               <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>No {vehicleFilter} vehicles right now. Try another category.</p>
             )}
-            {(!dbVehicles || dbVehicles.length === 0) && vehicles.map((v) => (
+            {vehiclesLoading && <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>Loading available cars…</p>}
+            {!vehiclesLoading && (!dbVehicles || dbVehicles.length === 0) && vehicles.map((v) => (
               <div key={v.name} className="vcard">
                 <div className="vimg">
                   {v.finance && <span className="finance-tag">Finance Available</span>}
@@ -309,7 +312,7 @@ function GhanadaHome() {
                     <span>📅 {v.year}</span><span>🛣️ {v.miles}</span><span>⛽ {v.fuel}</span><span>⚙️ {v.trans}</span>
                   </div>
                   <div className="vactions">
-                    <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => toast("Demo listing — admin can add live inventory")}>Preview</button>
+                    <a className="btn btn-primary" style={{ width: "100%", textAlign: "center" }} href="#quote">Reserve this car</a>
                   </div>
                 </div>
               </div>
@@ -338,14 +341,16 @@ function GhanadaHome() {
                     </div>
                   </div>
                 ))
-              : partsFallback.map((p) => (
+              : partsLoading ? (
+                <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>Loading parts for checkout…</p>
+              ) : partsFallback.map((p) => (
                   <div key={p.name} className="part-card">
                     <div className="pimg"><img src={p.img} alt={p.name} /></div>
                     <div className="part-body">
                       <h5>{p.name}</h5>
                       <div className="stars">{p.stars}</div>
                       <div className="part-price">{p.price}</div>
-                      <button className="add-cart" onClick={() => toast("No live products yet — please check back soon.")}>Notify me</button>
+                      <a className="add-cart" href="#quote">Request this part</a>
                     </div>
                   </div>
                 )))}
@@ -381,7 +386,9 @@ function GhanadaHome() {
                     </div>
                   </div>
                 ))
-              : rentalsFallback.map((r) => (
+              : rentalsLoading ? (
+                <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center", color: "rgba(255,255,255,.86)" }}>Loading rental cars…</p>
+              ) : rentalsFallback.map((r) => (
                   <div key={r.name} className="vcard" style={{ background: "rgba(255,255,255,.97)" }}>
                     <div className="vimg"><img src={r.img} alt={r.name} /></div>
                     <div className="vbody">
@@ -389,7 +396,7 @@ function GhanadaHome() {
                       <div className="vprice">{r.price}</div>
                       <div className="vmeta"><span>👤 {r.seats}</span><span>⚙️ {r.trans}</span><span>⛽ {r.fuel}</span></div>
                       <div className="vactions">
-                        <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => toast("No live rentals yet — please check back soon.")}>Notify me</button>
+                        <a className="btn btn-primary" style={{ width: "100%", textAlign: "center" }} href="#quote">Book this rental</a>
                       </div>
                     </div>
                   </div>
