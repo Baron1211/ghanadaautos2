@@ -620,6 +620,134 @@ export type Database = {
         }
         Relationships: []
       }
+      vehicle_reservations: {
+        Row: {
+          created_at: string
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          id: string
+          intent: string
+          notes: string | null
+          preferred_date: string | null
+          reservation_number: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          id?: string
+          intent?: string
+          notes?: string | null
+          preferred_date?: string | null
+          reservation_number?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          guest_email?: string
+          guest_name?: string
+          guest_phone?: string
+          id?: string
+          intent?: string
+          notes?: string | null
+          preferred_date?: string | null
+          reservation_number?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vehicle_reservations_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vehicles: {
+        Row: {
+          active: boolean | null
+          body_type: string | null
+          brand: string | null
+          color: string | null
+          created_at: string
+          description: string | null
+          featured: boolean | null
+          features: Json | null
+          finance_available: boolean | null
+          fuel: string | null
+          id: string
+          image_url: string | null
+          images: Json | null
+          mileage_km: number | null
+          model: string | null
+          name: string
+          price: number
+          seats: number | null
+          transmission: string | null
+          updated_at: string
+          year: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          body_type?: string | null
+          brand?: string | null
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          features?: Json | null
+          finance_available?: boolean | null
+          fuel?: string | null
+          id?: string
+          image_url?: string | null
+          images?: Json | null
+          mileage_km?: number | null
+          model?: string | null
+          name: string
+          price?: number
+          seats?: number | null
+          transmission?: string | null
+          updated_at?: string
+          year?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          body_type?: string | null
+          brand?: string | null
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          features?: Json | null
+          finance_available?: boolean | null
+          fuel?: string | null
+          id?: string
+          image_url?: string | null
+          images?: Json | null
+          mileage_km?: number | null
+          model?: string | null
+          name?: string
+          price?: number
+          seats?: number | null
+          transmission?: string | null
+          updated_at?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
