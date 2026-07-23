@@ -28,7 +28,7 @@ function AdminSettings() {
   const save = async () => {
     setSaving(true);
     const rows = [
-      { key: "driver_daily_fee", value: { amount: Number(driverFee), currency: "CAD" } },
+      { key: "driver_daily_fee", value: { amount: Number(driverFee), currency: "GHS" } },
       { key: "contact", value: contact },
       { key: "hero", value: hero },
     ];
