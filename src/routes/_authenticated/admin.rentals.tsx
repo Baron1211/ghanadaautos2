@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_authenticated/admin/rentals")({
 
 function AdminRentals() {
   const qc = useQueryClient();
-  const empty = { name: "", description: "", vehicle_type: "", daily_rate: "", image_url: "", images: [] as string[] };
+  const empty = { name: "", description: "", vehicle_type: "", daily_rate: "", seats: "", transmission: "Automatic", fuel: "Petrol", features: "", image_url: "", images: [] as string[] };
   const [form, setForm] = useState(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -47,7 +47,15 @@ function AdminRentals() {
   }));
 
   const save = async () => {
-    const payload: any = { name: form.name, description: form.description, vehicle_type: form.vehicle_type, daily_rate: Number(form.daily_rate), image_url: form.image_url, images: form.images };
+    const payload: any = {
+      name: form.name, description: form.description, vehicle_type: form.vehicle_type,
+      daily_rate: Number(form.daily_rate),
+      seats: form.seats ? Number(form.seats) : null,
+      transmission: form.transmission || null,
+      fuel: form.fuel || null,
+      features: form.features ? form.features.split(",").map(s => s.trim()).filter(Boolean) : [],
+      image_url: form.image_url, images: form.images,
+    };
     const res = editingId
       ? await supabase.from("rentals").update(payload).eq("id", editingId)
       : await supabase.from("rentals").insert(payload);
@@ -59,7 +67,16 @@ function AdminRentals() {
 
   const edit = (p: any) => {
     setEditingId(p.id);
-    setForm({ name: p.name, description: p.description || "", vehicle_type: p.vehicle_type || "", daily_rate: String(p.daily_rate), image_url: p.image_url || "", images: Array.isArray(p.images) ? p.images : (p.image_url ? [p.image_url] : []) });
+    setForm({
+      name: p.name, description: p.description || "", vehicle_type: p.vehicle_type || "",
+      daily_rate: String(p.daily_rate),
+      seats: p.seats ? String(p.seats) : "",
+      transmission: p.transmission || "Automatic",
+      fuel: p.fuel || "Petrol",
+      features: Array.isArray(p.features) ? p.features.join(", ") : "",
+      image_url: p.image_url || "",
+      images: Array.isArray(p.images) ? p.images : (p.image_url ? [p.image_url] : []),
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const remove = async (id: string) => {
@@ -99,7 +116,19 @@ function AdminRentals() {
           <label>Name<input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
           <label>Vehicle type<input value={form.vehicle_type} onChange={e => setForm({ ...form, vehicle_type: e.target.value })} /></label>
           <label>Daily rate (GHS)<input type="number" step="0.01" value={form.daily_rate} onChange={e => setForm({ ...form, daily_rate: e.target.value })} /></label>
+          <label>Seats<input type="number" value={form.seats} onChange={e => setForm({ ...form, seats: e.target.value })} /></label>
+          <label>Transmission
+            <select value={form.transmission} onChange={e => setForm({ ...form, transmission: e.target.value })}>
+              <option>Automatic</option><option>Manual</option><option>CVT</option>
+            </select>
+          </label>
+          <label>Fuel
+            <select value={form.fuel} onChange={e => setForm({ ...form, fuel: e.target.value })}>
+              <option>Petrol</option><option>Diesel</option><option>Electric</option><option>Hybrid</option>
+            </select>
+          </label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
+          <label className="ga-form-full">Features (comma separated)<input value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} placeholder="Bluetooth, Reverse camera, Cruise control" /></label>
           <label className="ga-form-full">Images (first is primary)
             <input type="file" accept="image/*" multiple onChange={e => e.target.files && addImages(e.target.files)} />
             {form.images.length > 0 && (
