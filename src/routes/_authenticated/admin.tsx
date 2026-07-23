@@ -89,10 +89,6 @@ function AdminLayout() {
               <span>{n.label}</span>
             </Link>
           ))}
-          <div className="ga-admin-nav-label" style={{ marginTop: 18 }}>Shortcuts</div>
-          <Link to="/" className="ga-admin-nav-link" onClick={() => setDrawer(false)}>
-            <span className="ga-admin-nav-icon">↗</span><span>View Website</span>
-          </Link>
         </nav>
         <div className="ga-admin-side-foot">
           <div className="ga-admin-user">
