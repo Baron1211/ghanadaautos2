@@ -180,7 +180,7 @@ function Checkout() {
             <small>Fast checkout — no account needed. We'll confirm your payment details and send your invoice by email.</small>
             <span className="ga-choice-cta">Continue as guest →</span>
           </button>
-          <Link to="/auth" search={{ redirect: "/checkout" } as any} className="ga-choice-card ga-choice-card-primary">
+          <Link to="/auth" className="ga-choice-card ga-choice-card-primary">
             <div className="ga-choice-icon"><LogIn size={28} /></div>
             <strong>Sign in / Create account</strong>
             <small>Track your orders, view receipts, save addresses and manage everything from your dashboard.</small>
