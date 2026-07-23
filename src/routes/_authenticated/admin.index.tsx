@@ -45,7 +45,7 @@ function AdminOverview() {
   });
 
   const kpis = [
-    { label: "Revenue", value: `CAD ${(data?.revenue ?? 0).toFixed(2)}`, sub: `${data?.orderCount ?? 0} orders · ${data?.bookingCount ?? 0} bookings`, tone: "brand" as const },
+    { label: "Revenue", value: `GHS ${(data?.revenue ?? 0).toFixed(2)}`, sub: `${data?.orderCount ?? 0} orders · ${data?.bookingCount ?? 0} bookings`, tone: "brand" as const },
     { label: "Pending Orders", value: data?.pendingOrders ?? "—", sub: "Awaiting fulfilment", tone: "warn" as const, href: "/admin/orders" },
     { label: "Pending Bookings", value: data?.pendingBookings ?? "—", sub: "Awaiting confirmation", tone: "warn" as const, href: "/admin/bookings" },
     { label: "Customers", value: data?.users ?? "—", sub: "Registered accounts", tone: "info" as const, href: "/admin/users" },

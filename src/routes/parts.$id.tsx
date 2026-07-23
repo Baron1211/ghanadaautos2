@@ -84,7 +84,7 @@ function PartDetail() {
         <div className="ga-detail-body">
           <div className="ga-detail-eyebrow">{part.brand || "Spare Part"} · {part.category || "Genuine"}</div>
           <h1>{part.name}</h1>
-          <div className="ga-detail-price">CAD {displayPrice.toFixed(2)}</div>
+          <div className="ga-detail-price">GHS {displayPrice.toFixed(2)}</div>
           <p className="ga-detail-desc">{part.description || "Quality automotive part sourced by Ghanada Autos."}</p>
 
           {variations && variations.length > 0 && (
@@ -99,7 +99,7 @@ function PartDetail() {
                     disabled={v.stock < 1}
                   >
                     <strong>{v.label}</strong>
-                    <span>CAD {Number(v.price).toFixed(2)}</span>
+                    <span>GHS {Number(v.price).toFixed(2)}</span>
                     <small>{v.stock > 0 ? `${v.stock} in stock` : "Out of stock"}</small>
                   </button>
                 ))}

@@ -332,7 +332,7 @@ function CartTab({ userId }: { userId: string }) {
         <label>Notes (optional)<textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></label>
         <div className="ga-checkout-total">
           <span>Total</span>
-          <strong>CAD {total.toFixed(2)}</strong>
+          <strong>GHS {total.toFixed(2)}</strong>
         </div>
         <button className="ga-btn-primary" onClick={checkout} disabled={placing}>
           {placing ? "Placing order…" : "Place order"}

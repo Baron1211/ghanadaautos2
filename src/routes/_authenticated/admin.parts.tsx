@@ -167,7 +167,7 @@ function AdminParts() {
               {categories?.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </label>
-          <label>Price (CAD)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
+          <label>Price (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
           <label>Stock<input type="number" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} /></label>
           <label>Low-stock alert at<input type="number" value={form.low_stock_threshold} onChange={e => setForm({ ...form, low_stock_threshold: e.target.value })} /></label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
@@ -287,7 +287,7 @@ function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any
             {!p.active && " · inactive"}
           </span>
         </div>
-        <div className="ga-admin-price">CAD {Number(p.price).toFixed(2)}</div>
+        <div className="ga-admin-price">GHS {Number(p.price).toFixed(2)}</div>
         <div className="ga-admin-actions">
           <button onClick={() => setOpen(o => !o)}>{open ? "Hide variations" : "Variations"}</button>
           <button onClick={() => onEdit(p)}>Edit</button>

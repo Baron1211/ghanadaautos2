@@ -182,16 +182,16 @@ function Checkout() {
               <div key={i.key} className="ga-summary-row">
                 <div>
                   <strong>{i.name}</strong>
-                  <small>{i.item_type === "part" ? `Qty: ${i.quantity}` : `${i.rental_days} days`} · CAD {i.unit_price.toFixed(2)} {i.item_type === "rental" ? "/ day" : "each"}</small>
+                  <small>{i.item_type === "part" ? `Qty: ${i.quantity}` : `${i.rental_days} days`} · GHS {i.unit_price.toFixed(2)} {i.item_type === "rental" ? "/ day" : "each"}</small>
                 </div>
                 <div>
-                  <span>CAD {(i.unit_price * qtyForTotal).toFixed(2)}</span>
+                  <span>GHS {(i.unit_price * qtyForTotal).toFixed(2)}</span>
                   <button className="ga-cart-remove" onClick={() => removeItem(i.key)}>×</button>
                 </div>
               </div>
             );
           })}
-          <div className="ga-summary-total"><span>Total</span><strong>CAD {subtotal.toFixed(2)}</strong></div>
+          <div className="ga-summary-total"><span>Total</span><strong>GHS {subtotal.toFixed(2)}</strong></div>
           <button className="ga-btn-primary" onClick={place} disabled={placing}>
             {placing ? "Placing order…" : "Place order"}
           </button>
