@@ -2487,15 +2487,56 @@
 .ga-driver-toggle input { width: 18px; height: 18px; }
 .ga-driver-toggle span { display: flex; flex-direction: column; }
 .ga-driver-toggle small { color: #64748b; font-size: 12px; margin-top: 2px; }
-.ga-driver-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
-.ga-driver-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; border: 2px solid #e2e8f0; background: #fff; text-align: left; cursor: pointer; transition: all .18s ease; font: inherit; color: inherit; }
-.ga-driver-card:hover { border-color: #0F8A5F; transform: translateY(-1px); }
-.ga-driver-card.selected { border-color: #0F8A5F; background: #ecfdf5; box-shadow: 0 6px 20px -12px rgba(15,138,95,.6); }
-.ga-driver-card .ga-driver-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; background: #f1f5f9; font-size: 20px; }
-.ga-driver-card.selected .ga-driver-icon { background: #d1fae5; }
-.ga-driver-card strong { display: block; font-size: 14px; color: #0f172a; }
-.ga-driver-card small { display: block; color: #64748b; font-size: 12px; margin-top: 2px; }
-.ga-driver-price { font-size: 12px; font-weight: 700; color: #0F8A5F; background: #ecfdf5; padding: 6px 10px; border-radius: 999px; white-space: nowrap; }
+.ga-driver-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 6px 0 20px; }
+.ga-driver-card {
+  position: relative;
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 18px 18px 16px;
+  border-radius: 16px;
+  border: 1.5px solid #e2e8f0;
+  background: linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);
+  text-align: left; cursor: pointer; font: inherit; color: inherit;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+  overflow: hidden;
+}
+.ga-driver-card::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(120% 60% at 100% 0%, rgba(15,138,95,.08), transparent 60%);
+  opacity: 0; transition: opacity .18s ease; pointer-events: none;
+}
+.ga-driver-card:hover { border-color: #0F8A5F; transform: translateY(-2px); box-shadow: 0 12px 28px -18px rgba(15,23,42,.25); }
+.ga-driver-card:hover::before { opacity: 1; }
+.ga-driver-card.selected {
+  border-color: #0F8A5F;
+  background: linear-gradient(180deg,#f0fdf4 0%,#ecfdf5 100%);
+  box-shadow: 0 14px 32px -18px rgba(15,138,95,.55), inset 0 0 0 1px rgba(15,138,95,.25);
+}
+.ga-driver-card .ga-driver-head { display: flex; align-items: center; gap: 12px; }
+.ga-driver-card .ga-driver-icon {
+  width: 46px; height: 46px; display: grid; place-items: center;
+  border-radius: 12px; background: #f1f5f9; font-size: 22px;
+  transition: background .18s ease, transform .18s ease;
+}
+.ga-driver-card.selected .ga-driver-icon { background: #0F8A5F; color: #fff; transform: scale(1.03); }
+.ga-driver-card .ga-driver-title { display: flex; flex-direction: column; }
+.ga-driver-card strong { font-size: 15px; font-weight: 700; color: #0f172a; letter-spacing: -.01em; }
+.ga-driver-card .ga-driver-tag { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #0F8A5F; margin-top: 2px; }
+.ga-driver-card small { display: block; color: #475569; font-size: 13px; line-height: 1.45; }
+.ga-driver-card .ga-driver-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 4px; padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+}
+.ga-driver-card.selected .ga-driver-foot { border-top-color: rgba(15,138,95,.25); }
+.ga-driver-price { font-size: 14px; font-weight: 800; color: #0f172a; letter-spacing: -.01em; }
+.ga-driver-price em { font-style: normal; font-weight: 500; color: #64748b; font-size: 12px; margin-left: 2px; }
+.ga-driver-check {
+  width: 22px; height: 22px; border-radius: 999px;
+  border: 1.5px solid #cbd5e1; background: #fff;
+  display: grid; place-items: center; color: transparent; font-size: 13px; font-weight: 800;
+  transition: all .18s ease;
+}
+.ga-driver-card.selected .ga-driver-check { background: #0F8A5F; border-color: #0F8A5F; color: #fff; }
 @media (max-width: 640px) { .ga-driver-choice { grid-template-columns: 1fr; } }
 .ga-booking-summary { background: #fff; border-radius: 10px; padding: 14px; margin: 16px 0; border: 1px solid #e2e8f0; }
 .ga-booking-summary > div { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
