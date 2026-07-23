@@ -1,0 +1,2 @@
+ALTER TABLE public.cart_items DROP CONSTRAINT cart_items_item_type_check;
+ALTER TABLE public.cart_items ADD CONSTRAINT cart_items_item_type_check CHECK (item_type = ANY (ARRAY['part'::text, 'rental'::text, 'vehicle'::text]));
