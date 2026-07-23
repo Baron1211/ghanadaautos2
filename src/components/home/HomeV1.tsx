@@ -81,9 +81,18 @@ function GhanadaHome() {
       return data || [];
     },
   });
+  const { data: dbVehicles } = useQuery({
+    queryKey: ["home-vehicles"],
+    queryFn: async () => {
+      const { data } = await (supabase as any).from("vehicles").select("*").eq("active", true).order("featured", { ascending: false }).limit(12);
+      return data || [];
+    },
+  });
+  const [vehicleFilter, setVehicleFilter] = useState<string>("All");
 
   const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
   const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
+  const openVehicle = (id: string) => navigate({ to: "/vehicles/$id", params: { id } });
 
   return (
     <div className="ga">
