@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -18,6 +19,7 @@ import { Route as RentalsIdRouteImport } from './routes/rentals.$id'
 import { Route as PartsIdRouteImport } from './routes/parts.$id'
 import { Route as OrdersNumberRouteImport } from './routes/orders.$number'
 import { Route as BookingsNumberRouteImport } from './routes/bookings.$number'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -33,6 +35,11 @@ import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authen
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -73,6 +80,11 @@ const BookingsNumberRoute = BookingsNumberRouteImport.update({
   id: '/bookings/$number',
   path: '/bookings/$number',
   getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
@@ -139,9 +151,11 @@ const AuthenticatedAdminBookingsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/bookings/$number': typeof BookingsNumberRoute
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
@@ -160,8 +174,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/bookings/$number': typeof BookingsNumberRoute
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
@@ -182,9 +198,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/bookings/$number': typeof BookingsNumberRoute
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
@@ -205,9 +223,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/blog'
     | '/checkout'
     | '/admin'
     | '/dashboard'
+    | '/blog/$slug'
     | '/bookings/$number'
     | '/orders/$number'
     | '/parts/$id'
@@ -226,8 +246,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/blog'
     | '/checkout'
     | '/dashboard'
+    | '/blog/$slug'
     | '/bookings/$number'
     | '/orders/$number'
     | '/parts/$id'
@@ -247,9 +269,11 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/blog'
     | '/checkout'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/blog/$slug'
     | '/bookings/$number'
     | '/orders/$number'
     | '/parts/$id'
@@ -270,6 +294,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
   CheckoutRoute: typeof CheckoutRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
@@ -285,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -342,6 +374,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/bookings/$number'
       preLoaderRoute: typeof BookingsNumberRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -463,10 +502,21 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
   CheckoutRoute: CheckoutRoute,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
