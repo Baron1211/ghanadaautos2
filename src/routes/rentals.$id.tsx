@@ -115,7 +115,7 @@ function RentalDetail() {
             <div>
               <h3 style={{ marginTop: 8 }}>Features</h3>
               <div className="ga-shop-features">
-                {rental.features.map((f: string) => <span key={f} className="ga-shop-feature">✓ {f}</span>)}
+                {(rental.features as any[]).map((f: any) => <span key={String(f)} className="ga-shop-feature">✓ {String(f)}</span>)}
               </div>
             </div>
           )}
