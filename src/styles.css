@@ -2487,6 +2487,16 @@
 .ga-driver-toggle input { width: 18px; height: 18px; }
 .ga-driver-toggle span { display: flex; flex-direction: column; }
 .ga-driver-toggle small { color: #64748b; font-size: 12px; margin-top: 2px; }
+.ga-driver-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.ga-driver-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; border: 2px solid #e2e8f0; background: #fff; text-align: left; cursor: pointer; transition: all .18s ease; font: inherit; color: inherit; }
+.ga-driver-card:hover { border-color: #0F8A5F; transform: translateY(-1px); }
+.ga-driver-card.selected { border-color: #0F8A5F; background: #ecfdf5; box-shadow: 0 6px 20px -12px rgba(15,138,95,.6); }
+.ga-driver-card .ga-driver-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; background: #f1f5f9; font-size: 20px; }
+.ga-driver-card.selected .ga-driver-icon { background: #d1fae5; }
+.ga-driver-card strong { display: block; font-size: 14px; color: #0f172a; }
+.ga-driver-card small { display: block; color: #64748b; font-size: 12px; margin-top: 2px; }
+.ga-driver-price { font-size: 12px; font-weight: 700; color: #0F8A5F; background: #ecfdf5; padding: 6px 10px; border-radius: 999px; white-space: nowrap; }
+@media (max-width: 640px) { .ga-driver-choice { grid-template-columns: 1fr; } }
 .ga-booking-summary { background: #fff; border-radius: 10px; padding: 14px; margin: 16px 0; border: 1px solid #e2e8f0; }
 .ga-booking-summary > div { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
 .ga-booking-total { border-top: 1px solid #e2e8f0; margin-top: 6px; padding-top: 10px !important; font-size: 16px !important; }
