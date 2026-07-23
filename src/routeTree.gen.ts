@@ -13,6 +13,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VehiclesIdRouteImport } from './routes/vehicles.$id'
 import { Route as RentalsIdRouteImport } from './routes/rentals.$id'
 import { Route as PartsIdRouteImport } from './routes/parts.$id'
 import { Route as OrdersNumberRouteImport } from './routes/orders.$number'
@@ -20,6 +21,7 @@ import { Route as BookingsNumberRouteImport } from './routes/bookings.$number'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminVehiclesRouteImport } from './routes/_authenticated/admin.vehicles'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminRentalsRouteImport } from './routes/_authenticated/admin.rentals'
@@ -45,6 +47,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VehiclesIdRoute = VehiclesIdRouteImport.update({
+  id: '/vehicles/$id',
+  path: '/vehicles/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RentalsIdRoute = RentalsIdRouteImport.update({
@@ -82,6 +89,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminVehiclesRoute =
+  AuthenticatedAdminVehiclesRouteImport.update({
+    id: '/vehicles',
+    path: '/vehicles',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -133,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
+  '/vehicles/$id': typeof VehiclesIdRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -140,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -151,6 +166,7 @@ export interface FileRoutesByTo {
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
+  '/vehicles/$id': typeof VehiclesIdRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -158,6 +174,7 @@ export interface FileRoutesByTo {
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -172,6 +189,7 @@ export interface FileRoutesById {
   '/orders/$number': typeof OrdersNumberRoute
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
+  '/vehicles/$id': typeof VehiclesIdRoute
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -179,6 +197,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/rentals': typeof AuthenticatedAdminRentalsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -193,6 +212,7 @@ export interface FileRouteTypes {
     | '/orders/$number'
     | '/parts/$id'
     | '/rentals/$id'
+    | '/vehicles/$id'
     | '/admin/bookings'
     | '/admin/catalog'
     | '/admin/orders'
@@ -200,6 +220,7 @@ export interface FileRouteTypes {
     | '/admin/rentals'
     | '/admin/settings'
     | '/admin/users'
+    | '/admin/vehicles'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -211,6 +232,7 @@ export interface FileRouteTypes {
     | '/orders/$number'
     | '/parts/$id'
     | '/rentals/$id'
+    | '/vehicles/$id'
     | '/admin/bookings'
     | '/admin/catalog'
     | '/admin/orders'
@@ -218,6 +240,7 @@ export interface FileRouteTypes {
     | '/admin/rentals'
     | '/admin/settings'
     | '/admin/users'
+    | '/admin/vehicles'
     | '/admin'
   id:
     | '__root__'
@@ -231,6 +254,7 @@ export interface FileRouteTypes {
     | '/orders/$number'
     | '/parts/$id'
     | '/rentals/$id'
+    | '/vehicles/$id'
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/catalog'
     | '/_authenticated/admin/orders'
@@ -238,6 +262,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/rentals'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
+    | '/_authenticated/admin/vehicles'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -250,6 +275,7 @@ export interface RootRouteChildren {
   OrdersNumberRoute: typeof OrdersNumberRoute
   PartsIdRoute: typeof PartsIdRoute
   RentalsIdRoute: typeof RentalsIdRoute
+  VehiclesIdRoute: typeof VehiclesIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -280,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehicles/$id': {
+      id: '/vehicles/$id'
+      path: '/vehicles/$id'
+      fullPath: '/vehicles/$id'
+      preLoaderRoute: typeof VehiclesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rentals/$id': {
@@ -329,6 +362,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/vehicles': {
+      id: '/_authenticated/admin/vehicles'
+      path: '/vehicles'
+      fullPath: '/admin/vehicles'
+      preLoaderRoute: typeof AuthenticatedAdminVehiclesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/users': {
@@ -391,6 +431,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminRentalsRoute: typeof AuthenticatedAdminRentalsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminVehiclesRoute: typeof AuthenticatedAdminVehiclesRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
@@ -402,6 +443,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminRentalsRoute: AuthenticatedAdminRentalsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminVehiclesRoute: AuthenticatedAdminVehiclesRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
@@ -430,6 +472,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrdersNumberRoute: OrdersNumberRoute,
   PartsIdRoute: PartsIdRoute,
   RentalsIdRoute: RentalsIdRoute,
+  VehiclesIdRoute: VehiclesIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

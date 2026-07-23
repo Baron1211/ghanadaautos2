@@ -15,6 +15,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 const NAV: { to: string; label: string; icon: string; exact?: boolean }[] = [
   { to: "/admin", label: "Overview", icon: "▦", exact: true },
+  { to: "/admin/vehicles", label: "Vehicles for Sale", icon: "🚙" },
   { to: "/admin/parts", label: "Spare Parts", icon: "⚙" },
   { to: "/admin/rentals", label: "Rental Fleet", icon: "🚗" },
   { to: "/admin/catalog", label: "Catalog Setup", icon: "🏷" },
