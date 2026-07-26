@@ -94,6 +94,47 @@ function GhanadaHome() {
     },
   });
   const [vehicleFilter, setVehicleFilter] = useState<string>("All");
+  const [condition, setCondition] = useState<"all" | "new" | "used">("all");
+  const [fMake, setFMake] = useState<string>("");
+  const [fModel, setFModel] = useState<string>("");
+  const [fBody, setFBody] = useState<string>("");
+  const [fPrice, setFPrice] = useState<string>("");
+
+  const vehicleList: any[] = (dbVehicles as any[]) || [];
+  const uniq = (arr: (string | null | undefined)[]) =>
+    Array.from(new Set(arr.filter((x): x is string => !!x && String(x).trim() !== ""))).sort();
+  const makes = uniq(vehicleList.map((v) => v.brand));
+  const models = uniq(vehicleList.filter((v) => !fMake || v.brand === fMake).map((v) => v.model));
+  const bodyTypes = uniq(vehicleList.map((v) => v.body_type));
+  const priceBuckets = [
+    { label: "Under GHS 200,000", value: "0-200000" },
+    { label: "GHS 200,000 – 400,000", value: "200000-400000" },
+    { label: "GHS 400,000 – 700,000", value: "400000-700000" },
+    { label: "GHS 700,000 – 1,000,000", value: "700000-1000000" },
+    { label: "Above GHS 1,000,000", value: "1000000-99999999" },
+  ];
+
+  const filteredVehicles = vehicleList.filter((v) => {
+    if (condition !== "all" && (v.condition || "used") !== condition) return false;
+    if (fMake && v.brand !== fMake) return false;
+    if (fModel && v.model !== fModel) return false;
+    if (fBody && v.body_type !== fBody) return false;
+    if (vehicleFilter !== "All" && v.body_type !== vehicleFilter) return false;
+    if (fPrice) {
+      const [lo, hi] = fPrice.split("-").map(Number);
+      const p = Number(v.price);
+      if (p < lo || p > hi) return false;
+    }
+    return true;
+  });
+
+  const runSearch = () => {
+    const el = document.getElementById("cars");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const resetSearch = () => {
+    setCondition("all"); setFMake(""); setFModel(""); setFBody(""); setFPrice(""); setVehicleFilter("All");
+  };
 
   const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
   const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
