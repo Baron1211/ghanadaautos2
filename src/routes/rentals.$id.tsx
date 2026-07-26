@@ -206,6 +206,7 @@ function RentalDetail() {
           </div>
         </div>
       </div>
+      </div>
     </div>
   );
 }
