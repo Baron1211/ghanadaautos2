@@ -408,10 +408,8 @@ function GhanadaHome() {
             <div className="eyebrow">Featured Vehicles</div>
             <h2>Find your next car</h2>
           </div>
-          <div className="filter-tabs">
-            {["All", "SUV", "Sedan", "Luxury", "Pickup", "Electric", "Commercial"].map((t) => (
-              <button key={t} className={vehicleFilter === t ? "active" : ""} onClick={() => setVehicleFilter(t)}>{t}</button>
-            ))}
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <Link to="/cars" className="btn btn-ghost">Browse all cars for sale →</Link>
           </div>
           <div className="vehicle-grid">
             {(dbVehicles && dbVehicles.length > 0 ? filteredVehicles : []).map((v: any) => (
