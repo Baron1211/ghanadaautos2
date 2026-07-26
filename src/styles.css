@@ -2780,6 +2780,10 @@
 }
 .ga-admin-nav-link:hover { background: rgba(255,255,255,.06); color: #fff; }
 .ga-admin-nav-link.active { background: #0F8A5F; color: #fff; box-shadow: 0 6px 16px rgba(15,138,95,.35); }
+button.ga-admin-nav-link { background: none; border: none; width: 100%; text-align: left; cursor: pointer; font-family: inherit; }
+button.ga-kpi { background: #fff; border: 1px solid #e2e8f0; text-align: left; cursor: pointer; font-family: inherit; }
+.ga-admin-scrim { position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 45; display: none; }
+@media (max-width: 860px) { .ga-admin-scrim { display: block; } }
 .ga-admin-nav-icon { width: 22px; text-align: center; font-size: 14px; opacity: .9; }
 .ga-admin-side-foot { border-top: 1px solid rgba(255,255,255,.08); padding-top: 14px; margin-top: 8px; }
 .ga-admin-user { display: flex; align-items: center; gap: 10px; padding: 6px 4px 12px; }
