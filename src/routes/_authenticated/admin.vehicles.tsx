@@ -16,7 +16,7 @@ function AdminVehicles() {
   const qc = useQueryClient();
   const empty = {
     name: "", brand: "", model: "", year: "", body_type: "SUV",
-    price: "", mileage_km: "", fuel: "Petrol", transmission: "Automatic",
+    price: "", mileage_km: "", fuel: "Petrol", transmission: "Automatic", condition: "used",
     seats: "", color: "", description: "", image_url: "", images: [] as GalleryImage[],
     features: "", finance_available: false, featured: false,
   };
@@ -44,6 +44,7 @@ function AdminVehicles() {
       price: Number(form.price),
       mileage_km: form.mileage_km ? Number(form.mileage_km) : 0,
       fuel: form.fuel, transmission: form.transmission,
+      condition: form.condition,
       seats: form.seats ? Number(form.seats) : null,
       color: form.color, description: form.description,
       image_url: form.image_url, images: serializeImages(form.images),
@@ -66,6 +67,7 @@ function AdminVehicles() {
       year: p.year ? String(p.year) : "", body_type: p.body_type || "SUV",
       price: String(p.price ?? ""), mileage_km: p.mileage_km ? String(p.mileage_km) : "",
       fuel: p.fuel || "Petrol", transmission: p.transmission || "Automatic",
+      condition: p.condition || "used",
       seats: p.seats ? String(p.seats) : "", color: p.color || "",
       description: p.description || "", image_url: p.image_url || "",
       images: normalizeImages(p.images, p.image_url),
@@ -106,6 +108,12 @@ function AdminVehicles() {
           <label>Body type
             <select value={form.body_type} onChange={e => setForm({ ...form, body_type: e.target.value })}>
               {BODY_TYPES.map(t => <option key={t}>{t}</option>)}
+            </select>
+          </label>
+          <label>Condition
+            <select value={form.condition} onChange={e => setForm({ ...form, condition: e.target.value })}>
+              <option value="new">New</option>
+              <option value="used">Used</option>
             </select>
           </label>
           <label>Price (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
