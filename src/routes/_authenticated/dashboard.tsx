@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import {
+  LayoutDashboard, Package, CarFront, ShoppingCart, UserRound,
+  LogOut, Menu, X, ArrowRight, Trash2, Home, ReceiptText, CalendarRange,
+} from "lucide-react";
 import logoAsset from "../../assets/ghanada-logo.png.asset.json";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
@@ -16,19 +20,23 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
 });
 
-type Tab = "orders" | "rentals" | "cart" | "profile";
+type Tab = "overview" | "orders" | "rentals" | "cart" | "profile";
+
+const GHS = (n: number) => `GHS ${Number(n || 0).toLocaleString("en-GH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 function Dashboard() {
   const navigate = useNavigate();
   const qc = useQueryClient();
-  const [tab, setTab] = useState<Tab>("orders");
+  const [tab, setTab] = useState<Tab>("overview");
   const [userId, setUserId] = useState<string>("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [profile, setProfile] = useState<{ full_name: string; email: string; avatar_url: string }>({ full_name: "", email: "", avatar_url: "" });
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data }) => {
       if (!data.user) return;
       setUserId(data.user.id);
+      setProfile((p) => ({ ...p, email: data.user!.email || "" }));
       const { data: r } = await supabase
         .from("user_roles")
         .select("role")
@@ -39,7 +47,9 @@ function Dashboard() {
         navigate({ to: "/admin", replace: true });
         return;
       }
-      setIsAdmin(false);
+      const { data: prof } = await supabase
+        .from("profiles").select("full_name, avatar_url").eq("id", data.user.id).maybeSingle();
+      if (prof) setProfile((p) => ({ ...p, full_name: prof.full_name || "", avatar_url: prof.avatar_url || "" }));
     });
   }, [navigate]);
 
@@ -50,36 +60,220 @@ function Dashboard() {
     navigate({ to: "/auth", replace: true });
   };
 
+  const nav: { id: Tab; label: string; icon: any }[] = [
+    { id: "overview", label: "Overview", icon: LayoutDashboard },
+    { id: "orders", label: "Orders & Receipts", icon: Package },
+    { id: "rentals", label: "My Rentals", icon: CarFront },
+    { id: "cart", label: "My Cart", icon: ShoppingCart },
+    { id: "profile", label: "Profile", icon: UserRound },
+  ];
+  const active = nav.find((n) => n.id === tab)!;
+  const initial = (profile.full_name || profile.email || "?").charAt(0).toUpperCase();
+
   return (
-    <div className="ga-app">
-      <header className="ga-app-header">
-        <Link to="/" className="ga-app-brand">
+    <div className={`ga-admin-shell${drawerOpen ? " is-drawer-open" : ""}`}>
+      {drawerOpen && <div className="ga-admin-scrim" onClick={() => setDrawerOpen(false)} />}
+
+      <aside className="ga-admin-side">
+        <Link to="/" className="ga-admin-brand">
           <img src={logoAsset.url} alt="Ghanada Autos" />
+          <div>
+            <strong>Ghanada Autos</strong>
+            <span>Customer Portal</span>
+          </div>
         </Link>
-        <div className="ga-app-nav">
-          <Link to="/">Home</Link>
-          {isAdmin && <Link to="/admin">Admin</Link>}
-          <button onClick={signOut} className="ga-app-signout">Sign out</button>
+
+        <nav className="ga-admin-nav">
+          <div className="ga-admin-nav-label">Account</div>
+          {nav.map((n) => (
+            <button
+              key={n.id}
+              className={`ga-admin-nav-link${tab === n.id ? " active" : ""}`}
+              onClick={() => { setTab(n.id); setDrawerOpen(false); }}
+              type="button"
+            >
+              <n.icon size={16} />
+              <span>{n.label}</span>
+            </button>
+          ))}
+
+          <div className="ga-admin-nav-label" style={{ marginTop: 14 }}>Shop</div>
+          <Link to="/" className="ga-admin-nav-link" onClick={() => setDrawerOpen(false)}>
+            <Home size={16} /> <span>Back to site</span>
+          </Link>
+        </nav>
+
+        <div className="ga-admin-side-foot">
+          <div className="ga-admin-user">
+            <div className="ga-admin-user-avatar" style={profile.avatar_url ? { backgroundImage: `url(${profile.avatar_url})`, backgroundSize: "cover" } : undefined}>
+              {!profile.avatar_url && initial}
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <strong>{profile.full_name || "Customer"}</strong>
+              <span>{profile.email}</span>
+            </div>
+          </div>
+          <button className="ga-admin-signout" onClick={signOut}>
+            <LogOut size={14} style={{ verticalAlign: "-2px", marginRight: 6 }} /> Sign out
+          </button>
         </div>
-      </header>
+      </aside>
 
-      <main className="ga-app-main">
-        <h1>My Dashboard</h1>
-        <p className="ga-app-sub">Everything you buy and rent, in one place.</p>
+      <div className="ga-admin-content">
+        <header className="ga-admin-topbar">
+          <button className="ga-admin-burger" onClick={() => setDrawerOpen((v) => !v)} aria-label="Menu">
+            {drawerOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+          <div className="ga-admin-crumbs">
+            <span>Dashboard</span>
+            <span className="sep">/</span>
+            <span className="current">{active.label}</span>
+          </div>
+          <div className="ga-admin-topbar-actions">
+            <Link to="/" className="ga-admin-chip">Shop</Link>
+            <Link to="/" className="ga-admin-chip primary">Browse cars <ArrowRight size={14} style={{ marginLeft: 4 }} /></Link>
+          </div>
+        </header>
 
-        <div className="ga-tabs">
-          <button className={tab === "orders" ? "active" : ""} onClick={() => setTab("orders")}>Orders & Receipts</button>
-          <button className={tab === "rentals" ? "active" : ""} onClick={() => setTab("rentals")}>My Rentals</button>
-          <button className={tab === "cart" ? "active" : ""} onClick={() => setTab("cart")}>My Cart</button>
-          <button className={tab === "profile" ? "active" : ""} onClick={() => setTab("profile")}>Profile</button>
-        </div>
+        <main className="ga-admin-main">
+          <div className="ga-admin-page-head">
+            <div>
+              <h1>{tab === "overview" ? `Welcome${profile.full_name ? `, ${profile.full_name.split(" ")[0]}` : ""}` : active.label}</h1>
+              <p className="ga-admin-sub">
+                {tab === "overview" && "A snapshot of your orders, rentals, and cart."}
+                {tab === "orders" && "Every purchase and its receipt."}
+                {tab === "rentals" && "All your car rental bookings."}
+                {tab === "cart" && "Review, adjust, and check out your cart."}
+                {tab === "profile" && "Manage your contact details and delivery address."}
+              </p>
+            </div>
+          </div>
 
-        {tab === "orders" && <OrdersTab userId={userId} />}
-        {tab === "rentals" && <RentalsTab userId={userId} />}
-        {tab === "cart" && <CartTab userId={userId} />}
-        {tab === "profile" && <ProfileTab userId={userId} />}
-      </main>
+          {tab === "overview" && <OverviewTab userId={userId} onGo={setTab} />}
+          {tab === "orders" && <OrdersTab userId={userId} />}
+          {tab === "rentals" && <RentalsTab userId={userId} />}
+          {tab === "cart" && <CartTab userId={userId} />}
+          {tab === "profile" && <ProfileTab userId={userId} onSaved={(p) => setProfile((prev) => ({ ...prev, ...p }))} />}
+        </main>
+      </div>
     </div>
+  );
+}
+
+function OverviewTab({ userId, onGo }: { userId: string; onGo: (t: Tab) => void }) {
+  const { data: orders } = useQuery({
+    queryKey: ["overview-orders", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase.from("orders").select("*, order_items(id)").eq("user_id", userId).order("created_at", { ascending: false });
+      return data || [];
+    },
+  });
+  const { data: bookings } = useQuery({
+    queryKey: ["overview-bookings", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase.from("rental_bookings").select("*, rental:rentals(name)").eq("user_id", userId).order("created_at", { ascending: false });
+      return data || [];
+    },
+  });
+  const { data: cart } = useQuery({
+    queryKey: ["overview-cart", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase.from("cart_items").select("id").eq("user_id", userId);
+      return data || [];
+    },
+  });
+
+  const spent = (orders || []).reduce((s: number, o: any) => s + Number(o.total || 0), 0);
+  const activeRentals = (bookings || []).filter((b: any) => ["pending", "confirmed", "active"].includes(b.status)).length;
+
+  return (
+    <>
+      <div className="ga-kpi-grid">
+        <button className="ga-kpi" onClick={() => onGo("orders")}>
+          <span className="ga-kpi-label tone-brand">Total orders</span>
+          <strong>{orders?.length ?? 0}</strong>
+          <small>Lifetime purchases</small>
+        </button>
+        <button className="ga-kpi tone-info" onClick={() => onGo("rentals")}>
+          <span className="ga-kpi-label tone-info">Active rentals</span>
+          <strong>{activeRentals}</strong>
+          <small>{bookings?.length ?? 0} bookings total</small>
+        </button>
+        <button className="ga-kpi tone-warn" onClick={() => onGo("cart")}>
+          <span className="ga-kpi-label tone-warn">Cart items</span>
+          <strong>{cart?.length ?? 0}</strong>
+          <small>Ready to check out</small>
+        </button>
+        <div className="ga-kpi">
+          <span className="ga-kpi-label">Total spent</span>
+          <strong>{GHS(spent)}</strong>
+          <small>Across all orders</small>
+        </div>
+      </div>
+
+      <div className="ga-admin-grid-2">
+        <div className="ga-admin-card">
+          <div className="ga-admin-card-head">
+            <h3><ReceiptText size={16} style={{ verticalAlign: "-3px", marginRight: 6 }} />Recent orders</h3>
+            <button className="ga-admin-link" onClick={() => onGo("orders")}>View all</button>
+          </div>
+          {!orders?.length ? (
+            <p className="ga-admin-empty">No orders yet. Start shopping to see them here.</p>
+          ) : (
+            <table className="ga-admin-table">
+              <thead><tr><th>Order</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody>
+                {orders.slice(0, 4).map((o: any) => (
+                  <tr key={o.id}>
+                    <td><strong>{o.order_number}</strong><div className="ga-admin-mini">{new Date(o.created_at).toLocaleDateString()}</div></td>
+                    <td>{o.order_items?.length ?? 0}</td>
+                    <td>{GHS(o.total)}</td>
+                    <td><span className={`ga-pill status-${o.status}`}>{o.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        <div className="ga-admin-card">
+          <div className="ga-admin-card-head">
+            <h3><CalendarRange size={16} style={{ verticalAlign: "-3px", marginRight: 6 }} />Recent rentals</h3>
+            <button className="ga-admin-link" onClick={() => onGo("rentals")}>View all</button>
+          </div>
+          {!bookings?.length ? (
+            <p className="ga-admin-empty">No rentals yet. Book a car from the homepage.</p>
+          ) : (
+            <table className="ga-admin-table">
+              <thead><tr><th>Booking</th><th>Vehicle</th><th>Dates</th><th>Status</th></tr></thead>
+              <tbody>
+                {bookings.slice(0, 4).map((b: any) => (
+                  <tr key={b.id}>
+                    <td><strong>{b.booking_number}</strong></td>
+                    <td>{b.rental?.name || "—"}</td>
+                    <td>{b.pickup_date} → {b.return_date}</td>
+                    <td><span className={`ga-pill status-${b.status}`}>{b.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      <div className="ga-admin-card">
+        <div className="ga-admin-card-head"><h3>Quick actions</h3></div>
+        <div className="ga-quick-grid">
+          <Link to="/" className="ga-quick"><strong>Browse cars for sale</strong><small>Shop the current inventory</small></Link>
+          <Link to="/" className="ga-quick"><strong>Rent a car</strong><small>Self-drive or with a driver</small></Link>
+          <Link to="/" className="ga-quick"><strong>Order spare parts</strong><small>Genuine OEM & aftermarket</small></Link>
+          <Link to="/blog" className="ga-quick"><strong>Read the blog</strong><small>Guides, tips, and news</small></Link>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -343,7 +537,7 @@ function CartTab({ userId }: { userId: string }) {
   );
 }
 
-function ProfileTab({ userId }: { userId: string }) {
+function ProfileTab({ userId, onSaved }: { userId: string; onSaved?: (p: { full_name?: string; avatar_url?: string }) => void }) {
   const [form, setForm] = useState({ full_name: "", phone: "", address: "", avatar_url: "" });
   const [saving, setSaving] = useState(false);
 
@@ -364,7 +558,10 @@ function ProfileTab({ userId }: { userId: string }) {
     const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
     if (error) { toast.error(error.message); return; }
     const { data } = await supabase.storage.from("avatars").createSignedUrl(path, 60 * 60 * 24 * 365);
-    if (data?.signedUrl) setForm(f => ({ ...f, avatar_url: data.signedUrl }));
+    if (data?.signedUrl) {
+      setForm(f => ({ ...f, avatar_url: data.signedUrl }));
+      onSaved?.({ avatar_url: data.signedUrl });
+    }
   };
 
   const save = async () => {
@@ -372,7 +569,10 @@ function ProfileTab({ userId }: { userId: string }) {
     const { error } = await supabase.from("profiles").update(form).eq("id", userId);
     setSaving(false);
     if (error) toast.error(error.message);
-    else toast.success("Profile updated");
+    else {
+      toast.success("Profile updated");
+      onSaved?.({ full_name: form.full_name, avatar_url: form.avatar_url });
+    }
   };
 
   return (
