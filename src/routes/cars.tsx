@@ -81,7 +81,7 @@ function CarsPage() {
             <p>Explore our full inventory. Use the filters below to find your perfect match.</p>
           </div>
 
-          <div className="ga-search-bar" style={{ marginBottom: 32 }}>
+          <div className="ga-search-bar ga-search-light" style={{ marginBottom: 32 }}>
             <div className="ga-search-conditions" role="tablist">
               {(["all", "new", "used"] as const).map((c) => (
                 <button key={c} role="tab" aria-selected={condition === c} className={`ga-cond ${condition === c ? "active" : ""}`} onClick={() => setCondition(c)}>
