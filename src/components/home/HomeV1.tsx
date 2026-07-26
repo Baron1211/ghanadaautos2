@@ -312,6 +312,68 @@ function GhanadaHome() {
         </div>
       </section>
 
+      {/* CAR SEARCH BAR */}
+      <section className="ga-search-section">
+        <div className="container">
+          <div className="ga-search-bar">
+            <div className="ga-search-conditions" role="tablist" aria-label="Vehicle condition">
+              {(["all", "new", "used"] as const).map((c) => (
+                <button
+                  key={c}
+                  role="tab"
+                  aria-selected={condition === c}
+                  className={`ga-cond ${condition === c ? "active" : ""}`}
+                  onClick={() => setCondition(c)}
+                >
+                  <span className="ga-cond-dot" />
+                  {c === "all" ? "All" : c === "new" ? "New" : "Used"}
+                </button>
+              ))}
+            </div>
+            <div className="ga-search-fields">
+              <label className="ga-search-field">
+                <span>Make</span>
+                <select value={fMake} onChange={(e) => { setFMake(e.target.value); setFModel(""); }}>
+                  <option value="">Any make</option>
+                  {makes.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
+              </label>
+              <label className="ga-search-field">
+                <span>Model</span>
+                <select value={fModel} onChange={(e) => setFModel(e.target.value)}>
+                  <option value="">Any model</option>
+                  {models.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
+              </label>
+              <label className="ga-search-field">
+                <span>Body Style</span>
+                <select value={fBody} onChange={(e) => setFBody(e.target.value)}>
+                  <option value="">Any body</option>
+                  {bodyTypes.map((b) => <option key={b} value={b}>{b}</option>)}
+                </select>
+              </label>
+              <label className="ga-search-field">
+                <span>Price Range</span>
+                <select value={fPrice} onChange={(e) => setFPrice(e.target.value)}>
+                  <option value="">Any price</option>
+                  {priceBuckets.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+                </select>
+              </label>
+              <button className="ga-search-btn" onClick={runSearch}>
+                <span>Search</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </button>
+            </div>
+            {(condition !== "all" || fMake || fModel || fBody || fPrice) && (
+              <div className="ga-search-summary">
+                <span>{filteredVehicles.length} matching {filteredVehicles.length === 1 ? "car" : "cars"}</span>
+                <button className="ga-search-reset" onClick={resetSearch}>Clear filters</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* QUICK SERVICES */}
       <section className="section">
         <div className="container">
