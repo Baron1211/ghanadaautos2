@@ -9,7 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RepairsRouteImport } from './routes/repairs'
+import { Route as RentalsRouteImport } from './routes/rentals'
+import { Route as PartsRouteImport } from './routes/parts'
+import { Route as ImportRouteImport } from './routes/import'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CarsRouteImport } from './routes/cars'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -35,9 +40,34 @@ import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authen
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const RepairsRoute = RepairsRouteImport.update({
+  id: '/repairs',
+  path: '/repairs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RentalsRoute = RentalsRouteImport.update({
+  id: '/rentals',
+  path: '/rentals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartsRoute = PartsRouteImport.update({
+  id: '/parts',
+  path: '/parts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImportRoute = ImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarsRoute = CarsRouteImport.update({
+  id: '/cars',
+  path: '/cars',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -65,14 +95,14 @@ const VehiclesIdRoute = VehiclesIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const RentalsIdRoute = RentalsIdRouteImport.update({
-  id: '/rentals/$id',
-  path: '/rentals/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => RentalsRoute,
 } as any)
 const PartsIdRoute = PartsIdRouteImport.update({
-  id: '/parts/$id',
-  path: '/parts/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PartsRoute,
 } as any)
 const OrdersNumberRoute = OrdersNumberRouteImport.update({
   id: '/orders/$number',
@@ -170,7 +200,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
+  '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/import': typeof ImportRoute
+  '/parts': typeof PartsRouteWithChildren
+  '/rentals': typeof RentalsRouteWithChildren
+  '/repairs': typeof RepairsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -196,7 +231,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
+  '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/import': typeof ImportRoute
+  '/parts': typeof PartsRouteWithChildren
+  '/rentals': typeof RentalsRouteWithChildren
+  '/repairs': typeof RepairsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -223,7 +263,12 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
+  '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/import': typeof ImportRoute
+  '/parts': typeof PartsRouteWithChildren
+  '/rentals': typeof RentalsRouteWithChildren
+  '/repairs': typeof RepairsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -251,7 +296,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/blog'
+    | '/cars'
     | '/checkout'
+    | '/import'
+    | '/parts'
+    | '/rentals'
+    | '/repairs'
     | '/admin'
     | '/dashboard'
     | '/auth/confirmed'
@@ -277,7 +327,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/blog'
+    | '/cars'
     | '/checkout'
+    | '/import'
+    | '/parts'
+    | '/rentals'
+    | '/repairs'
     | '/dashboard'
     | '/auth/confirmed'
     | '/blog/$slug'
@@ -303,7 +358,12 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/blog'
+    | '/cars'
     | '/checkout'
+    | '/import'
+    | '/parts'
+    | '/rentals'
+    | '/repairs'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/auth/confirmed'
@@ -331,11 +391,14 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
   BlogRoute: typeof BlogRouteWithChildren
+  CarsRoute: typeof CarsRoute
   CheckoutRoute: typeof CheckoutRoute
+  ImportRoute: typeof ImportRoute
+  PartsRoute: typeof PartsRouteWithChildren
+  RentalsRoute: typeof RentalsRouteWithChildren
+  RepairsRoute: typeof RepairsRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
-  PartsIdRoute: typeof PartsIdRoute
-  RentalsIdRoute: typeof RentalsIdRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -343,11 +406,46 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/repairs': {
+      id: '/repairs'
+      path: '/repairs'
+      fullPath: '/repairs'
+      preLoaderRoute: typeof RepairsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rentals': {
+      id: '/rentals'
+      path: '/rentals'
+      fullPath: '/rentals'
+      preLoaderRoute: typeof RentalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parts': {
+      id: '/parts'
+      path: '/parts'
+      fullPath: '/parts'
+      preLoaderRoute: typeof PartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/import': {
+      id: '/import'
+      path: '/import'
+      fullPath: '/import'
+      preLoaderRoute: typeof ImportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout': {
       id: '/checkout'
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cars': {
+      id: '/cars'
+      path: '/cars'
+      fullPath: '/cars'
+      preLoaderRoute: typeof CarsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -387,17 +485,17 @@ declare module '@tanstack/react-router' {
     }
     '/rentals/$id': {
       id: '/rentals/$id'
-      path: '/rentals/$id'
+      path: '/$id'
       fullPath: '/rentals/$id'
       preLoaderRoute: typeof RentalsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof RentalsRoute
     }
     '/parts/$id': {
       id: '/parts/$id'
-      path: '/parts/$id'
+      path: '/$id'
       fullPath: '/parts/$id'
       preLoaderRoute: typeof PartsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PartsRoute
     }
     '/orders/$number': {
       id: '/orders/$number'
@@ -581,16 +679,40 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
+interface PartsRouteChildren {
+  PartsIdRoute: typeof PartsIdRoute
+}
+
+const PartsRouteChildren: PartsRouteChildren = {
+  PartsIdRoute: PartsIdRoute,
+}
+
+const PartsRouteWithChildren = PartsRoute._addFileChildren(PartsRouteChildren)
+
+interface RentalsRouteChildren {
+  RentalsIdRoute: typeof RentalsIdRoute
+}
+
+const RentalsRouteChildren: RentalsRouteChildren = {
+  RentalsIdRoute: RentalsIdRoute,
+}
+
+const RentalsRouteWithChildren =
+  RentalsRoute._addFileChildren(RentalsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
   BlogRoute: BlogRouteWithChildren,
+  CarsRoute: CarsRoute,
   CheckoutRoute: CheckoutRoute,
+  ImportRoute: ImportRoute,
+  PartsRoute: PartsRouteWithChildren,
+  RentalsRoute: RentalsRouteWithChildren,
+  RepairsRoute: RepairsRoute,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
-  PartsIdRoute: PartsIdRoute,
-  RentalsIdRoute: RentalsIdRoute,
   VehiclesIdRoute: VehiclesIdRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
