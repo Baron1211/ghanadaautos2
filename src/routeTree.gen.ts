@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RentalsRouteImport } from './routes/rentals'
+import { Route as PartsRouteImport } from './routes/parts'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CarsRouteImport } from './routes/cars'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -40,6 +41,11 @@ import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/em
 const RentalsRoute = RentalsRouteImport.update({
   id: '/rentals',
   path: '/rentals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartsRoute = PartsRouteImport.update({
+  id: '/parts',
+  path: '/parts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -82,9 +88,9 @@ const RentalsIdRoute = RentalsIdRouteImport.update({
   getParentRoute: () => RentalsRoute,
 } as any)
 const PartsIdRoute = PartsIdRouteImport.update({
-  id: '/parts/$id',
-  path: '/parts/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PartsRoute,
 } as any)
 const OrdersNumberRoute = OrdersNumberRouteImport.update({
   id: '/orders/$number',
@@ -184,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/parts': typeof PartsRouteWithChildren
   '/rentals': typeof RentalsRouteWithChildren
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/parts': typeof PartsRouteWithChildren
   '/rentals': typeof RentalsRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -241,6 +249,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/parts': typeof PartsRouteWithChildren
   '/rentals': typeof RentalsRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -271,6 +280,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/parts'
     | '/rentals'
     | '/admin'
     | '/dashboard'
@@ -299,6 +309,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/parts'
     | '/rentals'
     | '/dashboard'
     | '/auth/confirmed'
@@ -327,6 +338,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/parts'
     | '/rentals'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
@@ -357,10 +369,10 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   CarsRoute: typeof CarsRoute
   CheckoutRoute: typeof CheckoutRoute
+  PartsRoute: typeof PartsRouteWithChildren
   RentalsRoute: typeof RentalsRouteWithChildren
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
-  PartsIdRoute: typeof PartsIdRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -373,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/rentals'
       fullPath: '/rentals'
       preLoaderRoute: typeof RentalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parts': {
+      id: '/parts'
+      path: '/parts'
+      fullPath: '/parts'
+      preLoaderRoute: typeof PartsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -433,10 +452,10 @@ declare module '@tanstack/react-router' {
     }
     '/parts/$id': {
       id: '/parts/$id'
-      path: '/parts/$id'
+      path: '/$id'
       fullPath: '/parts/$id'
       preLoaderRoute: typeof PartsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PartsRoute
     }
     '/orders/$number': {
       id: '/orders/$number'
@@ -620,6 +639,16 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
+interface PartsRouteChildren {
+  PartsIdRoute: typeof PartsIdRoute
+}
+
+const PartsRouteChildren: PartsRouteChildren = {
+  PartsIdRoute: PartsIdRoute,
+}
+
+const PartsRouteWithChildren = PartsRoute._addFileChildren(PartsRouteChildren)
+
 interface RentalsRouteChildren {
   RentalsIdRoute: typeof RentalsIdRoute
 }
@@ -638,10 +667,10 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   CarsRoute: CarsRoute,
   CheckoutRoute: CheckoutRoute,
+  PartsRoute: PartsRouteWithChildren,
   RentalsRoute: RentalsRouteWithChildren,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
-  PartsIdRoute: PartsIdRoute,
   VehiclesIdRoute: VehiclesIdRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
