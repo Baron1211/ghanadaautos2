@@ -3263,3 +3263,47 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .ga-search-fields { grid-template-columns: 1fr; }
   .ga .ga-search-conditions { justify-content: center; }
 }
+
+/* Vehicle detail — spec boxes, tabs, similar cars */
+.ga-cond-pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .06em; margin-right: 10px; }
+.ga-cond-pill.is-new { background: #10b981; color: #fff; }
+.ga-cond-pill.is-used { background: #0f172a; color: #fff; }
+
+.ga-vd-section { margin-top: 40px; }
+.ga-vd-section h2 { font-family: "Manrope"; font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 20px; letter-spacing: -0.01em; }
+
+.ga-vd-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.ga-vd-box { display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; transition: border-color .15s, box-shadow .15s; }
+.ga-vd-box:hover { border-color: #0F8A5F; box-shadow: 0 6px 20px -12px rgba(15,138,95,.35); }
+.ga-vd-box-icon { flex-shrink: 0; width: 42px; height: 42px; border-radius: 10px; background: #f0fdf4; color: #0F8A5F; display: grid; place-items: center; font-size: 20px; }
+.ga-vd-box-body { min-width: 0; }
+.ga-vd-box-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #64748b; font-weight: 700; }
+.ga-vd-box-value { margin-top: 4px; font-size: 15px; font-weight: 700; color: #0f172a; word-break: break-word; }
+
+.ga-vd-tabs { display: flex; gap: 4px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; overflow-x: auto; }
+.ga-vd-tab { flex-shrink: 0; background: transparent; border: 0; padding: 12px 20px; font-family: "Manrope"; font-size: 14px; font-weight: 700; color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: color .15s, border-color .15s; }
+.ga-vd-tab:hover { color: #0f172a; }
+.ga-vd-tab.active { color: #0F8A5F; border-bottom-color: #0F8A5F; }
+.ga-vd-tab-panel { background: #f8fafc; border-radius: 14px; padding: 24px; min-height: 120px; }
+.ga-vd-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+.ga-vd-list li { position: relative; padding-left: 24px; font-size: 14px; color: #0f172a; line-height: 1.5; }
+.ga-vd-list li::before { content: "✓"; position: absolute; left: 0; top: 0; color: #0F8A5F; font-weight: 800; }
+
+.ga-vd-similar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.ga-vd-similar-card { display: block; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; transition: transform .15s, box-shadow .15s, border-color .15s; }
+.ga-vd-similar-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(15,23,42,.25); border-color: #0F8A5F; }
+.ga-vd-similar-img { aspect-ratio: 16/10; background: #f1f5f9; overflow: hidden; }
+.ga-vd-similar-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ga-vd-similar-body { padding: 14px; }
+.ga-vd-similar-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #64748b; font-weight: 700; }
+.ga-vd-similar-name { margin-top: 4px; font-size: 15px; font-weight: 800; color: #0f172a; line-height: 1.3; }
+.ga-vd-similar-price { margin-top: 8px; font-size: 16px; font-weight: 800; color: #0F8A5F; }
+
+@media (max-width: 900px) {
+  .ga-vd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ga-vd-similar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ga-vd-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .ga-vd-grid { grid-template-columns: 1fr; }
+}
