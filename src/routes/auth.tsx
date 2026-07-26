@@ -14,11 +14,15 @@ export const Route = createFileRoute("/auth")({
       { property: "og:description", content: "Sign in or create your Ghanada Autos account." },
     ],
   }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    confirmed: typeof s.confirmed === "string" ? s.confirmed : undefined,
+  }),
   component: AuthPage,
 });
 
 function AuthPage() {
   const navigate = useNavigate();
+  const search = Route.useSearch();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,6 +31,7 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [confirmSent, setConfirmSent] = useState<string | null>(null);
+  const [justConfirmed, setJustConfirmed] = useState(false);
 
   const getPostAuthPath = async (userId: string) => {
     const { data } = await supabase
@@ -40,13 +45,19 @@ function AuthPage() {
   };
 
   useEffect(() => {
+    if (search.confirmed === "1") {
+      setJustConfirmed(true);
+      setMode("login");
+      toast.success("Email confirmed. Please sign in to continue.");
+      return;
+    }
     supabase.auth.getUser().then(async ({ data }) => {
       if (data.user) {
         const destination = await getPostAuthPath(data.user.id);
         navigate({ to: destination });
       }
     });
-  }, [navigate]);
+  }, [navigate, search.confirmed]);
 
   const handleGoogle = async () => {
     setLoading(true);
@@ -81,26 +92,21 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin + "/auth",
+            emailRedirectTo: window.location.origin + "/auth/confirmed",
             data: { full_name: fullName, phone },
           },
         });
         if (error) throw error;
-        // If email confirmation is required, no session is returned.
-        if (!signUpData.session) {
-          setConfirmSent(email);
-          toast.success("Confirmation email sent. Please check your inbox.");
-          setMode("login");
-          setPassword("");
-        } else {
-          // Auto-confirmed (shouldn't happen with current config) — persist profile then continue
-          await supabase
-            .from("profiles")
-            .update({ full_name: fullName, phone })
-            .eq("id", signUpData.session.user.id);
-          toast.success("Welcome to Ghanada Autos!");
-          navigate({ to: "/dashboard" });
+        // Always force explicit login after signup — if Supabase returned a
+        // session (edge case), clear it so the user must confirm their email
+        // and sign in intentionally.
+        if (signUpData.session) {
+          try { await supabase.auth.signOut(); } catch {}
         }
+        setConfirmSent(email);
+        toast.success("Confirmation email sent. Please check your inbox.");
+        setMode("login");
+        setPassword("");
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
@@ -129,7 +135,7 @@ function AuthPage() {
     const { error } = await supabase.auth.resend({
       type: "signup",
       email: confirmSent,
-      options: { emailRedirectTo: window.location.origin + "/auth" },
+      options: { emailRedirectTo: window.location.origin + "/auth/confirmed" },
     });
     setLoading(false);
     if (error) toast.error(error.message || "Could not resend email");

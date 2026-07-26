@@ -20,6 +20,7 @@ import { Route as PartsIdRouteImport } from './routes/parts.$id'
 import { Route as OrdersNumberRouteImport } from './routes/orders.$number'
 import { Route as BookingsNumberRouteImport } from './routes/bookings.$number'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as AuthConfirmedRouteImport } from './routes/auth.confirmed'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -86,6 +87,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => BlogRoute,
 } as any)
+const AuthConfirmedRoute = AuthConfirmedRouteImport.update({
+  id: '/confirmed',
+  path: '/confirmed',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -150,11 +156,12 @@ const AuthenticatedAdminBookingsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/bookings/$number': typeof BookingsNumberRoute
   '/orders/$number': typeof OrdersNumberRoute
@@ -173,10 +180,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/bookings/$number': typeof BookingsNumberRoute
   '/orders/$number': typeof OrdersNumberRoute
@@ -197,11 +205,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/bookings/$number': typeof BookingsNumberRoute
   '/orders/$number': typeof OrdersNumberRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/admin'
     | '/dashboard'
+    | '/auth/confirmed'
     | '/blog/$slug'
     | '/bookings/$number'
     | '/orders/$number'
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/checkout'
     | '/dashboard'
+    | '/auth/confirmed'
     | '/blog/$slug'
     | '/bookings/$number'
     | '/orders/$number'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/auth/confirmed'
     | '/blog/$slug'
     | '/bookings/$number'
     | '/orders/$number'
@@ -293,7 +305,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   BlogRoute: typeof BlogRouteWithChildren
   CheckoutRoute: typeof CheckoutRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
@@ -381,6 +393,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof BlogRoute
+    }
+    '/auth/confirmed': {
+      id: '/auth/confirmed'
+      path: '/confirmed'
+      fullPath: '/auth/confirmed'
+      preLoaderRoute: typeof AuthConfirmedRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -502,6 +521,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface AuthRouteChildren {
+  AuthConfirmedRoute: typeof AuthConfirmedRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthConfirmedRoute: AuthConfirmedRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 interface BlogRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
 }
@@ -515,7 +544,7 @@ const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   BlogRoute: BlogRouteWithChildren,
   CheckoutRoute: CheckoutRoute,
   BookingsNumberRoute: BookingsNumberRoute,
