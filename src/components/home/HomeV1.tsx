@@ -189,8 +189,8 @@ function GhanadaHome() {
             <img src={logoAsset.url} alt="Ghanada Autos" className="logo-img" />
           </div>
           <nav className="main-links">
-            <a href="#">Home</a>
-            <a href="#cars">Cars</a>
+            <Link to="/">Home</Link>
+            <Link to="/cars">Cars</Link>
             <div className={`nav-dropdown${servicesOpen ? " is-open" : ""}`} ref={servicesRef}>
               <button
                 className="nav-dropdown-trigger"
@@ -201,10 +201,10 @@ function GhanadaHome() {
                 Services <span className="caret">▾</span>
               </button>
               <div className="nav-dropdown-menu" onClick={() => setServicesOpen(false)}>
-                <a href="#rentals">Rentals</a>
-                <a href="#repairs">Repairs</a>
-                <a href="#parts">Spare Parts</a>
-                <a href="#import">Import From Canada</a>
+                <Link to="/rentals">Rentals</Link>
+                <Link to="/repairs">Repairs</Link>
+                <Link to="/parts">Spare Parts</Link>
+                <Link to="/import">Import From Canada</Link>
                 <a href="#clearing">Clearing &amp; Forwarding</a>
               </div>
             </div>
@@ -240,8 +240,8 @@ function GhanadaHome() {
           </button>
         </div>
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-          <a href="#" onClick={closeMenu}>Home</a>
-          <a href="#cars" onClick={closeMenu}>Cars</a>
+          <Link to="/" onClick={closeMenu}>Home</Link>
+          <Link to="/cars" onClick={closeMenu}>Cars</Link>
           <button
             type="button"
             className={`mobile-group-toggle${servicesOpen ? " is-open" : ""}`}
@@ -252,10 +252,10 @@ function GhanadaHome() {
           </button>
           {servicesOpen && (
             <div className="mobile-sub-group">
-              <a href="#rentals" className="mobile-sub" onClick={closeMenu}>Rentals</a>
-              <a href="#repairs" className="mobile-sub" onClick={closeMenu}>Repairs</a>
-              <a href="#parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</a>
-              <a href="#import" className="mobile-sub" onClick={closeMenu}>Import From Canada</a>
+              <Link to="/rentals" className="mobile-sub" onClick={closeMenu}>Rentals</Link>
+              <Link to="/repairs" className="mobile-sub" onClick={closeMenu}>Repairs</Link>
+              <Link to="/parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</Link>
+              <Link to="/import" className="mobile-sub" onClick={closeMenu}>Import From Canada</Link>
               <a href="#clearing" className="mobile-sub" onClick={closeMenu}>Clearing & Forwarding</a>
             </div>
           )}
