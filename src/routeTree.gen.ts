@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RentalsRouteImport } from './routes/rentals'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CarsRouteImport } from './routes/cars'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -36,6 +37,11 @@ import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authen
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const RentalsRoute = RentalsRouteImport.update({
+  id: '/rentals',
+  path: '/rentals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
@@ -71,9 +77,9 @@ const VehiclesIdRoute = VehiclesIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const RentalsIdRoute = RentalsIdRouteImport.update({
-  id: '/rentals/$id',
-  path: '/rentals/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => RentalsRoute,
 } as any)
 const PartsIdRoute = PartsIdRouteImport.update({
   id: '/parts/$id',
@@ -178,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/rentals': typeof RentalsRouteWithChildren
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -205,6 +212,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/rentals': typeof RentalsRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -233,6 +241,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/rentals': typeof RentalsRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -262,6 +271,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/rentals'
     | '/admin'
     | '/dashboard'
     | '/auth/confirmed'
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/rentals'
     | '/dashboard'
     | '/auth/confirmed'
     | '/blog/$slug'
@@ -316,6 +327,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/rentals'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/auth/confirmed'
@@ -345,10 +357,10 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   CarsRoute: typeof CarsRoute
   CheckoutRoute: typeof CheckoutRoute
+  RentalsRoute: typeof RentalsRouteWithChildren
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
   PartsIdRoute: typeof PartsIdRoute
-  RentalsIdRoute: typeof RentalsIdRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -356,6 +368,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/rentals': {
+      id: '/rentals'
+      path: '/rentals'
+      fullPath: '/rentals'
+      preLoaderRoute: typeof RentalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout': {
       id: '/checkout'
       path: '/checkout'
@@ -407,10 +426,10 @@ declare module '@tanstack/react-router' {
     }
     '/rentals/$id': {
       id: '/rentals/$id'
-      path: '/rentals/$id'
+      path: '/$id'
       fullPath: '/rentals/$id'
       preLoaderRoute: typeof RentalsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof RentalsRoute
     }
     '/parts/$id': {
       id: '/parts/$id'
@@ -601,6 +620,17 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
+interface RentalsRouteChildren {
+  RentalsIdRoute: typeof RentalsIdRoute
+}
+
+const RentalsRouteChildren: RentalsRouteChildren = {
+  RentalsIdRoute: RentalsIdRoute,
+}
+
+const RentalsRouteWithChildren =
+  RentalsRoute._addFileChildren(RentalsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -608,10 +638,10 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   CarsRoute: CarsRoute,
   CheckoutRoute: CheckoutRoute,
+  RentalsRoute: RentalsRouteWithChildren,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
   PartsIdRoute: PartsIdRoute,
-  RentalsIdRoute: RentalsIdRoute,
   VehiclesIdRoute: VehiclesIdRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
