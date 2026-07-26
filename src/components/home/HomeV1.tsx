@@ -296,12 +296,8 @@ function GhanadaHome() {
             <span>Clearing &amp; Forwarding</span>
           </div>
           <div className="hero-actions">
-            <a href="#cars" className="btn btn-primary">
-              Browse Cars →
-            </a>
-            <a href="#repairs" className="btn btn-outline">
-              Book a Repair
-            </a>
+            <Link to="/cars" className="btn btn-primary">Browse Cars →</Link>
+            <Link to="/repairs" className="btn btn-outline">Book a Repair</Link>
           </div>
           <div className="hero-stats">
             <div><strong>10+</strong><span>Years Experience</span></div>

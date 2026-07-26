@@ -9,8 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RepairsRouteImport } from './routes/repairs'
 import { Route as RentalsRouteImport } from './routes/rentals'
 import { Route as PartsRouteImport } from './routes/parts'
+import { Route as ImportRouteImport } from './routes/import'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CarsRouteImport } from './routes/cars'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -38,6 +40,11 @@ import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authen
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const RepairsRoute = RepairsRouteImport.update({
+  id: '/repairs',
+  path: '/repairs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RentalsRoute = RentalsRouteImport.update({
   id: '/rentals',
   path: '/rentals',
@@ -46,6 +53,11 @@ const RentalsRoute = RentalsRouteImport.update({
 const PartsRoute = PartsRouteImport.update({
   id: '/parts',
   path: '/parts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImportRoute = ImportRouteImport.update({
+  id: '/import',
+  path: '/import',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -190,8 +202,10 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/import': typeof ImportRoute
   '/parts': typeof PartsRouteWithChildren
   '/rentals': typeof RentalsRouteWithChildren
+  '/repairs': typeof RepairsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -219,8 +233,10 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/import': typeof ImportRoute
   '/parts': typeof PartsRouteWithChildren
   '/rentals': typeof RentalsRouteWithChildren
+  '/repairs': typeof RepairsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -249,8 +265,10 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
+  '/import': typeof ImportRoute
   '/parts': typeof PartsRouteWithChildren
   '/rentals': typeof RentalsRouteWithChildren
+  '/repairs': typeof RepairsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -280,8 +298,10 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/import'
     | '/parts'
     | '/rentals'
+    | '/repairs'
     | '/admin'
     | '/dashboard'
     | '/auth/confirmed'
@@ -309,8 +329,10 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/import'
     | '/parts'
     | '/rentals'
+    | '/repairs'
     | '/dashboard'
     | '/auth/confirmed'
     | '/blog/$slug'
@@ -338,8 +360,10 @@ export interface FileRouteTypes {
     | '/blog'
     | '/cars'
     | '/checkout'
+    | '/import'
     | '/parts'
     | '/rentals'
+    | '/repairs'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/auth/confirmed'
@@ -369,8 +393,10 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   CarsRoute: typeof CarsRoute
   CheckoutRoute: typeof CheckoutRoute
+  ImportRoute: typeof ImportRoute
   PartsRoute: typeof PartsRouteWithChildren
   RentalsRoute: typeof RentalsRouteWithChildren
+  RepairsRoute: typeof RepairsRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
@@ -380,6 +406,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/repairs': {
+      id: '/repairs'
+      path: '/repairs'
+      fullPath: '/repairs'
+      preLoaderRoute: typeof RepairsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rentals': {
       id: '/rentals'
       path: '/rentals'
@@ -392,6 +425,13 @@ declare module '@tanstack/react-router' {
       path: '/parts'
       fullPath: '/parts'
       preLoaderRoute: typeof PartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/import': {
+      id: '/import'
+      path: '/import'
+      fullPath: '/import'
+      preLoaderRoute: typeof ImportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -667,8 +707,10 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   CarsRoute: CarsRoute,
   CheckoutRoute: CheckoutRoute,
+  ImportRoute: ImportRoute,
   PartsRoute: PartsRouteWithChildren,
   RentalsRoute: RentalsRouteWithChildren,
+  RepairsRoute: RepairsRoute,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
   VehiclesIdRoute: VehiclesIdRoute,
