@@ -414,13 +414,11 @@ function GhanadaHome() {
             ))}
           </div>
           <div className="vehicle-grid">
-            {(dbVehicles && dbVehicles.length > 0
-              ? (dbVehicles as any[]).filter((v) => vehicleFilter === "All" || v.body_type === vehicleFilter)
-              : []
-            ).map((v: any) => (
+            {(dbVehicles && dbVehicles.length > 0 ? filteredVehicles : []).map((v: any) => (
               <div key={v.id} className="vcard">
                  <div className="vimg" onClick={() => openVehicle(v.id)} style={{ cursor: "pointer" }}>
                    {v.finance_available && <span className="finance-tag">Finance Available</span>}
+                   {v.condition === "new" && <span className="condition-tag">New</span>}
                    <span className="fav-btn">♡</span>
                    <img src={v.image_url || vehicles[0].img} alt={v.name} />
                  </div>
@@ -441,8 +439,10 @@ function GhanadaHome() {
                 </div>
               </div>
             ))}
-            {dbVehicles && dbVehicles.length > 0 && (dbVehicles as any[]).filter((v) => vehicleFilter === "All" || v.body_type === vehicleFilter).length === 0 && (
-              <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>No {vehicleFilter} vehicles right now. Try another category.</p>
+            {dbVehicles && dbVehicles.length > 0 && filteredVehicles.length === 0 && (
+              <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>
+                No cars match your search. <button onClick={resetSearch} className="ga-link-plain" style={{ textDecoration: "underline", background: "none", border: 0, cursor: "pointer" }}>Clear filters</button>
+              </p>
             )}
             {vehiclesLoading && <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>Loading available cars…</p>}
             {!vehiclesLoading && (!dbVehicles || dbVehicles.length === 0) && vehicles.map((v) => (
