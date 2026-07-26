@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import {
   LayoutDashboard, Package, CarFront, ShoppingCart, UserRound,
   LogOut, Menu, X, ArrowRight, Trash2, Home, ReceiptText, CalendarRange,
+  Camera, Mail, Phone, MapPin, Save, Check,
 } from "lucide-react";
 import logoAsset from "../../assets/ghanada-logo.png.asset.json";
 
@@ -540,9 +541,12 @@ function CartTab({ userId }: { userId: string }) {
 function ProfileTab({ userId, onSaved }: { userId: string; onSaved?: (p: { full_name?: string; avatar_url?: string }) => void }) {
   const [form, setForm] = useState({ full_name: "", phone: "", address: "", avatar_url: "" });
   const [saving, setSaving] = useState(false);
+  const [email, setEmail] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
+    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email || ""));
     supabase.from("profiles").select("*").eq("id", userId).maybeSingle().then(({ data }) => {
       if (data) setForm({
         full_name: data.full_name || "",
@@ -554,14 +558,17 @@ function ProfileTab({ userId, onSaved }: { userId: string; onSaved?: (p: { full_
   }, [userId]);
 
   const uploadAvatar = async (file: File) => {
+    setUploading(true);
     const path = `${userId}/${Date.now()}-${file.name}`;
     const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
-    if (error) { toast.error(error.message); return; }
+    if (error) { toast.error(error.message); setUploading(false); return; }
     const { data } = await supabase.storage.from("avatars").createSignedUrl(path, 60 * 60 * 24 * 365);
     if (data?.signedUrl) {
       setForm(f => ({ ...f, avatar_url: data.signedUrl }));
       onSaved?.({ avatar_url: data.signedUrl });
+      toast.success("Photo updated");
     }
+    setUploading(false);
   };
 
   const save = async () => {
@@ -575,21 +582,62 @@ function ProfileTab({ userId, onSaved }: { userId: string; onSaved?: (p: { full_
     }
   };
 
+  const initial = (form.full_name || email || "?").charAt(0).toUpperCase();
+  const completeness = [form.full_name, form.phone, form.address, form.avatar_url].filter(Boolean).length;
+  const pct = Math.round((completeness / 4) * 100);
+
   return (
-    <div className="ga-profile">
-      <div className="ga-avatar-row">
-        <div className="ga-avatar" style={{ backgroundImage: form.avatar_url ? `url(${form.avatar_url})` : undefined }}>
-          {!form.avatar_url && <span>{(form.full_name || "?").charAt(0).toUpperCase()}</span>}
+    <div className="ga-profile-wrap">
+      <div className="ga-profile-hero">
+        <div
+          className="ga-profile-avatar"
+          style={form.avatar_url ? { backgroundImage: `url(${form.avatar_url})` } : undefined}
+        >
+          {!form.avatar_url && <span>{initial}</span>}
+          <label className="ga-profile-avatar-edit" title="Change photo">
+            <Camera size={16} />
+            <input type="file" accept="image/*" hidden disabled={uploading}
+              onChange={(e) => e.target.files && uploadAvatar(e.target.files[0])} />
+          </label>
         </div>
-        <label className="ga-btn-ghost">
-          Upload photo
-          <input type="file" accept="image/*" hidden onChange={(e) => e.target.files && uploadAvatar(e.target.files[0])} />
-        </label>
+        <div className="ga-profile-hero-info">
+          <h2>{form.full_name || "Add your name"}</h2>
+          <p className="ga-profile-email"><Mail size={14} /> {email || "—"}</p>
+          <div className="ga-profile-progress">
+            <div className="ga-profile-progress-bar"><span style={{ width: `${pct}%` }} /></div>
+            <small>{pct === 100 ? "Profile complete" : `Profile ${pct}% complete`}</small>
+          </div>
+        </div>
       </div>
-      <label>Full name<input value={form.full_name} onChange={(e) => setForm(f => ({ ...f, full_name: e.target.value }))} /></label>
-      <label>Phone<input value={form.phone} onChange={(e) => setForm(f => ({ ...f, phone: e.target.value }))} /></label>
-      <label>Shipping address<textarea value={form.address} onChange={(e) => setForm(f => ({ ...f, address: e.target.value }))} /></label>
-      <button className="ga-btn-primary" onClick={save} disabled={saving}>{saving ? "Saving…" : "Save changes"}</button>
+
+      <div className="ga-admin-card">
+        <div className="ga-admin-card-head">
+          <h3><UserRound size={16} style={{ verticalAlign: "-3px", marginRight: 6 }} />Personal details</h3>
+        </div>
+        <div className="ga-form-grid">
+          <label>
+            Full name
+            <input value={form.full_name} placeholder="Kwame Mensah"
+              onChange={(e) => setForm(f => ({ ...f, full_name: e.target.value }))} />
+          </label>
+          <label>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><Phone size={12} /> Phone</span>
+            <input value={form.phone} placeholder="+233 …"
+              onChange={(e) => setForm(f => ({ ...f, phone: e.target.value }))} />
+          </label>
+          <label className="ga-form-full">
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><MapPin size={12} /> Shipping address</span>
+            <textarea value={form.address} placeholder="Street, city, region"
+              onChange={(e) => setForm(f => ({ ...f, address: e.target.value }))} />
+          </label>
+        </div>
+        <div className="ga-profile-actions">
+          <button className="ga-btn-primary" onClick={save} disabled={saving}>
+            {saving ? "Saving…" : (<><Save size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />Save changes</>)}
+          </button>
+          {pct === 100 && <span className="ga-profile-done"><Check size={14} /> All set</span>}
+        </div>
+      </div>
     </div>
   );
 }
