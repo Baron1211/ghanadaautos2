@@ -94,6 +94,47 @@ function GhanadaHome() {
     },
   });
   const [vehicleFilter, setVehicleFilter] = useState<string>("All");
+  const [condition, setCondition] = useState<"all" | "new" | "used">("all");
+  const [fMake, setFMake] = useState<string>("");
+  const [fModel, setFModel] = useState<string>("");
+  const [fBody, setFBody] = useState<string>("");
+  const [fPrice, setFPrice] = useState<string>("");
+
+  const vehicleList: any[] = (dbVehicles as any[]) || [];
+  const uniq = (arr: (string | null | undefined)[]) =>
+    Array.from(new Set(arr.filter((x): x is string => !!x && String(x).trim() !== ""))).sort();
+  const makes = uniq(vehicleList.map((v) => v.brand));
+  const models = uniq(vehicleList.filter((v) => !fMake || v.brand === fMake).map((v) => v.model));
+  const bodyTypes = uniq(vehicleList.map((v) => v.body_type));
+  const priceBuckets = [
+    { label: "Under GHS 200,000", value: "0-200000" },
+    { label: "GHS 200,000 – 400,000", value: "200000-400000" },
+    { label: "GHS 400,000 – 700,000", value: "400000-700000" },
+    { label: "GHS 700,000 – 1,000,000", value: "700000-1000000" },
+    { label: "Above GHS 1,000,000", value: "1000000-99999999" },
+  ];
+
+  const filteredVehicles = vehicleList.filter((v) => {
+    if (condition !== "all" && (v.condition || "used") !== condition) return false;
+    if (fMake && v.brand !== fMake) return false;
+    if (fModel && v.model !== fModel) return false;
+    if (fBody && v.body_type !== fBody) return false;
+    if (vehicleFilter !== "All" && v.body_type !== vehicleFilter) return false;
+    if (fPrice) {
+      const [lo, hi] = fPrice.split("-").map(Number);
+      const p = Number(v.price);
+      if (p < lo || p > hi) return false;
+    }
+    return true;
+  });
+
+  const runSearch = () => {
+    const el = document.getElementById("cars");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const resetSearch = () => {
+    setCondition("all"); setFMake(""); setFModel(""); setFBody(""); setFPrice(""); setVehicleFilter("All");
+  };
 
   const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
   const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
@@ -271,6 +312,68 @@ function GhanadaHome() {
         </div>
       </section>
 
+      {/* CAR SEARCH BAR */}
+      <section className="ga-search-section">
+        <div className="container">
+          <div className="ga-search-bar">
+            <div className="ga-search-conditions" role="tablist" aria-label="Vehicle condition">
+              {(["all", "new", "used"] as const).map((c) => (
+                <button
+                  key={c}
+                  role="tab"
+                  aria-selected={condition === c}
+                  className={`ga-cond ${condition === c ? "active" : ""}`}
+                  onClick={() => setCondition(c)}
+                >
+                  <span className="ga-cond-dot" />
+                  {c === "all" ? "All" : c === "new" ? "New" : "Used"}
+                </button>
+              ))}
+            </div>
+            <div className="ga-search-fields">
+              <label className="ga-search-field">
+                <span>Make</span>
+                <select value={fMake} onChange={(e) => { setFMake(e.target.value); setFModel(""); }}>
+                  <option value="">Any make</option>
+                  {makes.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
+              </label>
+              <label className="ga-search-field">
+                <span>Model</span>
+                <select value={fModel} onChange={(e) => setFModel(e.target.value)}>
+                  <option value="">Any model</option>
+                  {models.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
+              </label>
+              <label className="ga-search-field">
+                <span>Body Style</span>
+                <select value={fBody} onChange={(e) => setFBody(e.target.value)}>
+                  <option value="">Any body</option>
+                  {bodyTypes.map((b) => <option key={b} value={b}>{b}</option>)}
+                </select>
+              </label>
+              <label className="ga-search-field">
+                <span>Price Range</span>
+                <select value={fPrice} onChange={(e) => setFPrice(e.target.value)}>
+                  <option value="">Any price</option>
+                  {priceBuckets.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+                </select>
+              </label>
+              <button className="ga-search-btn" onClick={runSearch}>
+                <span>Search</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </button>
+            </div>
+            {(condition !== "all" || fMake || fModel || fBody || fPrice) && (
+              <div className="ga-search-summary">
+                <span>{filteredVehicles.length} matching {filteredVehicles.length === 1 ? "car" : "cars"}</span>
+                <button className="ga-search-reset" onClick={resetSearch}>Clear filters</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* QUICK SERVICES */}
       <section className="section">
         <div className="container">
@@ -311,13 +414,11 @@ function GhanadaHome() {
             ))}
           </div>
           <div className="vehicle-grid">
-            {(dbVehicles && dbVehicles.length > 0
-              ? (dbVehicles as any[]).filter((v) => vehicleFilter === "All" || v.body_type === vehicleFilter)
-              : []
-            ).map((v: any) => (
+            {(dbVehicles && dbVehicles.length > 0 ? filteredVehicles : []).map((v: any) => (
               <div key={v.id} className="vcard">
                  <div className="vimg" onClick={() => openVehicle(v.id)} style={{ cursor: "pointer" }}>
                    {v.finance_available && <span className="finance-tag">Finance Available</span>}
+                   {v.condition === "new" && <span className="condition-tag">New</span>}
                    <span className="fav-btn">♡</span>
                    <img src={v.image_url || vehicles[0].img} alt={v.name} />
                  </div>
@@ -338,8 +439,10 @@ function GhanadaHome() {
                 </div>
               </div>
             ))}
-            {dbVehicles && dbVehicles.length > 0 && (dbVehicles as any[]).filter((v) => vehicleFilter === "All" || v.body_type === vehicleFilter).length === 0 && (
-              <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>No {vehicleFilter} vehicles right now. Try another category.</p>
+            {dbVehicles && dbVehicles.length > 0 && filteredVehicles.length === 0 && (
+              <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>
+                No cars match your search. <button onClick={resetSearch} className="ga-link-plain" style={{ textDecoration: "underline", background: "none", border: 0, cursor: "pointer" }}>Clear filters</button>
+              </p>
             )}
             {vehiclesLoading && <p className="ga-muted" style={{ gridColumn: "1 / -1", textAlign: "center" }}>Loading available cars…</p>}
             {!vehiclesLoading && (!dbVehicles || dbVehicles.length === 0) && vehicles.map((v) => (

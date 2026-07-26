@@ -3234,3 +3234,32 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga-profile-hero { flex-direction: column; align-items: flex-start; text-align: left; }
   .ga-profile-avatar { width: 80px; height: 80px; flex-basis: 80px; font-size: 30px; }
 }
+
+/* Car search bar (below hero) */
+.ga .ga-search-section { background: linear-gradient(180deg, #0a0a0a 0%, #111 100%); padding: 28px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.ga .ga-search-bar { display: flex; flex-direction: column; gap: 14px; }
+.ga .ga-search-conditions { display: flex; gap: 8px; }
+.ga .ga-cond { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.06); color: #d1d5db; border: 1px solid rgba(255,255,255,0.08); font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all .15s; }
+.ga .ga-cond:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.ga .ga-cond .ga-cond-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #d1d5db; background: transparent; transition: all .15s; }
+.ga .ga-cond.active { background: #F97316; color: #fff; border-color: #F97316; }
+.ga .ga-cond.active .ga-cond-dot { background: #fff; border-color: #fff; }
+.ga .ga-search-fields { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 10px; align-items: stretch; }
+.ga .ga-search-field { display: flex; flex-direction: column; gap: 4px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 8px 12px; transition: border-color .15s; }
+.ga .ga-search-field:focus-within { border-color: #F97316; }
+.ga .ga-search-field > span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #9ca3af; font-weight: 600; }
+.ga .ga-search-field select { background: transparent; border: 0; color: #fff; font-size: 14px; font-weight: 600; padding: 2px 0; outline: none; cursor: pointer; }
+.ga .ga-search-field select option { background: #1a1a1a; color: #fff; }
+.ga .ga-search-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #F97316; color: #fff; border: 0; border-radius: 10px; padding: 0 24px; font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background .15s; min-height: 56px; }
+.ga .ga-search-btn:hover { background: #ea680c; }
+.ga .ga-search-summary { display: flex; align-items: center; justify-content: space-between; color: #d1d5db; font-size: 13px; }
+.ga .ga-search-reset { background: transparent; border: 0; color: #F97316; font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 13px; }
+.ga .condition-tag { position: absolute; top: 12px; left: 12px; background: #10b981; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+@media (max-width: 860px) {
+  .ga .ga-search-fields { grid-template-columns: 1fr 1fr; }
+  .ga .ga-search-btn { grid-column: 1 / -1; min-height: 48px; }
+}
+@media (max-width: 480px) {
+  .ga .ga-search-fields { grid-template-columns: 1fr; }
+  .ga .ga-search-conditions { justify-content: center; }
+}
