@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import { normalizeImages } from "@/lib/images";
+import SiteHeader from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/vehicles/$id")({
   head: () => ({
@@ -31,6 +32,7 @@ function VehicleDetail() {
   const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [tab, setTab] = useState<"packages" | "equipment" | "specs">("packages");
 
   const { data: vehicle, isLoading } = useQuery({
     queryKey: ["vehicle", id],
@@ -41,17 +43,56 @@ function VehicleDetail() {
     },
   });
 
-  if (isLoading) return <div className="ga-app-main"><p className="ga-muted">Loading…</p></div>;
+  const { data: similar } = useQuery({
+    queryKey: ["vehicles-similar", id, (vehicle as any)?.body_type, (vehicle as any)?.brand],
+    enabled: !!vehicle,
+    queryFn: async () => {
+      const v: any = vehicle;
+      const { data } = await (supabase as any)
+        .from("vehicles")
+        .select("id,name,brand,body_type,year,price,image_url,images,mileage_km,fuel")
+        .eq("active", true)
+        .neq("id", id)
+        .or(`body_type.eq.${v?.body_type ?? ""},brand.eq.${v?.brand ?? ""}`)
+        .limit(4);
+      return data || [];
+    },
+  });
+
+  if (isLoading) return <div className="ga"><SiteHeader /><div className="ga-app-main"><p className="ga-muted">Loading…</p></div></div>;
   if (!vehicle) return (
-    <div className="ga-app-main">
-      <h1>Vehicle not found</h1>
-      <Link to="/" className="ga-btn-primary">Back home</Link>
+    <div className="ga"><SiteHeader />
+      <div className="ga-app-main">
+        <h1>Vehicle not found</h1>
+        <Link to="/" className="ga-btn-primary">Back home</Link>
+      </div>
     </div>
   );
 
   const gallery = normalizeImages(vehicle.images, vehicle.image_url);
   const features: string[] = Array.isArray(vehicle.features) ? vehicle.features : [];
   const active = gallery[activeIdx] || gallery[0] || { url: vehicle.image_url || "/favicon.ico", caption: "" };
+
+  const toList = (v: any): string[] => {
+    if (Array.isArray(v)) return v.filter(Boolean).map(String);
+    if (typeof v === "string") return v.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+  const packageOptions = toList(vehicle.package_options);
+  const standardEquipment = toList(vehicle.standard_equipment);
+  const technicalSpecs = toList(vehicle.technical_specs);
+
+  const detailBoxes: Array<{ label: string; value: any; icon: string }> = [
+    { label: "Body Style", value: vehicle.body_type, icon: "🚙" },
+    { label: "Engine", value: vehicle.engine, icon: "⚙️" },
+    { label: "Exterior Colour", value: vehicle.color, icon: "🎨" },
+    { label: "Interior Colour", value: vehicle.interior_color, icon: "🪑" },
+    { label: "Transmission", value: vehicle.transmission, icon: "🔧" },
+    { label: "Drivetrain", value: vehicle.drivetrain, icon: "🛞" },
+    { label: "VIN", value: vehicle.vin, icon: "🆔" },
+    { label: "Stock #", value: vehicle.stock_number, icon: "📦" },
+    { label: "Fuel Type", value: vehicle.fuel, icon: "⛽" },
+  ];
 
   const handleAdd = async (goToCheckout: boolean) => {
     try {
@@ -101,7 +142,9 @@ function VehicleDetail() {
   ];
 
   return (
-    <div className="ga-shop-page">
+    <div className="ga">
+      <SiteHeader />
+      <div className="ga-shop-page">
       <div className="ga-shop-nav">
         <Link to="/">← Back to cars</Link>
       </div>
@@ -115,7 +158,7 @@ function VehicleDetail() {
           </div>
           {gallery.length > 1 && (
             <div className="ga-shop-thumbs">
-              {gallery.slice(0, 20).map((img, i) => (
+              {gallery.slice(0, 10).map((img, i) => (
                 <button
                   key={img.url + i}
                   className={`ga-shop-thumb ${activeIdx === i ? "active" : ""}`}
@@ -131,7 +174,10 @@ function VehicleDetail() {
         </div>
 
         <div className="ga-shop-info">
-          <div className="ga-shop-eyebrow">{vehicle.body_type || "Vehicle"} · {vehicle.brand || ""}</div>
+          <div className="ga-shop-eyebrow">
+            <span className={`ga-cond-pill ${vehicle.condition === "new" ? "is-new" : "is-used"}`}>{(vehicle.condition || "used").toUpperCase()}</span>
+            <span>{vehicle.body_type || "Vehicle"} · {vehicle.brand || ""}</span>
+          </div>
           <h1 className="ga-shop-title">{vehicle.name}</h1>
           <div className="ga-shop-price">GHS {Number(vehicle.price).toLocaleString()}</div>
 
@@ -170,30 +216,82 @@ function VehicleDetail() {
       </div>
 
       <div className="ga-shop-details">
-        <div>
-          <h2>Overview</h2>
-          <p className="ga-shop-desc">{vehicle.description || "This vehicle has been carefully sourced by Ghanada Autos, inspected, cleared and prepared for the road."}</p>
-        </div>
-
-        <div>
-          <h2>Specifications</h2>
-          <div className="ga-shop-specs">
-            {specs.filter(([, v]) => v !== null && v !== undefined && v !== "").map(([k, v]) => (
-              <div key={k} className="ga-shop-spec-row">
-                <span>{k}</span>
-                <strong>{String(v)}</strong>
+        <section className="ga-vd-section">
+          <h2>Vehicle Details</h2>
+          <div className="ga-vd-grid">
+            {detailBoxes.map((b) => (
+              <div key={b.label} className="ga-vd-box">
+                <div className="ga-vd-box-icon">{b.icon}</div>
+                <div className="ga-vd-box-body">
+                  <div className="ga-vd-box-label">{b.label}</div>
+                  <div className="ga-vd-box-value">{b.value ? String(b.value) : "—"}</div>
+                </div>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {features.length > 0 && (
-          <div>
-            <h2>Features & Equipment</h2>
-            <div className="ga-shop-features">
-              {features.map((f) => <span key={f} className="ga-shop-feature">✓ {f}</span>)}
-            </div>
+        <section className="ga-vd-section">
+          <div className="ga-vd-tabs" role="tablist">
+            <button role="tab" aria-selected={tab === "packages"} className={`ga-vd-tab ${tab === "packages" ? "active" : ""}`} onClick={() => setTab("packages")}>Packages &amp; Options</button>
+            <button role="tab" aria-selected={tab === "equipment"} className={`ga-vd-tab ${tab === "equipment" ? "active" : ""}`} onClick={() => setTab("equipment")}>Standard Equipment</button>
+            <button role="tab" aria-selected={tab === "specs"} className={`ga-vd-tab ${tab === "specs" ? "active" : ""}`} onClick={() => setTab("specs")}>Technical Specifications</button>
           </div>
+          <div className="ga-vd-tab-panel">
+            {tab === "packages" && (
+              packageOptions.length ? (
+                <ul className="ga-vd-list">{packageOptions.map((v) => <li key={v}>{v}</li>)}</ul>
+              ) : <p className="ga-muted">No packages or options listed for this vehicle.</p>
+            )}
+            {tab === "equipment" && (
+              standardEquipment.length ? (
+                <ul className="ga-vd-list">{standardEquipment.map((v) => <li key={v}>{v}</li>)}</ul>
+              ) : (features.length ? (
+                <ul className="ga-vd-list">{features.map((v) => <li key={v}>{v}</li>)}</ul>
+              ) : <p className="ga-muted">No standard equipment listed for this vehicle.</p>)
+            )}
+            {tab === "specs" && (
+              technicalSpecs.length ? (
+                <ul className="ga-vd-list">{technicalSpecs.map((v) => <li key={v}>{v}</li>)}</ul>
+              ) : (
+                <div className="ga-shop-specs">
+                  {specs.filter(([, v]) => v !== null && v !== undefined && v !== "").map(([k, v]) => (
+                    <div key={k} className="ga-shop-spec-row">
+                      <span>{k}</span>
+                      <strong>{String(v)}</strong>
+                    </div>
+                  ))}
+                </div>
+              )
+            )}
+          </div>
+        </section>
+
+        {vehicle.description && (
+          <section className="ga-vd-section">
+            <h2>Overview</h2>
+            <p className="ga-shop-desc">{vehicle.description}</p>
+          </section>
+        )}
+
+        {similar && (similar as any[]).length > 0 && (
+          <section className="ga-vd-section">
+            <h2>You may also like</h2>
+            <div className="ga-vd-similar">
+              {(similar as any[]).map((s) => (
+                <Link key={s.id} to="/vehicles/$id" params={{ id: s.id }} className="ga-vd-similar-card">
+                  <div className="ga-vd-similar-img">
+                    <img src={s.image_url || "/favicon.ico"} alt={s.name} />
+                  </div>
+                  <div className="ga-vd-similar-body">
+                    <div className="ga-vd-similar-eyebrow">{s.body_type || "Vehicle"} · {s.year || ""}</div>
+                    <div className="ga-vd-similar-name">{s.name}</div>
+                    <div className="ga-vd-similar-price">GHS {Number(s.price).toLocaleString()}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
       </div>
 
@@ -216,6 +314,7 @@ function VehicleDetail() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
