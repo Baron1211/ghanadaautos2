@@ -41,18 +41,12 @@ export default function CartBar() {
 
   return (
     <div className="ga-cart-bar" role="region" aria-label="Shopping cart">
-      <div className="ga-cart-bar-inner">
-        <div className="ga-cart-bar-info">
-          <span className="ga-cart-bar-icon" aria-hidden>🛒</span>
-          <div>
-            <strong>{count} item{count === 1 ? "" : "s"} in your cart</strong>
-            <small>Review your cart and complete your purchase</small>
-          </div>
-        </div>
-        <Link to="/checkout" className="ga-cart-bar-cta">
-          Proceed to Checkout →
-        </Link>
-      </div>
+      <Link to="/checkout" className="ga-cart-bar-pill">
+        <span className="ga-cart-bar-pill-icon" aria-hidden>🛒</span>
+        <span className="ga-cart-bar-pill-count">{count}</span>
+        <span className="ga-cart-bar-pill-text">Proceed to Checkout</span>
+        <span className="ga-cart-bar-pill-arrow" aria-hidden>→</span>
+      </Link>
     </div>
   );
 }
