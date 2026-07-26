@@ -2281,6 +2281,14 @@
   color: inherit;
 }
 .ga-app-header .brand img { height: 40px; }
+.ga-app-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.ga-app-brand img { height: 40px; width: auto; }
 .ga-app-header .brand strong {
   font-family: "Manrope", sans-serif;
   font-size: 16px;
