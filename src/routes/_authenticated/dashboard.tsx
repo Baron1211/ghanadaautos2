@@ -537,7 +537,7 @@ function CartTab({ userId }: { userId: string }) {
   );
 }
 
-function ProfileTab({ userId }: { userId: string }) {
+function ProfileTab({ userId, onSaved }: { userId: string; onSaved?: (p: { full_name?: string; avatar_url?: string }) => void }) {
   const [form, setForm] = useState({ full_name: "", phone: "", address: "", avatar_url: "" });
   const [saving, setSaving] = useState(false);
 
@@ -558,7 +558,10 @@ function ProfileTab({ userId }: { userId: string }) {
     const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
     if (error) { toast.error(error.message); return; }
     const { data } = await supabase.storage.from("avatars").createSignedUrl(path, 60 * 60 * 24 * 365);
-    if (data?.signedUrl) setForm(f => ({ ...f, avatar_url: data.signedUrl }));
+    if (data?.signedUrl) {
+      setForm(f => ({ ...f, avatar_url: data.signedUrl }));
+      onSaved?.({ avatar_url: data.signedUrl });
+    }
   };
 
   const save = async () => {
@@ -566,7 +569,10 @@ function ProfileTab({ userId }: { userId: string }) {
     const { error } = await supabase.from("profiles").update(form).eq("id", userId);
     setSaving(false);
     if (error) toast.error(error.message);
-    else toast.success("Profile updated");
+    else {
+      toast.success("Profile updated");
+      onSaved?.({ full_name: form.full_name, avatar_url: form.avatar_url });
+    }
   };
 
   return (
