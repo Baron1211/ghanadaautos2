@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import { normalizeImages } from "@/lib/images";
+import SiteHeader from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/parts/$id")({
   head: ({ params }) => ({
@@ -156,6 +157,7 @@ function PartDetail() {
             <div>💬 WhatsApp support: +1 437 436 4357</div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
