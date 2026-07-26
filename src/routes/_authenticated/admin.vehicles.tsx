@@ -19,6 +19,8 @@ function AdminVehicles() {
     price: "", mileage_km: "", fuel: "Petrol", transmission: "Automatic", condition: "used",
     seats: "", color: "", description: "", image_url: "", images: [] as GalleryImage[],
     features: "", finance_available: false, featured: false,
+    engine: "", interior_color: "", drivetrain: "", vin: "", stock_number: "",
+    package_options: "", standard_equipment: "", technical_specs: "",
   };
   const [form, setForm] = useState(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -50,6 +52,14 @@ function AdminVehicles() {
       image_url: form.image_url, images: serializeImages(form.images),
       features: form.features ? form.features.split(",").map(s => s.trim()).filter(Boolean) : [],
       finance_available: form.finance_available, featured: form.featured,
+      engine: form.engine || null,
+      interior_color: form.interior_color || null,
+      drivetrain: form.drivetrain || null,
+      vin: form.vin || null,
+      stock_number: form.stock_number || null,
+      package_options: form.package_options ? form.package_options.split(/[\n,]+/).map(s => s.trim()).filter(Boolean) : [],
+      standard_equipment: form.standard_equipment ? form.standard_equipment.split(/[\n,]+/).map(s => s.trim()).filter(Boolean) : [],
+      technical_specs: form.technical_specs ? form.technical_specs.split(/[\n,]+/).map(s => s.trim()).filter(Boolean) : [],
     };
     const res = editingId
       ? await (supabase as any).from("vehicles").update(payload).eq("id", editingId)
@@ -73,6 +83,14 @@ function AdminVehicles() {
       images: normalizeImages(p.images, p.image_url),
       features: Array.isArray(p.features) ? p.features.join(", ") : "",
       finance_available: !!p.finance_available, featured: !!p.featured,
+      engine: p.engine || "",
+      interior_color: p.interior_color || "",
+      drivetrain: p.drivetrain || "",
+      vin: p.vin || "",
+      stock_number: p.stock_number || "",
+      package_options: Array.isArray(p.package_options) ? p.package_options.join(", ") : "",
+      standard_equipment: Array.isArray(p.standard_equipment) ? p.standard_equipment.join(", ") : "",
+      technical_specs: Array.isArray(p.technical_specs) ? p.technical_specs.join(", ") : "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -129,13 +147,32 @@ function AdminVehicles() {
             </select>
           </label>
           <label>Seats<input type="number" value={form.seats} onChange={e => setForm({ ...form, seats: e.target.value })} /></label>
-          <label>Colour<input value={form.color} onChange={e => setForm({ ...form, color: e.target.value })} /></label>
+          <label>Exterior Colour<input value={form.color} onChange={e => setForm({ ...form, color: e.target.value })} /></label>
+          <label>Interior Colour<input value={form.interior_color} onChange={e => setForm({ ...form, interior_color: e.target.value })} /></label>
+          <label>Engine<input value={form.engine} onChange={e => setForm({ ...form, engine: e.target.value })} placeholder="2.5L 4-Cyl" /></label>
+          <label>Drivetrain
+            <select value={form.drivetrain} onChange={e => setForm({ ...form, drivetrain: e.target.value })}>
+              <option value="">Select…</option>
+              <option>FWD</option><option>RWD</option><option>AWD</option><option>4WD</option>
+            </select>
+          </label>
+          <label>VIN<input value={form.vin} onChange={e => setForm({ ...form, vin: e.target.value })} placeholder="17-char VIN" maxLength={17} /></label>
+          <label>Stock #<input value={form.stock_number} onChange={e => setForm({ ...form, stock_number: e.target.value })} /></label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
-          <label className="ga-form-full">Features (comma separated)<input value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} placeholder="Leather seats, Sunroof, 360° camera" /></label>
+          <label className="ga-form-full">Packages &amp; Options (comma or new line)
+            <textarea value={form.package_options} onChange={e => setForm({ ...form, package_options: e.target.value })} placeholder="Premium Package, Cold Weather Package, Tow Package" />
+          </label>
+          <label className="ga-form-full">Standard Equipment (comma or new line)
+            <textarea value={form.standard_equipment} onChange={e => setForm({ ...form, standard_equipment: e.target.value })} placeholder="Air Conditioning, Alloy Wheels, Backup Camera, Bluetooth Connectivity" />
+          </label>
+          <label className="ga-form-full">Technical Specifications (comma or new line)
+            <textarea value={form.technical_specs} onChange={e => setForm({ ...form, technical_specs: e.target.value })} placeholder="0-100 km/h: 7.2s, Cargo: 1,065L, Towing: 907 kg" />
+          </label>
+          <label className="ga-form-full">Features (legacy, comma separated)<input value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} placeholder="Leather seats, Sunroof, 360° camera" /></label>
           <label><input type="checkbox" checked={form.finance_available} onChange={e => setForm({ ...form, finance_available: e.target.checked })} /> Finance available</label>
           <label><input type="checkbox" checked={form.featured} onChange={e => setForm({ ...form, featured: e.target.checked })} /> Featured</label>
           <div className="ga-form-full">
-            <label>Images (up to 20, first is primary, add captions per image)</label>
+            <label>Images (up to 10, first is primary, add captions per image)</label>
             <ImageGalleryEditor
               images={form.images}
               primaryUrl={form.image_url}
