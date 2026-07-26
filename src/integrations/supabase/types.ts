@@ -714,6 +714,7 @@ export type Database = {
           body_type: string | null
           brand: string | null
           color: string | null
+          condition: string
           created_at: string
           description: string | null
           featured: boolean | null
@@ -737,6 +738,7 @@ export type Database = {
           body_type?: string | null
           brand?: string | null
           color?: string | null
+          condition?: string
           created_at?: string
           description?: string | null
           featured?: boolean | null
@@ -760,6 +762,7 @@ export type Database = {
           body_type?: string | null
           brand?: string | null
           color?: string | null
+          condition?: string
           created_at?: string
           description?: string | null
           featured?: boolean | null

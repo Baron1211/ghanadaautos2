@@ -1,0 +1,1 @@
+ALTER TABLE public.vehicles ADD COLUMN IF NOT EXISTS condition text NOT NULL DEFAULT 'used' CHECK (condition IN ('new','used'));
