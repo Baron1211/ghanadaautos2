@@ -26,6 +26,7 @@ function AuthPage() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
+  const [confirmSent, setConfirmSent] = useState<string | null>(null);
 
   const getPostAuthPath = async (userId: string) => {
     const { data } = await supabase
@@ -76,30 +77,41 @@ function AuthPage() {
           toast.error("Password must be at least 6 characters");
           return;
         }
-        const { error } = await supabase.auth.signUp({
+        const { data: signUpData, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin + "/dashboard",
+            emailRedirectTo: window.location.origin + "/auth",
             data: { full_name: fullName, phone },
           },
         });
         if (error) throw error;
-        // Also update profile with phone since trigger only picks up name/avatar
-        const { data: sess } = await supabase.auth.getUser();
-        if (sess.user) {
+        // If email confirmation is required, no session is returned.
+        if (!signUpData.session) {
+          setConfirmSent(email);
+          toast.success("Confirmation email sent. Please check your inbox.");
+          setMode("login");
+          setPassword("");
+        } else {
+          // Auto-confirmed (shouldn't happen with current config) — persist profile then continue
           await supabase
             .from("profiles")
             .update({ full_name: fullName, phone })
-            .eq("id", sess.user.id);
+            .eq("id", signUpData.session.user.id);
           toast.success("Welcome to Ghanada Autos!");
           navigate({ to: "/dashboard" });
-        } else {
-          toast.success("Check your email to confirm your account.");
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        if (error) {
+          const msg = (error.message || "").toLowerCase();
+          if (msg.includes("confirm") || msg.includes("not confirmed") || (error as any).code === "email_not_confirmed") {
+            setConfirmSent(email);
+            toast.error("Please confirm your email address before signing in. Check your inbox for the confirmation link.");
+            return;
+          }
+          throw error;
+        }
         toast.success("Signed in");
         const destination = data.user ? await getPostAuthPath(data.user.id) : "/dashboard";
         navigate({ to: destination });
@@ -109,6 +121,19 @@ function AuthPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const resendConfirmation = async () => {
+    if (!confirmSent) return;
+    setLoading(true);
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: confirmSent,
+      options: { emailRedirectTo: window.location.origin + "/auth" },
+    });
+    setLoading(false);
+    if (error) toast.error(error.message || "Could not resend email");
+    else toast.success("Confirmation email resent.");
   };
 
   return (
@@ -169,6 +194,44 @@ function AuthPage() {
               ? "Sign in to manage orders, cart and bookings."
               : "Join Ghanada Autos to shop parts and rent vehicles."}
           </p>
+
+          {confirmSent && (
+            <div
+              role="status"
+              style={{
+                background: "#ecfdf5",
+                border: "1px solid #10b981",
+                color: "#065f46",
+                borderRadius: 12,
+                padding: "12px 14px",
+                margin: "12px 0 16px",
+                fontSize: 14,
+                lineHeight: 1.5,
+              }}
+            >
+              <strong>Confirm your email address.</strong>
+              <div style={{ marginTop: 4 }}>
+                We sent a confirmation link to <b>{confirmSent}</b>. Click it, then sign in below.
+              </div>
+              <button
+                type="button"
+                onClick={resendConfirmation}
+                disabled={loading}
+                style={{
+                  marginTop: 8,
+                  background: "transparent",
+                  border: "none",
+                  color: "#065f46",
+                  fontWeight: 600,
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                Resend confirmation email
+              </button>
+            </div>
+          )}
 
           <button
             type="button"
