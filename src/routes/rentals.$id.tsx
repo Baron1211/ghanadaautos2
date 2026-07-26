@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { normalizeImages } from "@/lib/images";
+import SiteHeader from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/rentals/$id")({
   head: () => ({
@@ -85,11 +86,13 @@ function RentalDetail() {
     navigate({ to: "/bookings/$number", params: { number: data.booking_number } });
   };
 
-  if (isLoading) return <div className="ga-app-main"><p className="ga-muted">Loading…</p></div>;
+  if (isLoading) return <div className="ga"><SiteHeader /><div className="ga-app-main"><p className="ga-muted">Loading…</p></div></div>;
   if (!rental) return (
-    <div className="ga-app-main">
-      <h1>Rental not found</h1>
-      <Link to="/" className="ga-btn-primary">Back home</Link>
+    <div className="ga"><SiteHeader />
+      <div className="ga-app-main">
+        <h1>Rental not found</h1>
+        <Link to="/" className="ga-btn-primary">Back home</Link>
+      </div>
     </div>
   );
 
@@ -97,7 +100,9 @@ function RentalDetail() {
   const active = gallery[activeIdx] || gallery[0] || { url: rental.image_url || "/favicon.ico", caption: "" };
 
   return (
-    <div className="ga-detail">
+    <div className="ga">
+      <SiteHeader />
+      <div className="ga-detail">
       <div className="ga-detail-nav"><Link to="/">← Back to rentals</Link></div>
       <div className="ga-detail-grid">
         <div className="ga-detail-media">
@@ -200,6 +205,7 @@ function RentalDetail() {
             <p className="ga-muted ga-small">Our team confirms your booking by email/WhatsApp. Payment via Paystack or bank transfer.</p>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

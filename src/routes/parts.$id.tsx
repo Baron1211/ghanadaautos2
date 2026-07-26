@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import { normalizeImages } from "@/lib/images";
+import SiteHeader from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/parts/$id")({
   head: ({ params }) => ({
@@ -69,16 +70,20 @@ function PartDetail() {
     }
   };
 
-  if (isLoading) return <div className="ga-app-main"><p className="ga-muted">Loading…</p></div>;
+  if (isLoading) return <div className="ga"><SiteHeader /><div className="ga-app-main"><p className="ga-muted">Loading…</p></div></div>;
   if (!part) return (
-    <div className="ga-app-main">
-      <h1>Part not found</h1>
-      <Link to="/" className="ga-btn-primary">Back home</Link>
+    <div className="ga"><SiteHeader />
+      <div className="ga-app-main">
+        <h1>Part not found</h1>
+        <Link to="/" className="ga-btn-primary">Back home</Link>
+      </div>
     </div>
   );
 
   return (
-    <div className="ga-detail">
+    <div className="ga">
+      <SiteHeader />
+      <div className="ga-detail">
       <div className="ga-detail-nav">
         <Link to="/">← Back to shop</Link>
       </div>
@@ -152,6 +157,7 @@ function PartDetail() {
             <div>💬 WhatsApp support: +1 437 436 4357</div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

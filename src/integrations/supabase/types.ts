@@ -717,6 +717,8 @@ export type Database = {
           condition: string
           created_at: string
           description: string | null
+          drivetrain: string | null
+          engine: string | null
           featured: boolean | null
           features: Json | null
           finance_available: boolean | null
@@ -724,13 +726,19 @@ export type Database = {
           id: string
           image_url: string | null
           images: Json | null
+          interior_color: string | null
           mileage_km: number | null
           model: string | null
           name: string
+          package_options: Json
           price: number
           seats: number | null
+          standard_equipment: Json
+          stock_number: string | null
+          technical_specs: Json
           transmission: string | null
           updated_at: string
+          vin: string | null
           year: number | null
         }
         Insert: {
@@ -741,6 +749,8 @@ export type Database = {
           condition?: string
           created_at?: string
           description?: string | null
+          drivetrain?: string | null
+          engine?: string | null
           featured?: boolean | null
           features?: Json | null
           finance_available?: boolean | null
@@ -748,13 +758,19 @@ export type Database = {
           id?: string
           image_url?: string | null
           images?: Json | null
+          interior_color?: string | null
           mileage_km?: number | null
           model?: string | null
           name: string
+          package_options?: Json
           price?: number
           seats?: number | null
+          standard_equipment?: Json
+          stock_number?: string | null
+          technical_specs?: Json
           transmission?: string | null
           updated_at?: string
+          vin?: string | null
           year?: number | null
         }
         Update: {
@@ -765,6 +781,8 @@ export type Database = {
           condition?: string
           created_at?: string
           description?: string | null
+          drivetrain?: string | null
+          engine?: string | null
           featured?: boolean | null
           features?: Json | null
           finance_available?: boolean | null
@@ -772,13 +790,19 @@ export type Database = {
           id?: string
           image_url?: string | null
           images?: Json | null
+          interior_color?: string | null
           mileage_km?: number | null
           model?: string | null
           name?: string
+          package_options?: Json
           price?: number
           seats?: number | null
+          standard_equipment?: Json
+          stock_number?: string | null
+          technical_specs?: Json
           transmission?: string | null
           updated_at?: string
+          vin?: string | null
           year?: number | null
         }
         Relationships: []

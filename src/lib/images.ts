@@ -3,7 +3,7 @@
 
 export type GalleryImage = { url: string; caption: string };
 
-export const MAX_IMAGES = 20;
+export const MAX_IMAGES = 10;
 
 export function normalizeImages(raw: any, fallbackUrl?: string | null): GalleryImage[] {
   const out: GalleryImage[] = [];
