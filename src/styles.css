@@ -3307,3 +3307,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 @media (max-width: 520px) {
   .ga-vd-grid { grid-template-columns: 1fr; }
 }
+
+/* Light variant of search bar (used on /cars) */
+.ga .ga-search-light .ga-cond { background: #fff; color: #111; border-color: #e5e7eb; }
+.ga .ga-search-light .ga-cond:hover { background: #f3f4f6; color: #000; }
+.ga .ga-search-light .ga-cond .ga-cond-dot { border-color: #111; }
+.ga .ga-search-light .ga-cond.active { background: #000; color: #fff; border-color: #000; }
+.ga .ga-search-light .ga-cond.active .ga-cond-dot { background: #fff; border-color: #fff; }
+.ga .ga-search-light .ga-search-summary { color: #111; }
+.ga .ga-search-light .ga-search-summary span { color: #111; font-weight: 600; }
