@@ -201,6 +201,27 @@ function AuthPage() {
               : "Join Ghanada Autos to shop parts and rent vehicles."}
           </p>
 
+          {justConfirmed && !confirmSent && (
+            <div
+              role="status"
+              style={{
+                background: "#ecfdf5",
+                border: "1px solid #10b981",
+                color: "#065f46",
+                borderRadius: 12,
+                padding: "12px 14px",
+                margin: "12px 0 16px",
+                fontSize: 14,
+                lineHeight: 1.5,
+              }}
+            >
+              <strong>Email confirmed.</strong>
+              <div style={{ marginTop: 4 }}>
+                Your email has been verified. Please sign in to continue.
+              </div>
+            </div>
+          )}
+
           {confirmSent && (
             <div
               role="status"
