@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import { normalizeImages } from "@/lib/images";
+import { extractId, vehicleSlug } from "@/lib/slug";
 import SiteHeader from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/vehicles/$id")({
@@ -21,7 +22,8 @@ export const Route = createFileRoute("/vehicles/$id")({
 });
 
 function VehicleDetail() {
-  const { id } = Route.useParams();
+  const { id: idParam } = Route.useParams();
+  const id = extractId(idParam);
   const navigate = useNavigate();
   const [showReserve, setShowReserve] = useState(false);
   const [intent, setIntent] = useState<"finance" | "inquiry">("finance");
@@ -279,7 +281,7 @@ function VehicleDetail() {
             <h2>You may also like</h2>
             <div className="ga-vd-similar">
               {(similar as any[]).map((s) => (
-                <Link key={s.id} to="/vehicles/$id" params={{ id: s.id }} className="ga-vd-similar-card">
+                <Link key={s.id} to="/vehicles/$id" params={{ id: vehicleSlug(s) }} className="ga-vd-similar-card">
                   <div className="ga-vd-similar-img">
                     <img src={s.image_url || "/favicon.ico"} alt={s.name} />
                   </div>

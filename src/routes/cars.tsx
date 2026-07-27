@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import SiteHeader from "@/components/SiteHeader";
+import { vehicleSlug } from "@/lib/slug";
 
 export const Route = createFileRoute("/cars")({
   head: () => ({
@@ -134,13 +135,13 @@ function CarsPage() {
             )}
             {filtered.map((v: any) => (
               <div key={v.id} className="vcard">
-                <Link to="/vehicles/$id" params={{ id: v.id }} className="vimg">
+                <Link to="/vehicles/$id" params={{ id: vehicleSlug(v) }} className="vimg">
                   {v.finance_available && <span className="finance-tag">Finance Available</span>}
                   {v.condition === "new" && <span className="condition-tag">New</span>}
                   <img src={v.image_url || "/favicon.ico"} alt={v.name} />
                 </Link>
                 <div className="vbody">
-                  <h4><Link to="/vehicles/$id" params={{ id: v.id }} className="ga-link-plain">{v.name}</Link></h4>
+                  <h4><Link to="/vehicles/$id" params={{ id: vehicleSlug(v) }} className="ga-link-plain">{v.name}</Link></h4>
                   <div className="vprice">GHS {Number(v.price).toLocaleString()}</div>
                   <div className="vmeta">
                     {v.year && <span>📅 {v.year}</span>}
