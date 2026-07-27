@@ -138,7 +138,7 @@ function GhanadaHome() {
 
   const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
   const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
-  const openVehicle = (id: string) => navigate({ to: "/vehicles/$id", params: { id } });
+  const openVehicle = (v: any) => navigate({ to: "/vehicles/$id", params: { id: vehicleSlug(v) } });
 
   const quickAddVehicle = async (v: any, buyNow: boolean) => {
     try {
@@ -410,14 +410,14 @@ function GhanadaHome() {
           <div className="vehicle-grid">
             {(dbVehicles && dbVehicles.length > 0 ? filteredVehicles : []).map((v: any) => (
               <div key={v.id} className="vcard">
-                 <div className="vimg" onClick={() => openVehicle(v.id)} style={{ cursor: "pointer" }}>
+                <div className="vimg" onClick={() => openVehicle(v)} style={{ cursor: "pointer" }}>
                    {v.finance_available && <span className="finance-tag">Finance Available</span>}
                    {v.condition === "new" && <span className="condition-tag">New</span>}
                    <span className="fav-btn">♡</span>
                    <img src={v.image_url || vehicles[0].img} alt={v.name} />
                  </div>
                  <div className="vbody">
-                   <h4><Link to="/vehicles/$id" params={{ id: v.id }} className="ga-link-plain">{v.name}</Link></h4>
+                  <h4><Link to="/vehicles/$id" params={{ id: vehicleSlug(v) }} className="ga-link-plain">{v.name}</Link></h4>
                   <div className="vprice">GHS {Number(v.price).toLocaleString()}</div>
                   <div className="vmeta">
                     {v.year && <span>📅 {v.year}</span>}
@@ -429,7 +429,7 @@ function GhanadaHome() {
                     <button className="btn btn-ghost" onClick={() => quickAddVehicle(v, false)} aria-label="Add to cart">🛒 Add</button>
                     <button className="btn btn-primary" onClick={() => quickAddVehicle(v, true)}>Buy Now</button>
                   </div>
-                  <button className="vcard-details" onClick={() => openVehicle(v.id)}>View full details →</button>
+                 <button className="vcard-details" onClick={() => openVehicle(v)}>View full details →</button>
                 </div>
               </div>
             ))}
