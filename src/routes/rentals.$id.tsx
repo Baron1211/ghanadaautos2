@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { normalizeImages } from "@/lib/images";
 import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/rentals/$id")({
   head: () => ({
@@ -207,6 +208,7 @@ function RentalDetail() {
         </div>
       </div>
       </div>
+    <SiteFooter />
     </div>
   );
 }

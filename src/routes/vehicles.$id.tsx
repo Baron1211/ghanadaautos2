@@ -7,6 +7,7 @@ import { addToCart } from "@/lib/cart";
 import { normalizeImages } from "@/lib/images";
 import { extractId, vehicleSlug } from "@/lib/slug";
 import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/vehicles/$id")({
   head: () => ({
@@ -317,6 +318,7 @@ function VehicleDetail() {
         </div>
       )}
       </div>
+    <SiteFooter />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 import { vehicleSlug } from "@/lib/slug";
 
 export const Route = createFileRoute("/cars")({
@@ -159,6 +160,7 @@ function CarsPage() {
           </div>
         </div>
       </section>
+    <SiteFooter />
     </div>
   );
 }
