@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import { normalizeImages } from "@/lib/images";
 import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/parts/$id")({
   head: ({ params }) => ({
@@ -159,6 +160,7 @@ function PartDetail() {
         </div>
       </div>
       </div>
+    <SiteFooter />
     </div>
   );
 }

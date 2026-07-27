@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/import")({
   head: () => ({
@@ -96,6 +97,7 @@ function ImportPage() {
           </div>
         </div>
       </section>
+    <SiteFooter />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { addToCart } from "@/lib/cart";
 import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/parts")({
   head: () => ({
@@ -131,6 +132,7 @@ function PartsPage() {
           </div>
         </div>
       </section>
+    <SiteFooter />
     </div>
   );
 }
