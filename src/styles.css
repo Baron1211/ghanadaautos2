@@ -3316,3 +3316,104 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 .ga .ga-search-light .ga-cond.active .ga-cond-dot { background: #fff; border-color: #fff; }
 .ga .ga-search-light .ga-search-summary { color: #111; }
 .ga .ga-search-light .ga-search-summary span { color: #111; font-weight: 600; }
+
+/* ===== Cars page premium hero ===== */
+.ga .cars-hero {
+  position: relative;
+  overflow: hidden;
+  background: #0b0f0d;
+  color: #fff;
+  padding: 96px 0 140px;
+  isolation: isolate;
+}
+.ga .cars-hero-bg {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(1200px 500px at 85% -10%, rgba(249,115,22,0.28), transparent 60%),
+    radial-gradient(900px 500px at 10% 20%, rgba(15,138,95,0.35), transparent 60%),
+    linear-gradient(180deg, #0b0f0d 0%, #0a1512 60%, #060a08 100%);
+}
+.ga .cars-hero-bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 30%, transparent 75%);
+}
+.ga .cars-hero-inner { position: relative; text-align: left; max-width: 980px; }
+.ga .cars-hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: #f6c48a; font-weight: 600; margin-bottom: 22px;
+}
+.ga .cars-hero-line { width: 36px; height: 1px; background: #f97316; display: inline-block; }
+.ga .cars-hero-title {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  margin: 0 0 20px;
+  color: #fff;
+}
+.ga .cars-hero-title em {
+  font-style: italic;
+  font-weight: 500;
+  background: linear-gradient(90deg, #fbbf77, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ga .cars-hero-sub {
+  max-width: 620px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.6;
+  color: rgba(255,255,255,0.72);
+  margin: 0 0 40px;
+}
+.ga .cars-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 640px;
+}
+.ga .cars-hero-stat {
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+}
+.ga .cars-hero-stat strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.ga .cars-hero-stat span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+.ga .cars-listing { background: #fff; padding-top: 0; }
+.ga .cars-search-float {
+  margin-top: -80px;
+  margin-bottom: 32px;
+  background: #fff;
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px -20px rgba(0,0,0,0.25), 0 8px 20px -12px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 720px) {
+  .ga .cars-hero { padding: 72px 0 120px; }
+  .ga .cars-hero-stats { grid-template-columns: 1fr; }
+  .ga .cars-search-float { margin-top: -70px; padding: 16px; border-radius: 14px; }
+}
