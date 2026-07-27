@@ -75,15 +75,29 @@ function CarsPage() {
   return (
     <div className="ga">
       <SiteHeader />
-      <section className="section" style={{ background: "#fff" }}>
-        <div className="container">
-          <div className="section-head">
-            <div className="eyebrow">Ghanada Autos Marketplace</div>
-            <h1>Cars for Sale</h1>
-            <p>Explore our full inventory. Use the filters below to find your perfect match.</p>
+      <section className="cars-hero">
+        <div className="cars-hero-bg" aria-hidden />
+        <div className="container cars-hero-inner">
+          <div className="cars-hero-eyebrow">
+            <span className="cars-hero-line" />
+            Ghanada Autos Marketplace
           </div>
-
-          <div className="ga-search-bar ga-search-light" style={{ marginBottom: 32 }}>
+          <h1 className="cars-hero-title">
+            Find your next <em>drive.</em>
+          </h1>
+          <p className="cars-hero-sub">
+            A curated inventory of new and pre-owned vehicles — inspected, financed, and delivered across Ghana.
+          </p>
+          <div className="cars-hero-stats">
+            <div className="cars-hero-stat"><strong>{vehicles.length}</strong><span>Vehicles in stock</span></div>
+            <div className="cars-hero-stat"><strong>Finance</strong><span>Flexible plans available</span></div>
+            <div className="cars-hero-stat"><strong>Verified</strong><span>Fully inspected units</span></div>
+          </div>
+        </div>
+      </section>
+      <section className="section cars-listing">
+        <div className="container">
+          <div className="ga-search-bar ga-search-light cars-search-float">
             <div className="ga-search-conditions" role="tablist">
               {(["all", "new", "used"] as const).map((c) => (
                 <button key={c} role="tab" aria-selected={condition === c} className={`ga-cond ${condition === c ? "active" : ""}`} onClick={() => setCondition(c)}>
