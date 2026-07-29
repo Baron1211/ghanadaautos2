@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import { blogPosts } from "@/lib/blog";
+import WhatsAppChat from "@/components/WhatsAppChat";
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
 import brakeImg from "@/assets/parts/brake.jpg.asset.json";
 import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
@@ -346,17 +347,6 @@ function GhanadaHome() {
             </div>
             <button className="hero-nav prev" aria-label="Previous vehicle" onClick={() => goSlide(-1)}>‹</button>
             <button className="hero-nav next" aria-label="Next vehicle" onClick={() => goSlide(1)}>›</button>
-            <div className="hero-slide-card">
-              <div className="hero-slide-tag">{slides[slide]?.tag}</div>
-              <div className="hero-slide-name">
-                {slides[slide]?.slug ? (
-                  <Link to="/vehicles/$id" params={{ id: slides[slide].slug }}>{slides[slide].name}</Link>
-                ) : (
-                  <Link to="/cars">{slides[slide]?.name}</Link>
-                )}
-              </div>
-              {slides[slide]?.price && <div className="hero-slide-price">{slides[slide].price}</div>}
-            </div>
             <div className="hero-dots">
               {slides.map((s, i) => (
                 <button key={"d" + i} className={i === slide ? "active" : ""} aria-label={`Slide ${i + 1}`} onClick={() => setSlide(i)} />
@@ -995,6 +985,7 @@ function GhanadaHome() {
           </div>
         </div>
       </footer>
+      <WhatsAppChat />
     </div>
   );
 }

@@ -3544,3 +3544,27 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .cars-hero-stats { grid-template-columns: 1fr; }
   .ga .cars-search-float { margin-top: -70px; padding: 16px; border-radius: 14px; }
 }
+
+/* ---------- WhatsApp chat widget ---------- */
+.ga .wa-widget { position: fixed; right: 20px; bottom: 92px; z-index: 60; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+.ga .wa-card { width: 320px; max-width: calc(100vw - 40px); background: #fff; border-radius: 18px; box-shadow: 0 20px 50px rgba(15, 23, 42, .22); padding: 18px 18px 20px; position: relative; animation: waPop .22s ease-out; }
+@keyframes waPop { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+.ga .wa-head { display: flex; align-items: center; gap: 12px; padding-right: 28px; }
+.ga .wa-avatar { width: 46px; height: 46px; border-radius: 50%; object-fit: contain; background: #f1f5f9; border: 1px solid #e2e8f0; flex: 0 0 auto; }
+.ga .wa-name { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 16px; color: #0f172a; line-height: 1.2; }
+.ga .wa-sub { font-size: 13px; color: #64748b; }
+.ga .wa-close { position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border-radius: 8px; border: 0; background: #f1f5f9; color: #334155; font-size: 16px; cursor: pointer; line-height: 1; }
+.ga .wa-close:hover { background: #e2e8f0; }
+.ga .wa-msg { margin: 16px 0 16px; font-size: 15px; color: #0f172a; font-weight: 600; }
+.ga .wa-actions { display: flex; gap: 10px; }
+.ga .wa-btn { flex: 1; text-align: center; padding: 11px 10px; border-radius: 999px; border: 2px solid #0f172a; font-weight: 800; font-size: 14px; text-decoration: none; color: #0f172a; background: #fff; transition: .18s; }
+.ga .wa-btn:hover { background: #0f172a; color: #fff; }
+.ga .wa-btn.primary { background: #25d366; border-color: #25d366; color: #06301a; }
+.ga .wa-btn.primary:hover { background: #1eb955; border-color: #1eb955; color: #fff; }
+.ga .wa-fab { width: 58px; height: 58px; border-radius: 50%; border: 0; background: #25d366; color: #fff; box-shadow: 0 12px 30px rgba(37, 211, 102, .45); display: grid; place-items: center; cursor: pointer; transition: transform .18s; }
+.ga .wa-fab:hover { transform: scale(1.06); }
+.ga .wa-fab svg { width: 30px; height: 30px; fill: #fff; }
+@media (max-width: 640px) {
+  .ga .wa-widget { right: 14px; bottom: 86px; }
+  .ga .wa-fab { width: 52px; height: 52px; }
+}
