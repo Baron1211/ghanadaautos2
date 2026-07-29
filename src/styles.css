@@ -627,13 +627,19 @@
 .ga .hero-slider { position: relative; min-height: 420px; display: flex; align-items: center; justify-content: center; }
 .ga .hero-slider-arc {
   position: absolute;
-  inset: 8% 4%;
-  border-radius: 40% 40% 44% 44% / 50%;
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(6px);
+  inset: -18px;
+  border-radius: 32px;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
-.ga .hero-stage { position: relative; width: 100%; height: 360px; }
+.ga .hero-stage {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, 0.8);
+}
 .ga .hero-slide {
   position: absolute;
   inset: 0;
@@ -646,8 +652,13 @@
 .ga .hero-slide img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 40px 45px rgba(0, 0, 0, 0.5));
+  object-fit: cover;
+}
+.ga .hero-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 24, 18, 0.85) 0%, rgba(4, 24, 18, 0.15) 45%, rgba(4, 24, 18, 0) 70%);
 }
 .ga .hero-nav {
   position: absolute;
@@ -667,19 +678,19 @@
   backdrop-filter: blur(6px);
 }
 .ga .hero-nav:hover { background: var(--orange); border-color: var(--orange); transform: translateY(-50%) scale(1.06); }
-.ga .hero-nav.prev { left: -6px; }
-.ga .hero-nav.next { right: -6px; }
+.ga .hero-nav.prev { left: 14px; }
+.ga .hero-nav.next { right: 14px; }
 .ga .hero-slide-card {
   position: absolute;
-  left: 50%;
-  bottom: -8px;
-  transform: translateX(-50%);
+  left: 24px;
+  right: 24px;
+  bottom: 22px;
   min-width: 260px;
-  text-align: center;
-  padding: 14px 26px;
+  text-align: left;
+  padding: 16px 22px;
   border-radius: 16px;
-  background: rgba(9, 32, 24, 0.66);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(6, 26, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(10px);
   z-index: 3;
 }
@@ -690,11 +701,11 @@
   color: #7fe3b4;
   font-weight: 700;
 }
-.ga .hero-slide-name { margin-top: 4px; font-size: 20px; font-weight: 800; font-family: "Manrope"; }
+.ga .hero-slide-name { margin-top: 4px; font-size: 22px; font-weight: 800; font-family: "Manrope"; }
 .ga .hero-slide-name a { color: #fff; text-decoration: none; }
 .ga .hero-slide-name a:hover { color: var(--orange); }
-.ga .hero-slide-price { margin-top: 4px; color: var(--orange); font-weight: 800; font-size: 15px; }
-.ga .hero-dots { position: absolute; bottom: -54px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
+.ga .hero-slide-price { margin-top: 2px; color: var(--orange); font-weight: 800; font-size: 16px; }
+.ga .hero-dots { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
 .ga .hero-dots button {
   width: 8px; height: 8px; padding: 0; border-radius: 999px; cursor: pointer;
   border: 0; background: rgba(255, 255, 255, 0.35); transition: all 0.25s ease;
@@ -704,16 +715,15 @@
 @media (max-width: 1024px) {
   .ga .hero-split { grid-template-columns: 1fr; gap: 64px; }
   .ga .hero-split .hero-content h1 { font-size: 42px; }
-  .ga .hero-stage { height: 240px; }
-  .ga .hero-slider { min-height: 300px; }
+  .ga .hero-stage { height: 300px; }
+  .ga .hero-slider { min-height: 320px; }
   .ga .hero-glow { display: none; }
-  .ga .hero-nav.prev { left: 0; }
-  .ga .hero-nav.next { right: 0; }
 }
 @media (max-width: 640px) {
-  .ga .hero-stage { height: 190px; }
+  .ga .hero-stage { height: 240px; border-radius: 18px; }
+  .ga .hero-slider-arc { inset: -10px; border-radius: 24px; }
   .ga .hero-nav { width: 38px; height: 38px; font-size: 22px; }
-  .ga .hero-slide-card { min-width: 0; width: 88%; padding: 12px 16px; }
+  .ga .hero-slide-card { min-width: 0; left: 12px; right: 12px; bottom: 12px; padding: 12px 16px; }
   .ga .hero-slide-name { font-size: 17px; }
 }
 
