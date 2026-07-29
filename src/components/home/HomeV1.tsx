@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import { blogPosts } from "@/lib/blog";
+import WhatsAppChat from "@/components/WhatsAppChat";
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
 import brakeImg from "@/assets/parts/brake.jpg.asset.json";
 import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
@@ -984,6 +985,7 @@ function GhanadaHome() {
           </div>
         </div>
       </footer>
+      <WhatsAppChat />
     </div>
   );
 }
