@@ -306,7 +306,9 @@ function GhanadaHome() {
       <section className="hero">
         <div className="hero-bg" />
         <div className="hero-overlay" />
-        <div className="hero-content">
+        <div className="hero-glow" aria-hidden />
+        <div className="hero-content hero-split">
+          <div className="hero-copy">
           <div className="eyebrow">Ghana's Complete Automotive Company</div>
           <h1>
             Your Complete
@@ -330,6 +332,36 @@ function GhanadaHome() {
             <div><strong>500+</strong><span>Cars Sold</span></div>
             <div><strong>2,500+</strong><span>Satisfied Customers</span></div>
             <div><strong>24/7</strong><span>Customer Support</span></div>
+          </div>
+          </div>
+
+          <div className="hero-slider">
+            <div className="hero-slider-arc" aria-hidden />
+            <div className="hero-stage">
+              {slides.map((s, i) => (
+                <div key={s.name + i} className={`hero-slide${i === slide ? " is-active" : ""}`} aria-hidden={i !== slide}>
+                  <img src={s.img} alt={s.name} loading={i === 0 ? "eager" : "lazy"} />
+                </div>
+              ))}
+            </div>
+            <button className="hero-nav prev" aria-label="Previous vehicle" onClick={() => goSlide(-1)}>‹</button>
+            <button className="hero-nav next" aria-label="Next vehicle" onClick={() => goSlide(1)}>›</button>
+            <div className="hero-slide-card">
+              <div className="hero-slide-tag">{slides[slide]?.tag}</div>
+              <div className="hero-slide-name">
+                {slides[slide]?.slug ? (
+                  <Link to="/vehicles/$id" params={{ id: slides[slide].slug }}>{slides[slide].name}</Link>
+                ) : (
+                  <Link to="/cars">{slides[slide]?.name}</Link>
+                )}
+              </div>
+              {slides[slide]?.price && <div className="hero-slide-price">{slides[slide].price}</div>}
+            </div>
+            <div className="hero-dots">
+              {slides.map((s, i) => (
+                <button key={"d" + i} className={i === slide ? "active" : ""} aria-label={`Slide ${i + 1}`} onClick={() => setSlide(i)} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
