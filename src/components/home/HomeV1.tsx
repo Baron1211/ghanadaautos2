@@ -138,6 +138,7 @@ function GhanadaHome() {
   };
 
   const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
+
   const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
   const openVehicle = (v: any) => navigate({ to: "/vehicles/$id", params: { id: vehicleSlug(v) } });
 
