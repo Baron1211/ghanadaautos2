@@ -137,7 +137,32 @@ function GhanadaHome() {
     setCondition("all"); setFMake(""); setFModel(""); setFBody(""); setFPrice(""); setVehicleFilter("All");
   };
 
+  /* ---------- Hero luxury car slides ---------- */
+  const heroFallback = [
+    { name: "Mercedes-Benz S-Class", tag: "Executive Saloon", img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1400&q=80", to: "/cars" },
+    { name: "Range Rover Autobiography", tag: "Luxury SUV", img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1400&q=80", to: "/cars" },
+    { name: "BMW 7 Series", tag: "Performance Luxury", img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1400&q=80", to: "/cars" },
+    { name: "Porsche Cayenne", tag: "Sport Utility", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1400&q=80", to: "/cars" },
+  ];
+  const heroSlides = (vehicleList.filter((v) => v.image_url).slice(0, 5).map((v) => ({
+    name: v.name as string,
+    tag: [v.condition === "new" ? "New" : "Pre-Owned", v.body_type, v.year].filter(Boolean).join(" · "),
+    img: v.image_url as string,
+    price: `GHS ${Number(v.price).toLocaleString()}`,
+    slug: vehicleSlug(v),
+  })) as any[]);
+  const slides: any[] = heroSlides.length ? heroSlides : heroFallback;
+  const [slide, setSlide] = useState(0);
+  useEffect(() => { setSlide(0); }, [slides.length]);
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 5200);
+    return () => clearInterval(t);
+  }, [slides.length]);
+  const goSlide = (dir: -1 | 1) => setSlide((s) => (s + dir + slides.length) % slides.length);
+
   const openPart = (id: string) => navigate({ to: "/parts/$id", params: { id } });
+
   const openRental = (id: string) => navigate({ to: "/rentals/$id", params: { id } });
   const openVehicle = (v: any) => navigate({ to: "/vehicles/$id", params: { id: vehicleSlug(v) } });
 
@@ -281,7 +306,9 @@ function GhanadaHome() {
       <section className="hero">
         <div className="hero-bg" />
         <div className="hero-overlay" />
-        <div className="hero-content">
+        <div className="hero-glow" aria-hidden />
+        <div className="hero-content hero-split">
+          <div className="hero-copy">
           <div className="eyebrow">Ghana's Complete Automotive Company</div>
           <h1>
             Your Complete
@@ -305,6 +332,36 @@ function GhanadaHome() {
             <div><strong>500+</strong><span>Cars Sold</span></div>
             <div><strong>2,500+</strong><span>Satisfied Customers</span></div>
             <div><strong>24/7</strong><span>Customer Support</span></div>
+          </div>
+          </div>
+
+          <div className="hero-slider">
+            <div className="hero-slider-arc" aria-hidden />
+            <div className="hero-stage">
+              {slides.map((s, i) => (
+                <div key={s.name + i} className={`hero-slide${i === slide ? " is-active" : ""}`} aria-hidden={i !== slide}>
+                  <img src={s.img} alt={s.name} loading={i === 0 ? "eager" : "lazy"} />
+                </div>
+              ))}
+            </div>
+            <button className="hero-nav prev" aria-label="Previous vehicle" onClick={() => goSlide(-1)}>‹</button>
+            <button className="hero-nav next" aria-label="Next vehicle" onClick={() => goSlide(1)}>›</button>
+            <div className="hero-slide-card">
+              <div className="hero-slide-tag">{slides[slide]?.tag}</div>
+              <div className="hero-slide-name">
+                {slides[slide]?.slug ? (
+                  <Link to="/vehicles/$id" params={{ id: slides[slide].slug }}>{slides[slide].name}</Link>
+                ) : (
+                  <Link to="/cars">{slides[slide]?.name}</Link>
+                )}
+              </div>
+              {slides[slide]?.price && <div className="hero-slide-price">{slides[slide].price}</div>}
+            </div>
+            <div className="hero-dots">
+              {slides.map((s, i) => (
+                <button key={"d" + i} className={i === slide ? "active" : ""} aria-label={`Slide ${i + 1}`} onClick={() => setSlide(i)} />
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -525,7 +525,8 @@
 .ga .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, rgba(6, 95, 70, 0.92) 10%, rgba(6, 95, 70, 0.55) 45%, rgba(6, 95, 70, 0.15) 75%);
+  background:
+    linear-gradient(100deg, rgba(4, 32, 24, 0.96) 8%, rgba(5, 58, 43, 0.86) 45%, rgba(4, 32, 24, 0.82) 100%);
 }
 .ga .hero-content {
   position: relative;
@@ -598,6 +599,132 @@
 .ga .hero-stats span {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.75);
+}
+
+/* Hero — luxury car slider layout */
+.ga .hero-glow {
+  position: absolute;
+  right: -10%;
+  top: 50%;
+  width: 780px;
+  height: 780px;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.35) 0%, rgba(249, 115, 22, 0) 65%);
+  pointer-events: none;
+  z-index: 1;
+}
+.ga .hero-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  align-items: center;
+  gap: 40px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.ga .hero-split .hero-stats { margin-top: 44px; max-width: 100%; }
+.ga .hero-split .hero-content h1 { font-size: 58px; }
+
+.ga .hero-slider { position: relative; min-height: 420px; display: flex; align-items: center; justify-content: center; }
+.ga .hero-slider-arc {
+  position: absolute;
+  inset: -18px;
+  border-radius: 32px;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.ga .hero-stage {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, 0.8);
+}
+.ga .hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(60px) scale(0.94);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.ga .hero-slide.is-active { opacity: 1; transform: translateX(0) scale(1); pointer-events: auto; }
+.ga .hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ga .hero-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 24, 18, 0.85) 0%, rgba(4, 24, 18, 0.15) 45%, rgba(4, 24, 18, 0) 70%);
+}
+.ga .hero-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(9, 32, 24, 0.55);
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.2s ease, transform 0.2s ease;
+  backdrop-filter: blur(6px);
+}
+.ga .hero-nav:hover { background: var(--orange); border-color: var(--orange); transform: translateY(-50%) scale(1.06); }
+.ga .hero-nav.prev { left: 14px; }
+.ga .hero-nav.next { right: 14px; }
+.ga .hero-slide-card {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 22px;
+  min-width: 260px;
+  text-align: left;
+  padding: 16px 22px;
+  border-radius: 16px;
+  background: rgba(6, 26, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(10px);
+  z-index: 3;
+}
+.ga .hero-slide-tag {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7fe3b4;
+  font-weight: 700;
+}
+.ga .hero-slide-name { margin-top: 4px; font-size: 22px; font-weight: 800; font-family: "Manrope"; }
+.ga .hero-slide-name a { color: #fff; text-decoration: none; }
+.ga .hero-slide-name a:hover { color: var(--orange); }
+.ga .hero-slide-price { margin-top: 2px; color: var(--orange); font-weight: 800; font-size: 16px; }
+.ga .hero-dots { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
+.ga .hero-dots button {
+  width: 8px; height: 8px; padding: 0; border-radius: 999px; cursor: pointer;
+  border: 0; background: rgba(255, 255, 255, 0.35); transition: all 0.25s ease;
+}
+.ga .hero-dots button.active { width: 26px; background: var(--orange); }
+
+@media (max-width: 1024px) {
+  .ga .hero-split { grid-template-columns: 1fr; gap: 64px; }
+  .ga .hero-split .hero-content h1 { font-size: 42px; }
+  .ga .hero-stage { height: 300px; }
+  .ga .hero-slider { min-height: 320px; }
+  .ga .hero-glow { display: none; }
+}
+@media (max-width: 640px) {
+  .ga .hero-stage { height: 240px; border-radius: 18px; }
+  .ga .hero-slider-arc { inset: -10px; border-radius: 24px; }
+  .ga .hero-nav { width: 38px; height: 38px; font-size: 22px; }
+  .ga .hero-slide-card { min-width: 0; left: 12px; right: 12px; bottom: 12px; padding: 12px 16px; }
+  .ga .hero-slide-name { font-size: 17px; }
 }
 
 /* Quick services */
