@@ -8,6 +8,7 @@ import { normalizeImages } from "@/lib/images";
 import { extractId, vehicleSlug } from "@/lib/slug";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import FinanceCalculator from "@/components/FinanceCalculator";
 
 export const Route = createFileRoute("/vehicles/$id")({
   head: () => ({
@@ -276,6 +277,14 @@ function VehicleDetail() {
             <p className="ga-shop-desc">{vehicle.description}</p>
           </section>
         )}
+
+        <section className="ga-vd-section">
+          <FinanceCalculator
+            vehiclePrice={Number(vehicle.price) || 0}
+            onApply={() => { setIntent("finance"); setShowReserve(true); }}
+            onCallBack={() => { setIntent("inquiry"); setShowReserve(true); }}
+          />
+        </section>
 
         {similar && (similar as any[]).length > 0 && (
           <section className="ga-vd-section">
