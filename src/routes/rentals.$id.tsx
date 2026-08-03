@@ -87,11 +87,15 @@ function RentalDetail() {
       subtotal, total,
       notes,
     };
-    const { data, error } = await supabase.from("rental_bookings").insert(payload).select("booking_number").single();
+    const { data, error } = await supabase.from("rental_bookings").insert(payload).select("booking_number, access_token").single();
     setBusy(false);
     if (error) return toast.error(error.message);
     toast.success(`Booking ${data.booking_number} received`);
-    navigate({ to: "/bookings/$number", params: { number: data.booking_number } });
+    navigate({
+      to: "/bookings/$number",
+      params: { number: data.booking_number },
+      search: { t: (data as { access_token?: string }).access_token ?? undefined },
+    });
   };
 
   if (isLoading) return <div className="ga"><SiteHeader /><div className="ga-app-main"><p className="ga-muted">Loading…</p></div></div>;

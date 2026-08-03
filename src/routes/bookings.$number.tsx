@@ -4,16 +4,30 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/bookings/$number")({
   head: () => ({ meta: [{ title: "Rental booking — Ghanada Autos" }, { name: "robots", content: "noindex" }] }),
+  validateSearch: (search: Record<string, unknown>) => ({ t: typeof search.t === "string" ? search.t : undefined }),
   component: BookingView,
 });
 
 function BookingView() {
   const { number } = Route.useParams();
+  const { t } = Route.useSearch();
   const { data, isLoading } = useQuery({
-    queryKey: ["booking", number],
+    queryKey: ["booking", number, t],
     queryFn: async () => {
-      const { data } = await supabase.from("rental_bookings").select("*, rental:rentals(name, image_url)").eq("booking_number", number).maybeSingle();
-      return data;
+      // Signed-in owners/admins can read their booking row directly (RLS-scoped).
+      const { data: own } = await supabase
+        .from("rental_bookings")
+        .select("*, rental:rentals(name, image_url)")
+        .eq("booking_number", number)
+        .maybeSingle();
+      if (own) return own as Booking;
+      // Guests must present the secret access token issued at booking time.
+      if (!t) return null;
+      const { data: guest } = await supabase.rpc("get_guest_booking", {
+        _booking_number: number,
+        _access_token: t,
+      });
+      return (guest as Booking | null) ?? null;
     },
   });
 
