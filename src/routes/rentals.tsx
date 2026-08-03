@@ -129,7 +129,7 @@ function RentalsPage() {
                     {r.fuel && <span>⛽ {r.fuel}</span>}
                   </div>
                   <div className="vactions">
-                    <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => navigate({ to: "/rentals/$id", params: { id: r.id } })}>Book Now</button>
+                    <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => navigate({ to: "/rentals/$id", params: { id: r.id }, hash: "book" })}>Book Now</button>
                   </div>
                 </div>
               </div>
