@@ -561,8 +561,7 @@ function GhanadaHome() {
         />
         <div className="band-content">
           <div className="eyebrow">Car Rentals</div>
-          <h2>Drive off in minutes, not hours</h2>
-          <p className="lead">Economy, SUV, luxury, pickup and van fleets — ready for airport pickup, business travel or weekend getaways.</p>
+          <h2>Rent a Car</h2>
           <div className="vehicle-grid rental-grid">
             {(dbRentals && dbRentals.length > 0
               ? dbRentals.map((r: any) => (
@@ -615,31 +614,6 @@ function GhanadaHome() {
                     </div>
                   </div>
                 )))}
-          </div>
-        </div>
-      </section>
-
-      {/* REPAIRS */}
-      <section className="section" id="repairs" style={{ background: "#fff" }}>
-        <div className="container">
-          <div className="section-head">
-            <div className="eyebrow">Auto Repairs &amp; Diagnostics</div>
-            <h2>Certified technicians. Transparent pricing.</h2>
-          </div>
-          <div className="repair-grid">
-            {[
-              ["🛢️", "Oil Change", "Synthetic & conventional options."],
-              ["🔧", "Engine Repair", "Full diagnostics included."],
-              ["🛑", "Brake Repair", "Pads, rotors & calipers."],
-              ["❄️", "AC Repair", "Regas & compressor service."],
-              ["🔋", "Battery Replacement", "Free testing & installation."],
-            ].map(([icon, title, desc]) => (
-              <div key={title} className="repair-card">
-                <div className="service-icon">{icon}</div>
-                <h4>{title}</h4>
-                <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 6 }}>{desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -731,30 +705,6 @@ function GhanadaHome() {
             ))}
           </div>
           <a className="btn btn-primary" style={{ marginTop: 36 }}>Start Clearing →</a>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE US */}
-      <section className="section" id="about">
-        <div className="container">
-          <div className="section-head">
-            <div className="eyebrow">Why Ghanada Autos</div>
-            <h2>Built on trust, backed by expertise</h2>
-          </div>
-          <div className="why-grid">
-            {[
-              ["🏆", "Trusted Experts", "A decade in Ghana's automotive market."],
-              ["💰", "Affordable Prices", "Transparent, competitive pricing."],
-              ["✅", "Quality Vehicles", "Every car inspected before listing."],
-              ["🎓", "Certified Mechanics", "Factory-trained technical teams."],
-            ].map(([icon, title, desc]) => (
-              <div key={title} className="why-card">
-                <div className="service-icon">{icon}</div>
-                <h4>{title}</h4>
-                <p style={{ fontSize: 13.5, color: "var(--muted)", marginTop: 8 }}>{desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
