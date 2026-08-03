@@ -815,6 +815,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_rental_booking: { Args: { _booking: Json }; Returns: Json }
       get_guest_booking: {
         Args: { _access_token: string; _booking_number: string }
         Returns: Json
