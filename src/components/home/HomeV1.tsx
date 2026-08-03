@@ -10,6 +10,7 @@ import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.js
 import { blogPosts } from "@/lib/blog";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import SiteHeader from "@/components/SiteHeader";
+import FinanceCalculator from "@/components/FinanceCalculator";
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
 import brakeImg from "@/assets/parts/brake.jpg.asset.json";
 import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
@@ -646,38 +647,15 @@ function GhanadaHome() {
       </section>
 
       {/* FINANCE */}
-      <section className="section">
+      <section className="section" id="finance">
         <div className="container">
-          <div className="finance-section">
-            <div>
-              <div className="eyebrow" style={{ color: "#8fe9c2" }}>Finance</div>
-              <h2>Own it sooner with flexible financing</h2>
-              <div className="finance-list">
-                <div>Vehicle Financing</div>
-                <div>Insurance Packages</div>
-                <div>Installment Plans</div>
-                <div>Loan Assistance</div>
-              </div>
-            </div>
-            <div className="calc-card">
-              <label>Vehicle Price (GH₵)</label>
-              <input type="text" defaultValue="385,000" />
-              <div style={{ height: 14 }} />
-              <label>Down Payment (%)</label>
-              <input type="text" defaultValue="20%" />
-              <div style={{ height: 14 }} />
-              <label>Loan Term</label>
-              <select>
-                <option>12 months</option>
-                <option>24 months</option>
-                <option>36 months</option>
-              </select>
-              <div className="calc-row">
-                <span>Estimated Monthly</span>
-                <span>GH₵ 12,850</span>
-              </div>
-            </div>
+          <div style={{ margin: "0 auto 40px", textAlign: "center", maxWidth: 680 }}>
+            <div className="eyebrow" style={{ justifyContent: "center" }}>Finance</div>
+            <h2 style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, marginTop: 10 }}>
+              Own it sooner with flexible financing
+            </h2>
           </div>
+          <FinanceCalculator vehiclePrice={385000} onApply={() => navigate({ to: "/cars" })} />
         </div>
       </section>
 
@@ -804,28 +782,28 @@ function GhanadaHome() {
               </div>
               <p>Ghana &amp; Canada's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
               <div className="social-row">
-                <div>f</div>
-                <div>ig</div>
-                <div>in</div>
-                <div>tw</div>
+                <a href="https://www.facebook.com/share/189pSzrWyD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
+                <a href="https://www.instagram.com/ghanada_autos?igsh=ejBzdW10N2c0MWh2" target="_blank" rel="noopener noreferrer" aria-label="Instagram">ig</a>
+                <a href="https://www.tiktok.com/@ghanada.autos?_r=1&amp;_t=ZS-98SpAjVdzT3" target="_blank" rel="noopener noreferrer" aria-label="TikTok">tt</a>
+                <a href="https://wa.me/14374364357" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">wa</a>
               </div>
             </div>
             <div>
               <h4>Quick Links</h4>
               <div className="footer-links">
-                <a href="#">Home</a><a href="#">Cars</a><a href="#">Rentals</a><a href="#">About</a><a href="#">Contact</a>
+                <Link to="/">Home</Link><Link to="/cars">Cars</Link><Link to="/rentals">Rentals</Link><a href="/#about">About</a><a href="/#contact">Contact</a>
               </div>
             </div>
             <div>
               <h4>Services</h4>
               <div className="footer-links">
-                <a href="#">Repairs</a><a href="#">Spare Parts</a><a href="#">Import From Canada</a><a href="#">Clearing &amp; Forwarding</a>
+                <Link to="/repairs">Repairs</Link><Link to="/parts">Spare Parts</Link><Link to="/import">Import From Canada</Link><Link to="/import">Clearing &amp; Forwarding</Link>
               </div>
             </div>
             <div>
               <h4>Support</h4>
               <div className="footer-links">
-                <a href="#">FAQs</a><a href="#">Track Shipment</a><a href="#">Financing</a><a href="#">Contact Support</a>
+                <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><a href="/#finance">Financing</a><Link to="/support">Contact Support</Link>
               </div>
             </div>
             <div>
