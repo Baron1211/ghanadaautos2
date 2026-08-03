@@ -16,6 +16,9 @@ import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
 import batteryImg from "@/assets/parts/battery.jpg.asset.json";
 import headlightImg from "@/assets/parts/headlight.jpg.asset.json";
 import clearingImg from "@/assets/parts/clearing.jpg.asset.json";
+import testimonial1 from "@/assets/testimonial-1.jpg";
+import testimonial2 from "@/assets/testimonial-2.jpg";
+import testimonial3 from "@/assets/testimonial-3.jpg";
 
 export default function HomeV1() {
   return <GhanadaHome />;
@@ -687,15 +690,15 @@ function GhanadaHome() {
           </div>
           <div className="test-grid">
             {[
-              { q: "Ghanada Autos handled my import from Canada end-to-end. The car arrived exactly as inspected.", name: "Kwame Boateng", city: "Accra", img: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=100&q=80" },
-              { q: "Fast, honest repair service. They diagnosed the issue same-day and had me back on the road quickly.", name: "Ama Serwaa", city: "Kumasi", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=100&q=80" },
-              { q: "Rented an SUV for a week-long business trip — clean car, smooth pickup, no hidden fees.", name: "David Owusu", city: "Tema", img: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=100&q=80" },
+              { q: "Ghanada Autos handled my import from Canada end-to-end. The car arrived exactly as inspected.", name: "Kwame Boateng", city: "Accra", img: testimonial1 },
+              { q: "Fast, honest repair service. They diagnosed the issue same-day and had me back on the road quickly.", name: "Ama Serwaa", city: "Kumasi", img: testimonial2 },
+              { q: "Rented an SUV for a week-long business trip — clean car, smooth pickup, no hidden fees.", name: "David Owusu", city: "Tema", img: testimonial3 },
             ].map((t) => (
               <div key={t.name} className="test-card">
                 <div className="test-stars">★★★★★</div>
                 <p>"{t.q}"</p>
                 <div className="test-user">
-                  <img src={t.img} alt={t.name} />
+                  <img src={t.img} alt={t.name} loading="lazy" width={512} height={512} />
                   <div>
                     <h5>{t.name}</h5>
                     <span>{t.city}</span>
