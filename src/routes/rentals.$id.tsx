@@ -76,25 +76,22 @@ function RentalDetail() {
     if (!name || !email || !phone) { toast.error("Fill name, email and phone"); return; }
     if (days < 1) { toast.error("Return date must be after pickup"); return; }
     setBusy(true);
-    const { data: u } = await supabase.auth.getUser();
     const payload = {
       rental_id: id,
-      user_id: u.user?.id ?? null,
       guest_name: name, guest_email: email, guest_phone: phone,
       pickup_date: pickup, return_date: ret, days,
       destination, with_driver: withDriver,
-      daily_rate: rate, driver_daily_fee: withDriver ? driverFee : 0,
-      subtotal, total,
       notes,
     };
-    const { data, error } = await supabase.from("rental_bookings").insert(payload).select("booking_number, access_token").single();
+    const { data, error } = await supabase.rpc("create_rental_booking", { _booking: payload });
     setBusy(false);
     if (error) return toast.error(error.message);
-    toast.success(`Booking ${data.booking_number} received`);
+    const res = data as { booking_number: string; access_token: string };
+    toast.success(`Booking ${res.booking_number} received`);
     navigate({
       to: "/bookings/$number",
-      params: { number: data.booking_number },
-      search: { t: (data as { access_token?: string }).access_token ?? undefined },
+      params: { number: res.booking_number },
+      search: { t: res.access_token },
     });
   };
 
