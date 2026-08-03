@@ -619,7 +619,7 @@ function GhanadaHome() {
       </section>
 
       {/* BOOK A REPAIR */}
-      <section className="section">
+      <section className="section" id="repairs">
         <div className="container">
           <div className="booking">
             <div className="booking-info">
@@ -709,7 +709,7 @@ function GhanadaHome() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="section" style={{ background: "#fff" }}>
+      <section className="section" id="about" style={{ background: "#fff" }}>
         <div className="container">
           <div className="section-head">
             <div className="eyebrow">How It Works</div>
