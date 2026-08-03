@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
+type Booking = Record<string, any> & { rental?: { name?: string; image_url?: string | null } | null };
+
 export const Route = createFileRoute("/bookings/$number")({
   head: () => ({ meta: [{ title: "Rental booking — Ghanada Autos" }, { name: "robots", content: "noindex" }] }),
   validateSearch: (search: Record<string, unknown>) => ({ t: typeof search.t === "string" ? search.t : undefined }),
