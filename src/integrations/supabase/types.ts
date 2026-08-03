@@ -475,6 +475,7 @@ export type Database = {
       }
       rental_bookings: {
         Row: {
+          access_token: string
           booking_number: string
           created_at: string
           currency: string
@@ -501,6 +502,7 @@ export type Database = {
           with_driver: boolean
         }
         Insert: {
+          access_token?: string
           booking_number?: string
           created_at?: string
           currency?: string
@@ -527,6 +529,7 @@ export type Database = {
           with_driver?: boolean
         }
         Update: {
+          access_token?: string
           booking_number?: string
           created_at?: string
           currency?: string
@@ -812,6 +815,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_rental_booking: { Args: { _booking: Json }; Returns: Json }
+      get_guest_booking: {
+        Args: { _access_token: string; _booking_number: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
