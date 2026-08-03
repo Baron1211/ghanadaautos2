@@ -649,9 +649,11 @@ function GhanadaHome() {
       {/* FINANCE */}
       <section className="section" id="finance">
         <div className="container">
-          <div className="section-head" style={{ margin: "0 auto 40px", textAlign: "center", maxWidth: 640 }}>
+          <div style={{ margin: "0 auto 40px", textAlign: "center", maxWidth: 680 }}>
             <div className="eyebrow" style={{ justifyContent: "center" }}>Finance</div>
-            <h2>Own it sooner with flexible financing</h2>
+            <h2 style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, marginTop: 10 }}>
+              Own it sooner with flexible financing
+            </h2>
           </div>
           <FinanceCalculator vehiclePrice={385000} onApply={() => navigate({ to: "/cars" })} />
         </div>
