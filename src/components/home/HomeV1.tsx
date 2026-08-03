@@ -9,6 +9,7 @@ import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import { blogPosts } from "@/lib/blog";
 import WhatsAppChat from "@/components/WhatsAppChat";
+import SiteHeader from "@/components/SiteHeader";
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
 import brakeImg from "@/assets/parts/brake.jpg.asset.json";
 import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
@@ -210,98 +211,7 @@ function GhanadaHome() {
   return (
     <div className="ga">
       {/* HEADER */}
-      <header>
-        <div className="nav-wrap">
-          <div className="logo">
-            <img src={logoAsset.url} alt="Ghanada Autos" className="logo-img" />
-          </div>
-          <nav className="main-links">
-            <Link to="/">Home</Link>
-            <Link to="/cars">Cars</Link>
-            <div className={`nav-dropdown${servicesOpen ? " is-open" : ""}`} ref={servicesRef}>
-              <button
-                className="nav-dropdown-trigger"
-                type="button"
-                aria-expanded={servicesOpen}
-                onClick={() => setServicesOpen((v) => !v)}
-              >
-                Services <span className="caret">▾</span>
-              </button>
-              <div className="nav-dropdown-menu" onClick={() => setServicesOpen(false)}>
-                <Link to="/rentals">Rentals</Link>
-                <Link to="/repairs">Repairs</Link>
-                <Link to="/parts">Spare Parts</Link>
-                <Link to="/import">Import From Canada</Link>
-                <a href="#clearing">Clearing &amp; Forwarding</a>
-              </div>
-            </div>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-          </nav>
-          <div className="nav-right">
-            <span className="icon-btn">🔍</span>
-            <span className="icon-btn">♡</span>
-            <Link to="/checkout" className="icon-btn" aria-label="Cart">🛒</Link>
-            <div className="nav-divider" />
-            <div className="auth-links">
-              {userId ? (
-                <Link to="/dashboard">My Account</Link>
-              ) : (
-                <>
-                  <Link to="/auth">Login</Link>
-                  <Link to="/auth">Register</Link>
-                </>
-              )}
-            </div>
-            <a href="#quote" className="btn btn-ghost" style={{ padding: "10px 20px" }}>
-              Request Quote
-            </a>
-          </div>
-          <button
-            className={`menu-toggle ${menuOpen ? "open" : ""}`}
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <span /><span /><span />
-          </button>
-        </div>
-        <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-          <Link to="/" onClick={closeMenu}>Home</Link>
-          <Link to="/cars" onClick={closeMenu}>Cars</Link>
-          <button
-            type="button"
-            className={`mobile-group-toggle${servicesOpen ? " is-open" : ""}`}
-            aria-expanded={servicesOpen}
-            onClick={() => setServicesOpen((v) => !v)}
-          >
-            Services <span className="caret">▾</span>
-          </button>
-          {servicesOpen && (
-            <div className="mobile-sub-group">
-              <Link to="/rentals" className="mobile-sub" onClick={closeMenu}>Rentals</Link>
-              <Link to="/repairs" className="mobile-sub" onClick={closeMenu}>Repairs</Link>
-              <Link to="/parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</Link>
-              <Link to="/import" className="mobile-sub" onClick={closeMenu}>Import From Canada</Link>
-              <a href="#clearing" className="mobile-sub" onClick={closeMenu}>Clearing & Forwarding</a>
-            </div>
-          )}
-          <a href="#about" onClick={closeMenu}>About</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
-          <div className="mobile-menu-divider" />
-          {userId ? (
-            <Link to="/dashboard" onClick={closeMenu}>My Dashboard</Link>
-          ) : (
-            <>
-              <Link to="/auth" onClick={closeMenu}>Login</Link>
-              <Link to="/auth" onClick={closeMenu}>Register</Link>
-            </>
-          )}
-          <a href="#quote" className="btn btn-primary mobile-cta" onClick={closeMenu}>
-            Request Quote
-          </a>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* HERO */}
       <section className="hero">
@@ -561,8 +471,7 @@ function GhanadaHome() {
         />
         <div className="band-content">
           <div className="eyebrow">Car Rentals</div>
-          <h2>Drive off in minutes, not hours</h2>
-          <p className="lead">Economy, SUV, luxury, pickup and van fleets — ready for airport pickup, business travel or weekend getaways.</p>
+          <h2>Rent a Car</h2>
           <div className="vehicle-grid rental-grid">
             {(dbRentals && dbRentals.length > 0
               ? dbRentals.map((r: any) => (
@@ -619,33 +528,8 @@ function GhanadaHome() {
         </div>
       </section>
 
-      {/* REPAIRS */}
-      <section className="section" id="repairs" style={{ background: "#fff" }}>
-        <div className="container">
-          <div className="section-head">
-            <div className="eyebrow">Auto Repairs &amp; Diagnostics</div>
-            <h2>Certified technicians. Transparent pricing.</h2>
-          </div>
-          <div className="repair-grid">
-            {[
-              ["🛢️", "Oil Change", "Synthetic & conventional options."],
-              ["🔧", "Engine Repair", "Full diagnostics included."],
-              ["🛑", "Brake Repair", "Pads, rotors & calipers."],
-              ["❄️", "AC Repair", "Regas & compressor service."],
-              ["🔋", "Battery Replacement", "Free testing & installation."],
-            ].map(([icon, title, desc]) => (
-              <div key={title} className="repair-card">
-                <div className="service-icon">{icon}</div>
-                <h4>{title}</h4>
-                <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 6 }}>{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* BOOK A REPAIR */}
-      <section className="section">
+      <section className="section" id="repairs">
         <div className="container">
           <div className="booking">
             <div className="booking-info">
@@ -734,32 +618,8 @@ function GhanadaHome() {
         </div>
       </section>
 
-      {/* WHY CHOOSE US */}
-      <section className="section" id="about">
-        <div className="container">
-          <div className="section-head">
-            <div className="eyebrow">Why Ghanada Autos</div>
-            <h2>Built on trust, backed by expertise</h2>
-          </div>
-          <div className="why-grid">
-            {[
-              ["🏆", "Trusted Experts", "A decade in Ghana's automotive market."],
-              ["💰", "Affordable Prices", "Transparent, competitive pricing."],
-              ["✅", "Quality Vehicles", "Every car inspected before listing."],
-              ["🎓", "Certified Mechanics", "Factory-trained technical teams."],
-            ].map(([icon, title, desc]) => (
-              <div key={title} className="why-card">
-                <div className="service-icon">{icon}</div>
-                <h4>{title}</h4>
-                <p style={{ fontSize: 13.5, color: "var(--muted)", marginTop: 8 }}>{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* HOW IT WORKS */}
-      <section className="section" style={{ background: "#fff" }}>
+      <section className="section" id="about" style={{ background: "#fff" }}>
         <div className="container">
           <div className="section-head">
             <div className="eyebrow">How It Works</div>

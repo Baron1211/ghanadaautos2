@@ -286,6 +286,87 @@
   color: #c2530a;
 }
 
+/* Header topbar */
+.ga .topbar {
+  background: var(--dark-green, #065f46);
+  color: rgba(255, 255, 255, 0.9);
+}
+.ga .topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 7px 48px;
+}
+.ga .topbar-social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ga .topbar-social a {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.ga .topbar-social a:hover {
+  background: #f97316;
+  transform: translateY(-1px);
+}
+.ga .topbar-social svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+.ga .topbar-contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.ga .topbar-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.92);
+}
+.ga .topbar-contact a:hover {
+  color: #fdba74;
+}
+.ga .topbar-contact svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+.ga .topbar-sep {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.25);
+}
+@media (max-width: 780px) {
+  .ga .topbar-inner {
+    padding: 6px 16px;
+    gap: 8px;
+  }
+  .ga .topbar-contact {
+    font-size: 11.5px;
+    gap: 8px;
+  }
+  .ga .topbar-sep {
+    display: none;
+  }
+  .ga .topbar-contact a:first-child span,
+  .ga .topbar-contact a + a {
+    white-space: nowrap;
+  }
+}
+
 /* Header */
 .ga header {
   position: sticky;
