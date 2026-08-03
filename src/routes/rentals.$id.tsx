@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -41,6 +41,13 @@ function RentalDetail() {
   const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#book") {
+      const t = setTimeout(() => document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" }), 350);
+      return () => clearTimeout(t);
+    }
+  }, [id]);
 
   const { data: rental, isLoading } = useQuery({
     queryKey: ["rental", id],
@@ -146,7 +153,7 @@ function RentalDetail() {
             </div>
           )}
 
-          <div className="ga-booking-form">
+          <div className="ga-booking-form" id="book">
             <h3>Book this vehicle</h3>
 
             <div className="ga-driver-choice">

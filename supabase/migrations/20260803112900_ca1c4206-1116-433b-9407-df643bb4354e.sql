@@ -1,0 +1,1 @@
+DELETE FROM public.rental_bookings WHERE guest_email = 'test@example.com';

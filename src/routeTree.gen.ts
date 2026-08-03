@@ -19,6 +19,10 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RentalsIndexRouteImport } from './routes/rentals.index'
+import { Route as PartsIndexRouteImport } from './routes/parts.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as AuthIndexRouteImport } from './routes/auth.index'
 import { Route as VehiclesIdRouteImport } from './routes/vehicles.$id'
 import { Route as RentalsIdRouteImport } from './routes/rentals.$id'
 import { Route as PartsIdRouteImport } from './routes/parts.$id'
@@ -88,6 +92,26 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const RentalsIndexRoute = RentalsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RentalsRoute,
+} as any)
+const PartsIndexRoute = PartsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PartsRoute,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRoute,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
 } as any)
 const VehiclesIdRoute = VehiclesIdRouteImport.update({
   id: '/vehicles/$id',
@@ -215,6 +239,10 @@ export interface FileRoutesByFullPath {
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
   '/vehicles/$id': typeof VehiclesIdRoute
+  '/auth/': typeof AuthIndexRoute
+  '/blog/': typeof BlogIndexRoute
+  '/parts/': typeof PartsIndexRoute
+  '/rentals/': typeof RentalsIndexRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -229,13 +257,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
   '/cars': typeof CarsRoute
   '/checkout': typeof CheckoutRoute
   '/import': typeof ImportRoute
-  '/parts': typeof PartsRouteWithChildren
-  '/rentals': typeof RentalsRouteWithChildren
   '/repairs': typeof RepairsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -245,6 +269,10 @@ export interface FileRoutesByTo {
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
   '/vehicles/$id': typeof VehiclesIdRoute
+  '/auth': typeof AuthIndexRoute
+  '/blog': typeof BlogIndexRoute
+  '/parts': typeof PartsIndexRoute
+  '/rentals': typeof RentalsIndexRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -278,6 +306,10 @@ export interface FileRoutesById {
   '/parts/$id': typeof PartsIdRoute
   '/rentals/$id': typeof RentalsIdRoute
   '/vehicles/$id': typeof VehiclesIdRoute
+  '/auth/': typeof AuthIndexRoute
+  '/blog/': typeof BlogIndexRoute
+  '/parts/': typeof PartsIndexRoute
+  '/rentals/': typeof RentalsIndexRoute
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -311,6 +343,10 @@ export interface FileRouteTypes {
     | '/parts/$id'
     | '/rentals/$id'
     | '/vehicles/$id'
+    | '/auth/'
+    | '/blog/'
+    | '/parts/'
+    | '/rentals/'
     | '/admin/bookings'
     | '/admin/catalog'
     | '/admin/orders'
@@ -325,13 +361,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth'
-    | '/blog'
     | '/cars'
     | '/checkout'
     | '/import'
-    | '/parts'
-    | '/rentals'
     | '/repairs'
     | '/dashboard'
     | '/auth/confirmed'
@@ -341,6 +373,10 @@ export interface FileRouteTypes {
     | '/parts/$id'
     | '/rentals/$id'
     | '/vehicles/$id'
+    | '/auth'
+    | '/blog'
+    | '/parts'
+    | '/rentals'
     | '/admin/bookings'
     | '/admin/catalog'
     | '/admin/orders'
@@ -373,6 +409,10 @@ export interface FileRouteTypes {
     | '/parts/$id'
     | '/rentals/$id'
     | '/vehicles/$id'
+    | '/auth/'
+    | '/blog/'
+    | '/parts/'
+    | '/rentals/'
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/catalog'
     | '/_authenticated/admin/orders'
@@ -475,6 +515,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/rentals/': {
+      id: '/rentals/'
+      path: '/'
+      fullPath: '/rentals/'
+      preLoaderRoute: typeof RentalsIndexRouteImport
+      parentRoute: typeof RentalsRoute
+    }
+    '/parts/': {
+      id: '/parts/'
+      path: '/'
+      fullPath: '/parts/'
+      preLoaderRoute: typeof PartsIndexRouteImport
+      parentRoute: typeof PartsRoute
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/auth/': {
+      id: '/auth/'
+      path: '/'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/vehicles/$id': {
       id: '/vehicles/$id'
@@ -661,40 +729,48 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface AuthRouteChildren {
   AuthConfirmedRoute: typeof AuthConfirmedRoute
+  AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthConfirmedRoute: AuthConfirmedRoute,
+  AuthIndexRoute: AuthIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface BlogRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 const BlogRouteChildren: BlogRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface PartsRouteChildren {
   PartsIdRoute: typeof PartsIdRoute
+  PartsIndexRoute: typeof PartsIndexRoute
 }
 
 const PartsRouteChildren: PartsRouteChildren = {
   PartsIdRoute: PartsIdRoute,
+  PartsIndexRoute: PartsIndexRoute,
 }
 
 const PartsRouteWithChildren = PartsRoute._addFileChildren(PartsRouteChildren)
 
 interface RentalsRouteChildren {
   RentalsIdRoute: typeof RentalsIdRoute
+  RentalsIndexRoute: typeof RentalsIndexRoute
 }
 
 const RentalsRouteChildren: RentalsRouteChildren = {
   RentalsIdRoute: RentalsIdRoute,
+  RentalsIndexRoute: RentalsIndexRoute,
 }
 
 const RentalsRouteWithChildren =
