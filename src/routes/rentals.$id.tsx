@@ -136,7 +136,7 @@ function RentalDetail() {
         <div className="ga-detail-body">
           <div className="ga-detail-eyebrow">{rental.vehicle_type || "Rental"}</div>
           <h1>{rental.name}</h1>
-          <div className="ga-detail-price">GHS {rate.toFixed(2)} / day</div>
+          <div className="ga-detail-price"><DualPrice ghs={rate} cad={(rental as any).daily_rate_cad} size="lg" decimals={2} suffix="/ day" /></div>
           <p className="ga-detail-desc">{rental.description || "Ready for pickup at Toronto or Takoradi."}</p>
 
           {(rental.seats || rental.transmission || rental.fuel) && (
