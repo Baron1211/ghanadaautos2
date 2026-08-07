@@ -435,13 +435,24 @@ function GhanadaHome() {
             {(dbParts && dbParts.length > 0
               ? dbParts.map((p: any) => (
                   <div key={p.id} className="part-card">
-                     <div className="pimg" onClick={() => openPart(p.id)} style={{ cursor: "pointer" }}><img src={p.image_url || partsFallback[0].img} alt={p.name} /></div>
+                    <div className="pimg" onClick={() => openPart(p.id)} style={{ cursor: "pointer" }}>
+                      <span className="part-badge">Genuine</span>
+                      <img src={p.image_url || partsFallback[0].img} alt={p.name} />
+                    </div>
                     <div className="part-body">
-                       <h5 className="part-title"><Link to="/parts/$id" params={{ id: p.id }} className="ga-link-plain">{p.name}</Link></h5>
-                      <div className="stars">★★★★★</div>
+                      <h5 className="part-title"><Link to="/parts/$id" params={{ id: p.id }} className="ga-link-plain">{p.name}</Link></h5>
+                      <div className="part-rate">
+                        <span className="stars">★★★★★</span>
+                        <span className="part-instock">In stock</span>
+                      </div>
                       <div className="part-price"><DualPrice ghs={p.price} cad={p.price_cad} size="sm" decimals={2} /></div>
                       <div className="part-actions">
-                        <button className="part-add" onClick={() => quickAddPart(p, false)} aria-label="Add to cart">🛒</button>
+                        <button className="part-add" onClick={() => quickAddPart(p, false)} aria-label="Add to cart" title="Add to cart">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <circle cx="9" cy="20" r="1.4" /><circle cx="18" cy="20" r="1.4" />
+                            <path d="M2 3h2.2l2.6 12.2h11.4L21 7H6" />
+                          </svg>
+                        </button>
                         <button className="add-cart" onClick={() => quickAddPart(p, true)}>Buy Now</button>
                       </div>
                     </div>
