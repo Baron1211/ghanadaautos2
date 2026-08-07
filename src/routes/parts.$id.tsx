@@ -47,6 +47,9 @@ function PartDetail() {
 
   const chosen = variations?.find((v: any) => v.id === variationId);
   const displayPrice = chosen ? Number(chosen.price) : part ? Number(part.price) : 0;
+  const displayPriceCad = chosen
+    ? (chosen as any).price_cad ?? null
+    : (part as any)?.price_cad ?? null;
   const displayStock = chosen ? chosen.stock : part?.stock ?? 0;
   const gallery = normalizeImages(part?.images, chosen?.image_url || part?.image_url);
   const active = gallery[activeIdx] || gallery[0] || { url: "/favicon.ico", caption: "" };
@@ -111,7 +114,7 @@ function PartDetail() {
         <div className="ga-detail-body">
           <div className="ga-detail-eyebrow">{part.brand || "Spare Part"} · {part.category || "Genuine"}</div>
           <h1>{part.name}</h1>
-          <div className="ga-detail-price">GHS {displayPrice.toFixed(2)}</div>
+          <div className="ga-detail-price"><DualPrice ghs={displayPrice} cad={displayPriceCad} size="lg" decimals={2} /></div>
           <p className="ga-detail-desc">{part.description || "Quality automotive part sourced by Ghanada Autos."}</p>
 
           {variations && variations.length > 0 && (
@@ -126,7 +129,7 @@ function PartDetail() {
                     disabled={v.stock < 1}
                   >
                     <strong>{v.label}</strong>
-                    <span>GHS {Number(v.price).toFixed(2)}</span>
+                    <span><DualPrice ghs={v.price} cad={v.price_cad} size="sm" decimals={2} /></span>
                     <small>{v.stock > 0 ? `${v.stock} in stock` : "Out of stock"}</small>
                   </button>
                 ))}
