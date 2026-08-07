@@ -3708,3 +3708,62 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .ga-fc-range-row { grid-template-columns: 1fr; }
   .ga .ga-fc-mode { font-size: .88rem; }
 }
+
+/* ===== Dual currency price display ===== */
+.ga .ga-price-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+.ga .ga-price-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.ga .ga-price-row .ga-flag {
+  font-size: 1em;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12));
+}
+.ga .ga-price-primary {
+  font-weight: 800;
+  color: var(--dark, #0b1f17);
+}
+.ga .ga-price-primary .ga-price-cur {
+  font-size: 0.62em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--emerald, #0f8a5f);
+  text-transform: uppercase;
+}
+.ga .ga-price-secondary {
+  font-weight: 700;
+  color: var(--muted, #667);
+  background: rgba(15, 138, 95, 0.07);
+  border: 1px solid rgba(15, 138, 95, 0.14);
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 0.62em;
+}
+.ga .ga-price-secondary .ga-price-cur {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.ga .ga-price-suffix {
+  font-size: 0.62em;
+  font-weight: 600;
+  color: var(--muted, #667);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.ga .ga-price-sm { font-size: 17px; }
+.ga .ga-price-md { font-size: 21px; }
+.ga .ga-price-lg { font-size: 30px; }
+@media (max-width: 640px) {
+  .ga .ga-price-lg { font-size: 25px; }
+  .ga .ga-price-md { font-size: 19px; }
+}
