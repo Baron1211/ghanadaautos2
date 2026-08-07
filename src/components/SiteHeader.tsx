@@ -83,10 +83,8 @@ export default function SiteHeader() {
               <Link to="/repairs">Repairs</Link>
               <Link to="/parts">Spare Parts</Link>
               <Link to="/import">Import From Canada</Link>
-              <Link to="/" hash="clearing">Clearing &amp; Forwarding</Link>
             </div>
           </div>
-          <Link to="/" hash="about">About</Link>
           <Link to="/" hash="contact">Contact</Link>
         </nav>
         <div className="nav-right">
@@ -129,10 +127,8 @@ export default function SiteHeader() {
             <Link to="/repairs" className="mobile-sub" onClick={closeMenu}>Repairs</Link>
             <Link to="/parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</Link>
             <Link to="/import" className="mobile-sub" onClick={closeMenu}>Import From Canada</Link>
-            <Link to="/" hash="clearing" className="mobile-sub" onClick={closeMenu}>Clearing & Forwarding</Link>
           </div>
         )}
-        <Link to="/" hash="about" onClick={closeMenu}>About</Link>
         <Link to="/" hash="contact" onClick={closeMenu}>Contact</Link>
         <div className="mobile-menu-divider" />
         {userId ? (
