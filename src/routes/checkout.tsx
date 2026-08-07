@@ -25,6 +25,7 @@ type LineItem = {
   name: string;
   image_url?: string | null;
   unit_price: number;
+  unit_price_cad?: number | null;
   quantity: number;
   rental_days?: number | null;
   rental_start?: string | null;
@@ -41,6 +42,7 @@ function Checkout() {
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"paystack" | "cod">("cod");
+  const [cur, setCur] = useState<"GHS" | "CAD">("GHS");
   const [placing, setPlacing] = useState(false);
   const [guestMode, setGuestMode] = useState<"choose" | "guest">("choose");
 
@@ -58,7 +60,7 @@ function Checkout() {
           supabase.from("profiles").select("full_name, phone, address").eq("id", uid).maybeSingle(),
         ]);
         if (profile) { setName(profile.full_name || ""); setPhone(profile.phone || ""); setAddress(profile.address || ""); }
-        setItems((cart || []).map((c: any) => {
+        const mapped = (cart || []).map((c: any) => {
           const isPart = c.item_type === "part";
           const isVehicle = c.item_type === "vehicle";
           const unit = isPart
@@ -80,11 +82,12 @@ function Checkout() {
             quantity: c.quantity,
             rental_days: c.rental_days,
             rental_start: c.rental_start,
-          };
-        }));
+          } as LineItem;
+        });
+        setItems(await withCadPrices(mapped));
       } else {
         const guest = JSON.parse(localStorage.getItem("guest_cart") || "[]") as any[];
-        setItems(guest.map((g, i) => ({ ...g, key: `g${i}`, unit_price: Number(g.unit_price) })));
+        setItems(await withCadPrices(guest.map((g, i) => ({ ...g, key: `g${i}`, unit_price: Number(g.unit_price) }))));
       }
       setLoading(false);
     })();
@@ -92,7 +95,13 @@ function Checkout() {
 
   const lineUnits = (i: LineItem) =>
     i.item_type === "rental" ? (i.rental_days || 1) : i.quantity;
-  const subtotal = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
+  const subtotalGhs = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
+  const cadAvailable = items.length > 0 && items.every(i => Number(i.unit_price_cad || 0) > 0);
+  const subtotalCad = items.reduce((s, i) => s + Number(i.unit_price_cad || 0) * lineUnits(i), 0);
+  const activeCad = cur === "CAD" && cadAvailable;
+  const subtotal = activeCad ? subtotalCad : subtotalGhs;
+  const unitOf = (i: LineItem) => (activeCad ? Number(i.unit_price_cad || 0) : i.unit_price);
+  const money = (n: number) => (activeCad ? `CA$${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : `GH₵${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}`);
 
   const removeItem = async (key: string) => {
     setItems(items.filter(i => i.key !== key));
@@ -113,7 +122,7 @@ function Checkout() {
     setPlacing(true);
     try {
       const orderPayload: any = {
-        user_id: userId, subtotal, total: subtotal,
+        user_id: userId, subtotal, total: subtotal, currency: activeCad ? "CAD" : "GHS",
         shipping_address: address, phone, notes,
         payment_method: payment,
         payment_status: "unpaid",
@@ -132,11 +141,11 @@ function Checkout() {
           variation_id: i.variation_id || null,
           vehicle_id: i.vehicle_id || null,
           name: i.name,
-          unit_price: i.unit_price,
+          unit_price: unitOf(i),
           quantity: i.quantity,
           rental_days: i.rental_days || null,
           rental_start: i.rental_start || null,
-          line_total: i.unit_price * qtyForTotal,
+          line_total: unitOf(i) * qtyForTotal,
         };
       });
       const { error: itErr } = await supabase.from("order_items").insert(rows);
