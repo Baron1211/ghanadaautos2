@@ -32,6 +32,36 @@ type LineItem = {
 };
 
 function Checkout() {
+  return <CheckoutInner />;
+}
+
+async function withCadPrices(rows: LineItem[]): Promise<LineItem[]> {
+  const partIds = rows.filter(r => r.part_id && !r.variation_id).map(r => r.part_id!) as string[];
+  const varIds = rows.filter(r => r.variation_id).map(r => r.variation_id!) as string[];
+  const rentalIds = rows.filter(r => r.rental_id).map(r => r.rental_id!) as string[];
+  const vehicleIds = rows.filter(r => r.vehicle_id).map(r => r.vehicle_id!) as string[];
+  const [parts, vars, rentals, vehicles] = await Promise.all([
+    partIds.length ? (supabase as any).from("parts").select("id, price_cad").in("id", partIds) : { data: [] },
+    varIds.length ? (supabase as any).from("part_variations").select("id, price_cad").in("id", varIds) : { data: [] },
+    rentalIds.length ? (supabase as any).from("rentals").select("id, daily_rate_cad").in("id", rentalIds) : { data: [] },
+    vehicleIds.length ? (supabase as any).from("vehicles").select("id, price_cad").in("id", vehicleIds) : { data: [] },
+  ]);
+  const m = new Map<string, number>();
+  (parts.data || []).forEach((r: any) => m.set(`p${r.id}`, Number(r.price_cad || 0)));
+  (vars.data || []).forEach((r: any) => m.set(`v${r.id}`, Number(r.price_cad || 0)));
+  (rentals.data || []).forEach((r: any) => m.set(`r${r.id}`, Number(r.daily_rate_cad || 0)));
+  (vehicles.data || []).forEach((r: any) => m.set(`c${r.id}`, Number(r.price_cad || 0)));
+  return rows.map(r => ({
+    ...r,
+    unit_price_cad:
+      (r.variation_id ? m.get(`v${r.variation_id}`) : undefined) ??
+      (r.part_id ? m.get(`p${r.part_id}`) : undefined) ??
+      (r.rental_id ? m.get(`r${r.rental_id}`) : undefined) ??
+      (r.vehicle_id ? m.get(`c${r.vehicle_id}`) : undefined) ?? 0,
+  }));
+}
+
+function CheckoutInner() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const [items, setItems] = useState<LineItem[]>([]);
