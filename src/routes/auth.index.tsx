@@ -14,9 +14,8 @@ export const Route = createFileRoute("/auth/")({
       { property: "og:description", content: "Sign in or create your Ghanada Autos account." },
     ],
   }),
-  validateSearch: (s: Record<string, unknown>) => ({
-    confirmed: typeof s.confirmed === "string" ? s.confirmed : undefined,
-  }),
+  validateSearch: (s: Record<string, unknown>) =>
+    typeof s.confirmed === "string" ? { confirmed: s.confirmed } : {},
   component: AuthPage,
 });
 

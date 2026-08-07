@@ -10,13 +10,13 @@ import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.js
 import { blogPosts } from "@/lib/blog";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import SiteHeader from "@/components/SiteHeader";
-import FinanceCalculator from "@/components/FinanceCalculator";
+
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
 import brakeImg from "@/assets/parts/brake.jpg.asset.json";
 import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
 import batteryImg from "@/assets/parts/battery.jpg.asset.json";
 import headlightImg from "@/assets/parts/headlight.jpg.asset.json";
-import clearingImg from "@/assets/parts/clearing.jpg.asset.json";
+
 import testimonial1 from "@/assets/testimonial-1.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
@@ -240,7 +240,6 @@ function GhanadaHome() {
           </div>
           <div className="hero-actions">
             <Link to="/cars" className="btn btn-primary">Browse Cars →</Link>
-            <Link to="/repairs" className="btn btn-outline">Book a Repair</Link>
           </div>
           <div className="hero-stats">
             <div><strong>10+</strong><span>Years Experience</span></div>
@@ -532,48 +531,6 @@ function GhanadaHome() {
         </div>
       </section>
 
-      {/* BOOK A REPAIR */}
-      <section className="section" id="repairs">
-        <div className="container">
-          <div className="booking">
-            <div className="booking-info">
-              <h3>Book a Repair</h3>
-              <p>Tell us what's wrong and we'll match you with the right technician and a same-week slot.</p>
-              <div className="mini-stat">
-                <div className="service-icon">✅</div>
-                <div>
-                  <strong>Certified Mechanics</strong>
-                  <br />
-                  <span style={{ fontSize: 13, color: "var(--muted)" }}>Factory-trained across all major brands</span>
-                </div>
-              </div>
-              <div className="mini-stat">
-                <div className="service-icon">⏱️</div>
-                <div>
-                  <strong>Fast Turnaround</strong>
-                  <br />
-                  <span style={{ fontSize: 13, color: "var(--muted)" }}>Most jobs done within 24 hours</span>
-                </div>
-              </div>
-            </div>
-            <form className="form-grid" onSubmit={(e) => e.preventDefault()}>
-              <div>
-                <label>Vehicle Type</label>
-                <select><option>SUV</option><option>Sedan</option><option>Pickup</option></select>
-              </div>
-              <div>
-                <label>Service</label>
-                <select><option>Oil Change</option><option>Brake Repair</option><option>Diagnostics</option></select>
-              </div>
-              <div><label>Preferred Date</label><input type="date" /></div>
-              <div><label>Preferred Time</label><input type="time" /></div>
-              <div className="full"><label>Location</label><input type="text" placeholder="e.g. East Legon, Accra" /></div>
-              <div className="full"><label>Description</label><textarea rows={3} placeholder="Briefly describe the issue" /></div>
-              <div className="full"><a className="btn btn-primary" style={{ width: "100%" }}>Book Appointment</a></div>
-            </form>
-          </div>
-        </div>
-      </section>
 
       {/* IMPORT FROM CANADA */}
       <section className="band" id="import">
@@ -600,64 +557,8 @@ function GhanadaHome() {
         </div>
       </section>
 
-      {/* CLEARING & FORWARDING */}
-      <section className="band" id="clearing">
-        <div className="band-bg">
-          <img src={clearingImg.url} alt="" />
-        </div>
-        <div
-          className="band-overlay"
-          style={{ background: "linear-gradient(100deg, rgba(8,34,26,.92) 30%, rgba(8,34,26,.78) 70%, rgba(8,34,26,.6) 100%)" }}
-        />
-        <div className="band-content">
-          <div className="eyebrow">Clearing &amp; Forwarding</div>
-          <h2>Port to doorstep, fully handled</h2>
-          <p className="lead">Full customs clearance, documentation and delivery — so your shipment moves without delays.</p>
-          <div className="checklist">
-            {["Vehicle Clearing", "Customs Documentation", "Import Duty Support", "Inspection Assistance", "Fast Delivery", "Doorstep Delivery", "Shipment Tracking"].map((c) => (
-              <div key={c}>{c}</div>
-            ))}
-          </div>
-          <a className="btn btn-primary" style={{ marginTop: 36 }}>Start Clearing →</a>
-        </div>
-      </section>
 
-      {/* HOW IT WORKS */}
-      <section className="section" id="about" style={{ background: "#fff" }}>
-        <div className="container">
-          <div className="section-head">
-            <div className="eyebrow">How It Works</div>
-            <h2>From browsing to driving</h2>
-          </div>
-          <div className="steps-row">
-            {[
-              ["01", "Choose", "Browse cars, rentals or services online."],
-              ["02", "Book", "Reserve a vehicle or schedule a repair."],
-              ["03", "Confirm", "We confirm details and financing if needed."],
-              ["04", "Drive", "Pick up your vehicle or get it delivered."],
-            ].map(([n, t, d]) => (
-              <div key={n} className="step-box">
-                <div className="big-num">{n}</div>
-                <h4>{t}</h4>
-                <p>{d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* FINANCE */}
-      <section className="section" id="finance">
-        <div className="container">
-          <div style={{ margin: "0 auto 40px", textAlign: "center", maxWidth: 680 }}>
-            <div className="eyebrow" style={{ justifyContent: "center" }}>Finance</div>
-            <h2 style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, marginTop: 10 }}>
-              Own it sooner with flexible financing
-            </h2>
-          </div>
-          <FinanceCalculator vehiclePrice={385000} onApply={() => navigate({ to: "/cars" })} />
-        </div>
-      </section>
 
       {/* TESTIMONIALS */}
       <section className="section" style={{ background: "#fff" }}>
