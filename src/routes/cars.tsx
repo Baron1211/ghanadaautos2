@@ -157,7 +157,7 @@ function CarsPage() {
                 </Link>
                 <div className="vbody">
                   <h4><Link to="/vehicles/$id" params={{ id: vehicleSlug(v) }} className="ga-link-plain">{v.name}</Link></h4>
-                  <div className="vprice">GHS {Number(v.price).toLocaleString()}</div>
+                  <div className="vprice"><DualPrice ghs={v.price} cad={v.price_cad} size="md" /></div>
                   <div className="vmeta">
                     {v.year && <span>📅 {v.year}</span>}
                     {v.mileage_km ? <span>🛣️ {Number(v.mileage_km).toLocaleString()} km</span> : null}
