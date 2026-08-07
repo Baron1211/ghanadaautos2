@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/admin/parts")({
 
 function AdminParts() {
   const qc = useQueryClient();
-  const emptyForm = { name: "", description: "", brand: "", category: "", brand_id: "", category_id: "", price: "", stock: "", low_stock_threshold: "5", image_url: "", images: [] as GalleryImage[] };
+  const emptyForm = { name: "", description: "", brand: "", category: "", brand_id: "", category_id: "", price: "", price_cad: "", stock: "", low_stock_threshold: "5", image_url: "", images: [] as GalleryImage[] };
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -45,7 +45,8 @@ function AdminParts() {
     const payload: any = {
       name: form.name, description: form.description, brand: form.brand, category: form.category,
       brand_id: form.brand_id || null, category_id: form.category_id || null,
-      price: Number(form.price), stock: Number(form.stock), image_url: form.image_url,
+      price: Number(form.price), price_cad: form.price_cad ? Number(form.price_cad) : null,
+      stock: Number(form.stock), image_url: form.image_url,
       low_stock_threshold: Number(form.low_stock_threshold || 5),
       images: serializeImages(form.images),
     };
@@ -67,7 +68,8 @@ function AdminParts() {
     setForm({
       name: p.name, description: p.description || "", brand: p.brand || "", category: p.category || "",
       brand_id: p.brand_id || "", category_id: p.category_id || "",
-      price: String(p.price), stock: String(p.stock),
+      price: String(p.price), price_cad: p.price_cad != null ? String(p.price_cad) : "",
+      stock: String(p.stock),
       low_stock_threshold: String(p.low_stock_threshold ?? 5),
       image_url: p.image_url || "",
       images: normalizeImages(p.images, p.image_url),
@@ -149,6 +151,7 @@ function AdminParts() {
             </select>
           </label>
           <label>Price (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
+          <label>Price (CAD)<input type="number" step="0.01" value={form.price_cad} onChange={e => setForm({ ...form, price_cad: e.target.value })} placeholder="Optional" /></label>
           <label>Stock<input type="number" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} /></label>
           <label>Low-stock alert at<input type="number" value={form.low_stock_threshold} onChange={e => setForm({ ...form, low_stock_threshold: e.target.value })} /></label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
@@ -227,17 +230,19 @@ function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any
       return data || [];
     },
   });
-  const [nv, setNv] = useState({ label: "", price: "", stock: "", attributes: "" });
+  const [nv, setNv] = useState({ label: "", price: "", price_cad: "", stock: "", attributes: "" });
 
   const addVar = async () => {
     if (!nv.label || !nv.price) return toast.error("Label and price required");
     let attrs: any = {};
     try { attrs = nv.attributes ? JSON.parse(nv.attributes) : {}; } catch { return toast.error("Attributes must be valid JSON"); }
     const { error } = await supabase.from("part_variations").insert({
-      part_id: p.id, label: nv.label, price: Number(nv.price), stock: Number(nv.stock || 0), attributes: attrs,
+      part_id: p.id, label: nv.label, price: Number(nv.price),
+      price_cad: nv.price_cad ? Number(nv.price_cad) : null,
+      stock: Number(nv.stock || 0), attributes: attrs,
     });
     if (error) return toast.error(error.message);
-    setNv({ label: "", price: "", stock: "", attributes: "" });
+    setNv({ label: "", price: "", price_cad: "", stock: "", attributes: "" });
     qc.invalidateQueries({ queryKey: ["variations", p.id] });
   };
   const delVar = async (id: string) => {
@@ -264,7 +269,10 @@ function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any
             {!p.active && " · inactive"}
           </span>
         </div>
-        <div className="ga-admin-price">GHS {Number(p.price).toFixed(2)}</div>
+        <div className="ga-admin-price">
+          GHS {Number(p.price).toFixed(2)}
+          {p.price_cad ? <><br /><span className="ga-muted ga-small">CAD ${Number(p.price_cad).toFixed(2)}</span></> : null}
+        </div>
         <div className="ga-admin-actions">
           <button onClick={() => setOpen(o => !o)}>{open ? "Hide variations" : "Variations"}</button>
           <button onClick={() => onEdit(p)}>Edit</button>
@@ -277,12 +285,13 @@ function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any
           <h4>Variations (e.g. sizes, fitments)</h4>
           {vars?.length ? (
             <table className="ga-var-table">
-              <thead><tr><th>Label</th><th>Price</th><th>Stock</th><th>Attributes</th><th></th></tr></thead>
+              <thead><tr><th>Label</th><th>Price (GHS)</th><th>Price (CAD)</th><th>Stock</th><th>Attributes</th><th></th></tr></thead>
               <tbody>
                 {vars.map((v: any) => (
                   <tr key={v.id}>
                     <td><input defaultValue={v.label} onBlur={e => updateVar(v.id, { label: e.target.value })} /></td>
                     <td><input type="number" step="0.01" defaultValue={v.price} onBlur={e => updateVar(v.id, { price: Number(e.target.value) })} /></td>
+                    <td><input type="number" step="0.01" defaultValue={v.price_cad ?? ""} placeholder="—" onBlur={e => updateVar(v.id, { price_cad: e.target.value ? Number(e.target.value) : null })} /></td>
                     <td><input type="number" defaultValue={v.stock} onBlur={e => updateVar(v.id, { stock: Number(e.target.value) })} /></td>
                     <td><code>{JSON.stringify(v.attributes)}</code></td>
                     <td><button className="ga-danger" onClick={() => delVar(v.id)}>×</button></td>
@@ -293,7 +302,8 @@ function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any
           ) : <p className="ga-muted ga-small">No variations. Add one below to offer per-size or per-model pricing.</p>}
           <div className="ga-form-grid" style={{ marginTop: 12 }}>
             <label>Label<input value={nv.label} onChange={e => setNv({ ...nv, label: e.target.value })} placeholder="e.g. 205/55R16" /></label>
-            <label>Price<input type="number" step="0.01" value={nv.price} onChange={e => setNv({ ...nv, price: e.target.value })} /></label>
+            <label>Price (GHS)<input type="number" step="0.01" value={nv.price} onChange={e => setNv({ ...nv, price: e.target.value })} /></label>
+            <label>Price (CAD)<input type="number" step="0.01" value={nv.price_cad} onChange={e => setNv({ ...nv, price_cad: e.target.value })} placeholder="Optional" /></label>
             <label>Stock<input type="number" value={nv.stock} onChange={e => setNv({ ...nv, stock: e.target.value })} /></label>
             <label>Attributes JSON<input value={nv.attributes} onChange={e => setNv({ ...nv, attributes: e.target.value })} placeholder='{"fits":"Toyota Corolla 2015"}' /></label>
           </div>

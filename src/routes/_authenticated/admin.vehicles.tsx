@@ -16,7 +16,7 @@ function AdminVehicles() {
   const qc = useQueryClient();
   const empty = {
     name: "", brand: "", model: "", year: "", body_type: "SUV",
-    price: "", mileage_km: "", fuel: "Petrol", transmission: "Automatic", condition: "used",
+    price: "", price_cad: "", mileage_km: "", fuel: "Petrol", transmission: "Automatic", condition: "used",
     seats: "", color: "", description: "", image_url: "", images: [] as GalleryImage[],
     features: "", finance_available: false, featured: false,
     engine: "", interior_color: "", drivetrain: "", vin: "", stock_number: "",
@@ -44,6 +44,7 @@ function AdminVehicles() {
       year: form.year ? Number(form.year) : null,
       body_type: form.body_type,
       price: Number(form.price),
+      price_cad: form.price_cad ? Number(form.price_cad) : null,
       mileage_km: form.mileage_km ? Number(form.mileage_km) : 0,
       fuel: form.fuel, transmission: form.transmission,
       condition: form.condition,
@@ -75,7 +76,8 @@ function AdminVehicles() {
     setForm({
       name: p.name || "", brand: p.brand || "", model: p.model || "",
       year: p.year ? String(p.year) : "", body_type: p.body_type || "SUV",
-      price: String(p.price ?? ""), mileage_km: p.mileage_km ? String(p.mileage_km) : "",
+      price: String(p.price ?? ""), price_cad: p.price_cad != null ? String(p.price_cad) : "",
+      mileage_km: p.mileage_km ? String(p.mileage_km) : "",
       fuel: p.fuel || "Petrol", transmission: p.transmission || "Automatic",
       condition: p.condition || "used",
       seats: p.seats ? String(p.seats) : "", color: p.color || "",
@@ -135,6 +137,7 @@ function AdminVehicles() {
             </select>
           </label>
           <label>Price (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
+          <label>Price (CAD)<input type="number" step="0.01" value={form.price_cad} onChange={e => setForm({ ...form, price_cad: e.target.value })} placeholder="Optional" /></label>
           <label>Mileage (km)<input type="number" value={form.mileage_km} onChange={e => setForm({ ...form, mileage_km: e.target.value })} /></label>
           <label>Fuel
             <select value={form.fuel} onChange={e => setForm({ ...form, fuel: e.target.value })}>
@@ -204,7 +207,10 @@ function AdminVehicles() {
               <strong>{p.name}</strong>
               <span className="ga-muted">{p.body_type} · {p.year || "—"} · {p.fuel} {!p.active && "· inactive"}</span>
             </div>
-            <div className="ga-admin-price">GHS {Number(p.price).toLocaleString()}</div>
+            <div className="ga-admin-price">
+              GHS {Number(p.price).toLocaleString()}
+              {p.price_cad ? <><br /><span className="ga-muted ga-small">CAD ${Number(p.price_cad).toLocaleString()}</span></> : null}
+            </div>
             <div className="ga-admin-actions">
               <button onClick={() => edit(p)}>Edit</button>
               <button onClick={() => toggle(p)}>{p.active ? "Hide" : "Show"}</button>

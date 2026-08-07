@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import DualPrice from "@/components/DualPrice";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -121,7 +122,7 @@ function RentalsPage() {
                   </div>
                   <div className="rental-rate">
                     <span>Daily rental</span>
-                    <strong>GHS {Number(r.daily_rate).toFixed(2)}</strong>
+                    <DualPrice ghs={r.daily_rate} cad={(r as any).daily_rate_cad} size="sm" decimals={2} suffix="/ day" />
                   </div>
                   <div className="vmeta">
                     {r.seats && <span>👤 {r.seats} seats</span>}

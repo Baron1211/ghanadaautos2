@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import { blogPosts } from "@/lib/blog";
+import DualPrice from "@/components/DualPrice";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import SiteHeader from "@/components/SiteHeader";
 
@@ -379,7 +380,7 @@ function GhanadaHome() {
                  </div>
                  <div className="vbody">
                   <h4><Link to="/vehicles/$id" params={{ id: vehicleSlug(v) }} className="ga-link-plain">{v.name}</Link></h4>
-                  <div className="vprice">GHS {Number(v.price).toLocaleString()}</div>
+                   <div className="vprice"><DualPrice ghs={v.price} cad={v.price_cad} size="md" /></div>
                   <div className="vmeta">
                     {v.year && <span>📅 {v.year}</span>}
                     {v.mileage_km ? <span>🛣️ {Number(v.mileage_km).toLocaleString()} km</span> : null}
@@ -438,7 +439,7 @@ function GhanadaHome() {
                     <div className="part-body">
                        <h5 className="part-title"><Link to="/parts/$id" params={{ id: p.id }} className="ga-link-plain">{p.name}</Link></h5>
                       <div className="stars">★★★★★</div>
-                      <div className="part-price">GHS {Number(p.price).toFixed(2)}</div>
+                      <div className="part-price"><DualPrice ghs={p.price} cad={p.price_cad} size="sm" decimals={2} /></div>
                       <div className="part-actions">
                         <button className="part-add" onClick={() => quickAddPart(p, false)} aria-label="Add to cart">🛒</button>
                         <button className="add-cart" onClick={() => quickAddPart(p, true)}>Buy Now</button>
@@ -491,10 +492,10 @@ function GhanadaHome() {
                           </Link>
                         </h4>
                       </div>
-                      <div className="rental-rate">
-                        <span>Daily rental</span>
-                        <strong>GHS {Number(r.daily_rate).toFixed(2)}</strong>
-                      </div>
+                       <div className="rental-rate">
+                         <span>Daily rental</span>
+                         <DualPrice ghs={r.daily_rate} cad={r.daily_rate_cad} size="sm" decimals={2} suffix="/ day" />
+                       </div>
                       <div className="vmeta">
                         {r.seats && <span>👤 {r.seats} seats</span>}
                         {r.transmission && <span>⚙️ {r.transmission}</span>}

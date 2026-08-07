@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import DualPrice from "@/components/DualPrice";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -121,7 +122,7 @@ function PartsPage() {
                 <div className="part-body">
                   <h5 className="part-title"><Link to="/parts/$id" params={{ id: p.id }} className="ga-link-plain">{p.name}</Link></h5>
                   <div className="stars">★★★★★</div>
-                  <div className="part-price">GHS {Number(p.price).toFixed(2)}</div>
+                  <div className="part-price"><DualPrice ghs={p.price} cad={p.price_cad} size="sm" decimals={2} /></div>
                   <div className="part-actions">
                     <button className="part-add" onClick={() => quickAdd(p, false)} aria-label="Add to cart">🛒</button>
                     <button className="add-cart" onClick={() => quickAdd(p, true)}>Buy Now</button>
