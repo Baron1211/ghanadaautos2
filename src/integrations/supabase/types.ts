@@ -334,6 +334,7 @@ export type Database = {
           label: string
           part_id: string
           price: number
+          price_cad: number | null
           sort_order: number
           stock: number
           updated_at: string
@@ -347,6 +348,7 @@ export type Database = {
           label: string
           part_id: string
           price: number
+          price_cad?: number | null
           sort_order?: number
           stock?: number
           updated_at?: string
@@ -360,6 +362,7 @@ export type Database = {
           label?: string
           part_id?: string
           price?: number
+          price_cad?: number | null
           sort_order?: number
           stock?: number
           updated_at?: string
@@ -389,6 +392,7 @@ export type Database = {
           low_stock_threshold: number
           name: string
           price: number
+          price_cad: number | null
           stock: number
           updated_at: string
         }
@@ -406,6 +410,7 @@ export type Database = {
           low_stock_threshold?: number
           name: string
           price: number
+          price_cad?: number | null
           stock?: number
           updated_at?: string
         }
@@ -423,6 +428,7 @@ export type Database = {
           low_stock_threshold?: number
           name?: string
           price?: number
+          price_cad?: number | null
           stock?: number
           updated_at?: string
         }
@@ -570,6 +576,7 @@ export type Database = {
           active: boolean
           created_at: string
           daily_rate: number
+          daily_rate_cad: number | null
           description: string | null
           features: Json
           fuel: string | null
@@ -586,6 +593,7 @@ export type Database = {
           active?: boolean
           created_at?: string
           daily_rate: number
+          daily_rate_cad?: number | null
           description?: string | null
           features?: Json
           fuel?: string | null
@@ -602,6 +610,7 @@ export type Database = {
           active?: boolean
           created_at?: string
           daily_rate?: number
+          daily_rate_cad?: number | null
           description?: string | null
           features?: Json
           fuel?: string | null
@@ -735,6 +744,7 @@ export type Database = {
           name: string
           package_options: Json
           price: number
+          price_cad: number | null
           seats: number | null
           standard_equipment: Json
           stock_number: string | null
@@ -767,6 +777,7 @@ export type Database = {
           name: string
           package_options?: Json
           price?: number
+          price_cad?: number | null
           seats?: number | null
           standard_equipment?: Json
           stock_number?: string | null
@@ -799,6 +810,7 @@ export type Database = {
           name?: string
           package_options?: Json
           price?: number
+          price_cad?: number | null
           seats?: number | null
           standard_equipment?: Json
           stock_number?: string | null
