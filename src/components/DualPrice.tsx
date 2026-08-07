@@ -20,9 +20,9 @@ function GhFlag() {
   );
 }
 
-function CaFlag() {
+function CaFlag({ round }: { round?: boolean }) {
   return (
-    <svg className="ga-flag" viewBox="0 0 18 12" role="img" aria-label="Canada">
+    <svg className="ga-flag" viewBox={round ? "3 0 12 12" : "0 0 18 12"} preserveAspectRatio="xMidYMid slice" role="img" aria-label="Canada">
       <rect width="18" height="12" fill="#fff" />
       <rect width="4.5" height="12" x="0" fill="#D52B1E" />
       <rect width="4.5" height="12" x="13.5" fill="#D52B1E" />
@@ -53,7 +53,7 @@ export default function DualPrice({ ghs, cad, suffix, size = "md", decimals = 0 
         <div className="ga-price-conv">
           <span className="ga-price-connector" aria-hidden="true" />
           <span className="ga-price-chip">
-            <CaFlag />
+            <CaFlag round />
             <span className="ga-price-cur">CAD</span>
             <span className="ga-price-cadval">${fmt(Number(cad), decimals)}</span>
             {suffix ? <span className="ga-price-suffix">{suffix}</span> : null}
