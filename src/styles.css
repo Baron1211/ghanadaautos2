@@ -3724,8 +3724,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   white-space: nowrap;
 }
 .ga .ga-price-row .ga-flag {
-  font-size: 1em;
-  line-height: 1;
+  width: 1.35em;
+  height: 0.9em;
+  border-radius: 2px;
+  align-self: center;
+  flex: 0 0 auto;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12));
 }
 .ga .ga-price-primary {
