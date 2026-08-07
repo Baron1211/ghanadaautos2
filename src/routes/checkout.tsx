@@ -289,11 +289,11 @@ function CheckoutInner() {
                     <strong className="ga-cart-name">{i.name}</strong>
                     <small className="ga-cart-meta">
                       {i.item_type === "rental"
-                        ? <>{i.rental_days || 1} day{(i.rental_days || 1) > 1 ? "s" : ""} × GHS {i.unit_price.toLocaleString()} / day</>
-                        : <>Qty {i.quantity} × GHS {i.unit_price.toLocaleString()}</>}
+                        ? <>{i.rental_days || 1} day{(i.rental_days || 1) > 1 ? "s" : ""} × {money(unitOf(i))} / day</>
+                        : <>Qty {i.quantity} × {money(unitOf(i))}</>}
                     </small>
                     <div className="ga-cart-line-foot">
-                      <span className="ga-cart-line-total">GHS {(i.unit_price * qtyForTotal).toLocaleString()}</span>
+                      <span className="ga-cart-line-total">{money(unitOf(i) * qtyForTotal)}</span>
                       <button
                         className="ga-cart-delete"
                         aria-label={`Remove ${i.name} from cart`}
@@ -307,7 +307,31 @@ function CheckoutInner() {
               );
             })}
           </ul>
-          <div className="ga-summary-total"><span>Total</span><strong>GHS {subtotal.toLocaleString()}</strong></div>
+          <div className="ga-cur-pick">
+            <span className="ga-cur-pick-label">Pay in</span>
+            <div className="ga-cur-options">
+              <button
+                type="button"
+                className={`ga-cur-opt ${!activeCad ? "selected" : ""}`}
+                onClick={() => setCur("GHS")}
+              >
+                <span className="ga-cur-code">🇬🇭 GHS</span>
+                <strong>GH₵{subtotalGhs.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
+                <small>Ghana Cedis</small>
+              </button>
+              <button
+                type="button"
+                className={`ga-cur-opt ${activeCad ? "selected" : ""} ${cadAvailable ? "" : "disabled"}`}
+                onClick={() => cadAvailable && setCur("CAD")}
+                disabled={!cadAvailable}
+              >
+                <span className="ga-cur-code">🇨🇦 CAD</span>
+                <strong>{cadAvailable ? `CA$${subtotalCad.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : "—"}</strong>
+                <small>{cadAvailable ? "Canadian Dollars" : "Not available for these items"}</small>
+              </button>
+            </div>
+          </div>
+          <div className="ga-summary-total"><span>Total ({activeCad ? "CAD" : "GHS"})</span><strong>{money(subtotal)}</strong></div>
           <button className="ga-btn-primary ga-checkout-cta" onClick={place} disabled={placing}>
             {placing ? "Placing order…" : "Place order"}
           </button>
