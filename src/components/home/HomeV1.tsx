@@ -16,7 +16,7 @@ import brakeImg from "@/assets/parts/brake.jpg.asset.json";
 import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
 import batteryImg from "@/assets/parts/battery.jpg.asset.json";
 import headlightImg from "@/assets/parts/headlight.jpg.asset.json";
-import clearingImg from "@/assets/parts/clearing.jpg.asset.json";
+
 import testimonial1 from "@/assets/testimonial-1.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
