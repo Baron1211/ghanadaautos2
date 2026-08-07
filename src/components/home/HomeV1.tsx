@@ -340,19 +340,19 @@ function GhanadaHome() {
             <p>From the showroom floor to the port of Tema — sales, rentals, repairs, parts and logistics, all under one roof.</p>
           </div>
           <div className="services-grid">
-            {[
-              ["🚗", "Car Sales", "New & certified pre-owned vehicles."],
-              ["🔑", "Car Rentals", "Daily, weekly & monthly fleets."],
-              ["🛠️", "Repairs", "Certified technicians, honest pricing."],
-              ["⚙️", "Spare Parts", "Genuine parts, all major brands."],
-              ["🚢", "Import From Canada", "Sourced, inspected & shipped for you."],
-              ["📋", "Clearing & Forwarding", "Full customs & port handling."],
-            ].map(([icon, title, desc]) => (
-              <div key={title} className="service-card">
+            {([
+              ["🚗", "Car Sales", "New & certified pre-owned vehicles.", "/cars"],
+              ["🔑", "Car Rentals", "Daily, weekly & monthly fleets.", "/rentals"],
+              ["🛠️", "Repairs", "Certified technicians, honest pricing.", "/repairs"],
+              ["⚙️", "Spare Parts", "Genuine parts, all major brands.", "/parts"],
+              ["🚢", "Import From Canada", "Sourced, inspected & shipped for you.", "/import"],
+              ["📋", "Clearing & Forwarding", "Full customs & port handling.", "/import"],
+            ] as const).map(([icon, title, desc, to]) => (
+              <Link key={title} to={to} className="service-card">
                 <div className="service-icon">{icon}</div>
                 <h4>{title}</h4>
                 <p>{desc}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
