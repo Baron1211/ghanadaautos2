@@ -3926,3 +3926,33 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .ga-price-lg { font-size: 25px; }
   .ga .ga-price-md { font-size: 19px; }
 }
+
+/* ============ Checkout currency selector ============ */
+.ga-cur-pick { margin-top: 18px; }
+.ga-cur-pick-label {
+  display: block; font-size: 11px; font-weight: 800; letter-spacing: .14em;
+  text-transform: uppercase; color: #8b9691; margin-bottom: 8px;
+}
+.ga-cur-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ga-cur-opt {
+  display: flex; flex-direction: column; gap: 4px; align-items: flex-start;
+  padding: 12px 14px; border-radius: 14px; background: #fff;
+  border: 1.5px solid #e3e9e6; cursor: pointer; text-align: left;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.ga-cur-opt strong { font-size: 18px; font-weight: 800; letter-spacing: -.01em; color: #0b1f17; font-variant-numeric: tabular-nums; }
+.ga-cur-opt small { font-size: 11px; color: #8b9691; font-weight: 600; }
+.ga-cur-code {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .12em; color: #667;
+}
+.ga-cur-flag { width: 16px; height: 11px; border-radius: 2px; display: inline-block; box-shadow: 0 0 0 1px rgba(0,0,0,.07); }
+.ga-cur-flag-gh { background: linear-gradient(to bottom, #ce1126 33%, #fcd116 33% 66%, #006b3f 66%); }
+.ga-cur-flag-ca { background: linear-gradient(to right, #d52b1e 22%, #fff 22% 78%, #d52b1e 78%); }
+.ga-cur-opt:hover:not(.disabled) { border-color: rgba(15,138,95,.4); }
+.ga-cur-opt.selected {
+  border-color: #0f8a5f; background: rgba(15,138,95,.05);
+  box-shadow: 0 0 0 3px rgba(15,138,95,.12);
+}
+.ga-cur-opt.disabled { opacity: .5; cursor: not-allowed; }
+@media (max-width: 420px) { .ga-cur-options { grid-template-columns: 1fr; } }

@@ -315,7 +315,7 @@ function CheckoutInner() {
                 className={`ga-cur-opt ${!activeCad ? "selected" : ""}`}
                 onClick={() => setCur("GHS")}
               >
-                <span className="ga-cur-code">🇬🇭 GHS</span>
+                <span className="ga-cur-code"><i className="ga-cur-flag ga-cur-flag-gh" aria-hidden="true" />GHS</span>
                 <strong>GH₵{subtotalGhs.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
                 <small>Ghana Cedis</small>
               </button>
@@ -325,7 +325,7 @@ function CheckoutInner() {
                 onClick={() => cadAvailable && setCur("CAD")}
                 disabled={!cadAvailable}
               >
-                <span className="ga-cur-code">🇨🇦 CAD</span>
+                <span className="ga-cur-code"><i className="ga-cur-flag ga-cur-flag-ca" aria-hidden="true" />CAD</span>
                 <strong>{cadAvailable ? `CA$${subtotalCad.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : "—"}</strong>
                 <small>{cadAvailable ? "Canadian Dollars" : "Not available for these items"}</small>
               </button>
