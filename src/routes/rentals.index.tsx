@@ -122,7 +122,7 @@ function RentalsPage() {
                   </div>
                   <div className="rental-rate">
                     <span>Daily rental</span>
-                    <strong>GHS {Number(r.daily_rate).toFixed(2)}</strong>
+                    <DualPrice ghs={r.daily_rate} cad={(r as any).daily_rate_cad} size="sm" decimals={2} suffix="/ day" />
                   </div>
                   <div className="vmeta">
                     {r.seats && <span>👤 {r.seats} seats</span>}
