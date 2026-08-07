@@ -414,7 +414,7 @@ function GhanadaHome() {
                     <span>📅 {v.year}</span><span>🛣️ {v.miles}</span><span>⛽ {v.fuel}</span><span>⚙️ {v.trans}</span>
                   </div>
                   <div className="vactions">
-                    <a className="btn btn-primary" style={{ width: "100%", textAlign: "center" }} href="#quote">Reserve this car</a>
+                    <Link to="/cars" className="btn btn-primary" style={{ width: "100%", textAlign: "center" }}>Browse cars</Link>
                   </div>
                 </div>
               </div>
@@ -455,7 +455,7 @@ function GhanadaHome() {
                       <h5>{p.name}</h5>
                       <div className="stars">{p.stars}</div>
                       <div className="part-price">{p.price}</div>
-                      <a className="add-cart" href="#quote">Request this part</a>
+                      <Link to="/parts" className="add-cart">Browse parts</Link>
                     </div>
                   </div>
                 )))}
@@ -522,7 +522,7 @@ function GhanadaHome() {
                       </div>
                       <div className="vmeta"><span>👤 {r.seats}</span><span>⚙️ {r.trans}</span><span>⛽ {r.fuel}</span></div>
                       <div className="vactions">
-                        <a className="btn btn-primary" style={{ width: "100%", textAlign: "center" }} href="#quote">Book this rental</a>
+                        <Link to="/rentals" className="btn btn-primary" style={{ width: "100%", textAlign: "center" }}>Browse rentals</Link>
                       </div>
                     </div>
                   </div>
@@ -553,7 +553,7 @@ function GhanadaHome() {
               </div>
             ))}
           </div>
-          <a className="btn btn-primary" style={{ marginTop: 44 }}>Request a Vehicle →</a>
+          <Link to="/import" className="btn btn-primary" style={{ marginTop: 44 }}>Request a Vehicle →</Link>
         </div>
       </section>
 
@@ -666,7 +666,7 @@ function GhanadaHome() {
                 <div><label>Phone</label><input type="text" placeholder="Your phone number" /></div>
                 <div className="full"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
                 <div className="full"><label>Message</label><textarea rows={5} placeholder="How can we help?" /></div>
-                <div className="full"><a className="btn btn-primary" style={{ width: "100%" }}>Send Message</a></div>
+                <div className="full"><Link to="/support" className="btn btn-primary" style={{ width: "100%", textAlign: "center" }}>Send Message</Link></div>
               </div>
             </div>
           </div>
@@ -692,7 +692,7 @@ function GhanadaHome() {
             <div>
               <h4>Quick Links</h4>
               <div className="footer-links">
-                <Link to="/">Home</Link><Link to="/cars">Cars</Link><Link to="/rentals">Rentals</Link><a href="/#about">About</a><a href="/#contact">Contact</a>
+                <Link to="/">Home</Link><Link to="/cars">Cars</Link><Link to="/rentals">Rentals</Link><Link to="/import">About</Link><Link to="/" hash="contact">Contact</Link>
               </div>
             </div>
             <div>
@@ -704,7 +704,7 @@ function GhanadaHome() {
             <div>
               <h4>Support</h4>
               <div className="footer-links">
-                <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><a href="/#finance">Financing</a><Link to="/support">Contact Support</Link>
+                <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><Link to="/cars">Financing</Link><Link to="/support">Contact Support</Link>
               </div>
             </div>
             <div>

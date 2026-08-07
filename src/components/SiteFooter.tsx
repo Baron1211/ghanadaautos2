@@ -21,7 +21,7 @@ export default function SiteFooter() {
           <div>
             <h4>Quick Links</h4>
             <div className="footer-links">
-              <Link to="/">Home</Link><Link to="/cars">Cars</Link><Link to="/rentals">Rentals</Link><a href="/#about">About</a><a href="/#contact">Contact</a>
+              <Link to="/">Home</Link><Link to="/cars">Cars</Link><Link to="/rentals">Rentals</Link><Link to="/import">About</Link><Link to="/" hash="contact">Contact</Link>
             </div>
           </div>
           <div>
@@ -33,7 +33,7 @@ export default function SiteFooter() {
           <div>
             <h4>Support</h4>
             <div className="footer-links">
-              <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><a href="/#finance">Financing</a><Link to="/support">Contact Support</Link>
+              <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><Link to="/cars">Financing</Link><Link to="/support">Contact Support</Link>
             </div>
           </div>
           <div>
