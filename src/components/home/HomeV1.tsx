@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
 import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
 import { blogPosts } from "@/lib/blog";
+import DualPrice from "@/components/DualPrice";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import SiteHeader from "@/components/SiteHeader";
 
