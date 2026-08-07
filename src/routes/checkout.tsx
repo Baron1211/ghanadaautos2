@@ -25,12 +25,43 @@ type LineItem = {
   name: string;
   image_url?: string | null;
   unit_price: number;
+  unit_price_cad?: number | null;
   quantity: number;
   rental_days?: number | null;
   rental_start?: string | null;
 };
 
 function Checkout() {
+  return <CheckoutInner />;
+}
+
+async function withCadPrices(rows: LineItem[]): Promise<LineItem[]> {
+  const partIds = rows.filter(r => r.part_id && !r.variation_id).map(r => r.part_id!) as string[];
+  const varIds = rows.filter(r => r.variation_id).map(r => r.variation_id!) as string[];
+  const rentalIds = rows.filter(r => r.rental_id).map(r => r.rental_id!) as string[];
+  const vehicleIds = rows.filter(r => r.vehicle_id).map(r => r.vehicle_id!) as string[];
+  const [parts, vars, rentals, vehicles] = await Promise.all([
+    partIds.length ? (supabase as any).from("parts").select("id, price_cad").in("id", partIds) : { data: [] },
+    varIds.length ? (supabase as any).from("part_variations").select("id, price_cad").in("id", varIds) : { data: [] },
+    rentalIds.length ? (supabase as any).from("rentals").select("id, daily_rate_cad").in("id", rentalIds) : { data: [] },
+    vehicleIds.length ? (supabase as any).from("vehicles").select("id, price_cad").in("id", vehicleIds) : { data: [] },
+  ]);
+  const m = new Map<string, number>();
+  (parts.data || []).forEach((r: any) => m.set(`p${r.id}`, Number(r.price_cad || 0)));
+  (vars.data || []).forEach((r: any) => m.set(`v${r.id}`, Number(r.price_cad || 0)));
+  (rentals.data || []).forEach((r: any) => m.set(`r${r.id}`, Number(r.daily_rate_cad || 0)));
+  (vehicles.data || []).forEach((r: any) => m.set(`c${r.id}`, Number(r.price_cad || 0)));
+  return rows.map(r => ({
+    ...r,
+    unit_price_cad:
+      (r.variation_id ? m.get(`v${r.variation_id}`) : undefined) ??
+      (r.part_id ? m.get(`p${r.part_id}`) : undefined) ??
+      (r.rental_id ? m.get(`r${r.rental_id}`) : undefined) ??
+      (r.vehicle_id ? m.get(`c${r.vehicle_id}`) : undefined) ?? 0,
+  }));
+}
+
+function CheckoutInner() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const [items, setItems] = useState<LineItem[]>([]);
@@ -41,6 +72,7 @@ function Checkout() {
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"paystack" | "cod">("cod");
+  const [cur, setCur] = useState<"GHS" | "CAD">("GHS");
   const [placing, setPlacing] = useState(false);
   const [guestMode, setGuestMode] = useState<"choose" | "guest">("choose");
 
@@ -58,7 +90,7 @@ function Checkout() {
           supabase.from("profiles").select("full_name, phone, address").eq("id", uid).maybeSingle(),
         ]);
         if (profile) { setName(profile.full_name || ""); setPhone(profile.phone || ""); setAddress(profile.address || ""); }
-        setItems((cart || []).map((c: any) => {
+        const mapped = (cart || []).map((c: any) => {
           const isPart = c.item_type === "part";
           const isVehicle = c.item_type === "vehicle";
           const unit = isPart
@@ -80,11 +112,12 @@ function Checkout() {
             quantity: c.quantity,
             rental_days: c.rental_days,
             rental_start: c.rental_start,
-          };
-        }));
+          } as LineItem;
+        });
+        setItems(await withCadPrices(mapped));
       } else {
         const guest = JSON.parse(localStorage.getItem("guest_cart") || "[]") as any[];
-        setItems(guest.map((g, i) => ({ ...g, key: `g${i}`, unit_price: Number(g.unit_price) })));
+        setItems(await withCadPrices(guest.map((g, i) => ({ ...g, key: `g${i}`, unit_price: Number(g.unit_price) }))));
       }
       setLoading(false);
     })();
@@ -92,7 +125,13 @@ function Checkout() {
 
   const lineUnits = (i: LineItem) =>
     i.item_type === "rental" ? (i.rental_days || 1) : i.quantity;
-  const subtotal = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
+  const subtotalGhs = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
+  const cadAvailable = items.length > 0 && items.every(i => Number(i.unit_price_cad || 0) > 0);
+  const subtotalCad = items.reduce((s, i) => s + Number(i.unit_price_cad || 0) * lineUnits(i), 0);
+  const activeCad = cur === "CAD" && cadAvailable;
+  const subtotal = activeCad ? subtotalCad : subtotalGhs;
+  const unitOf = (i: LineItem) => (activeCad ? Number(i.unit_price_cad || 0) : i.unit_price);
+  const money = (n: number) => (activeCad ? `CA$${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : `GH₵${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}`);
 
   const removeItem = async (key: string) => {
     setItems(items.filter(i => i.key !== key));
@@ -113,7 +152,7 @@ function Checkout() {
     setPlacing(true);
     try {
       const orderPayload: any = {
-        user_id: userId, subtotal, total: subtotal,
+        user_id: userId, subtotal, total: subtotal, currency: activeCad ? "CAD" : "GHS",
         shipping_address: address, phone, notes,
         payment_method: payment,
         payment_status: "unpaid",
@@ -132,11 +171,11 @@ function Checkout() {
           variation_id: i.variation_id || null,
           vehicle_id: i.vehicle_id || null,
           name: i.name,
-          unit_price: i.unit_price,
+          unit_price: unitOf(i),
           quantity: i.quantity,
           rental_days: i.rental_days || null,
           rental_start: i.rental_start || null,
-          line_total: i.unit_price * qtyForTotal,
+          line_total: unitOf(i) * qtyForTotal,
         };
       });
       const { error: itErr } = await supabase.from("order_items").insert(rows);
@@ -250,11 +289,11 @@ function Checkout() {
                     <strong className="ga-cart-name">{i.name}</strong>
                     <small className="ga-cart-meta">
                       {i.item_type === "rental"
-                        ? <>{i.rental_days || 1} day{(i.rental_days || 1) > 1 ? "s" : ""} × GHS {i.unit_price.toLocaleString()} / day</>
-                        : <>Qty {i.quantity} × GHS {i.unit_price.toLocaleString()}</>}
+                        ? <>{i.rental_days || 1} day{(i.rental_days || 1) > 1 ? "s" : ""} × {money(unitOf(i))} / day</>
+                        : <>Qty {i.quantity} × {money(unitOf(i))}</>}
                     </small>
                     <div className="ga-cart-line-foot">
-                      <span className="ga-cart-line-total">GHS {(i.unit_price * qtyForTotal).toLocaleString()}</span>
+                      <span className="ga-cart-line-total">{money(unitOf(i) * qtyForTotal)}</span>
                       <button
                         className="ga-cart-delete"
                         aria-label={`Remove ${i.name} from cart`}
@@ -268,7 +307,31 @@ function Checkout() {
               );
             })}
           </ul>
-          <div className="ga-summary-total"><span>Total</span><strong>GHS {subtotal.toLocaleString()}</strong></div>
+          <div className="ga-cur-pick">
+            <span className="ga-cur-pick-label">Pay in</span>
+            <div className="ga-cur-options">
+              <button
+                type="button"
+                className={`ga-cur-opt ${!activeCad ? "selected" : ""}`}
+                onClick={() => setCur("GHS")}
+              >
+                <span className="ga-cur-code"><i className="ga-cur-flag ga-cur-flag-gh" aria-hidden="true" />GHS</span>
+                <strong>GH₵{subtotalGhs.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
+                <small>Ghana Cedis</small>
+              </button>
+              <button
+                type="button"
+                className={`ga-cur-opt ${activeCad ? "selected" : ""} ${cadAvailable ? "" : "disabled"}`}
+                onClick={() => cadAvailable && setCur("CAD")}
+                disabled={!cadAvailable}
+              >
+                <span className="ga-cur-code"><i className="ga-cur-flag ga-cur-flag-ca" aria-hidden="true" />CAD</span>
+                <strong>{cadAvailable ? `CA$${subtotalCad.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : "—"}</strong>
+                <small>{cadAvailable ? "Canadian Dollars" : "Not available for these items"}</small>
+              </button>
+            </div>
+          </div>
+          <div className="ga-summary-total"><span>Total ({activeCad ? "CAD" : "GHS"})</span><strong>{money(subtotal)}</strong></div>
           <button className="ga-btn-primary ga-checkout-cta" onClick={place} disabled={placing}>
             {placing ? "Placing order…" : "Place order"}
           </button>
