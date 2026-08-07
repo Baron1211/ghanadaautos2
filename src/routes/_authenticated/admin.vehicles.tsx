@@ -136,8 +136,8 @@ function AdminVehicles() {
               <option value="used">Used</option>
             </select>
           </label>
-          <label>Price 🇬🇭 (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
-          <label>Price 🇨🇦 (CAD)<input type="number" step="0.01" value={form.price_cad} onChange={e => setForm({ ...form, price_cad: e.target.value })} placeholder="Optional" /></label>
+          <label>Price (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
+          <label>Price (CAD)<input type="number" step="0.01" value={form.price_cad} onChange={e => setForm({ ...form, price_cad: e.target.value })} placeholder="Optional" /></label>
           <label>Mileage (km)<input type="number" value={form.mileage_km} onChange={e => setForm({ ...form, mileage_km: e.target.value })} /></label>
           <label>Fuel
             <select value={form.fuel} onChange={e => setForm({ ...form, fuel: e.target.value })}>
@@ -208,8 +208,8 @@ function AdminVehicles() {
               <span className="ga-muted">{p.body_type} · {p.year || "—"} · {p.fuel} {!p.active && "· inactive"}</span>
             </div>
             <div className="ga-admin-price">
-              🇬🇭 GHS {Number(p.price).toLocaleString()}
-              {p.price_cad ? <><br /><span className="ga-muted ga-small">🇨🇦 CAD ${Number(p.price_cad).toLocaleString()}</span></> : null}
+              GHS {Number(p.price).toLocaleString()}
+              {p.price_cad ? <><br /><span className="ga-muted ga-small">CAD ${Number(p.price_cad).toLocaleString()}</span></> : null}
             </div>
             <div className="ga-admin-actions">
               <button onClick={() => edit(p)}>Edit</button>

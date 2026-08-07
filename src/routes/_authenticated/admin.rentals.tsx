@@ -100,8 +100,8 @@ function AdminRentals() {
         <div className="ga-form-grid">
           <label>Name<input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
           <label>Vehicle type<input value={form.vehicle_type} onChange={e => setForm({ ...form, vehicle_type: e.target.value })} /></label>
-          <label>Daily rate 🇬🇭 (GHS)<input type="number" step="0.01" value={form.daily_rate} onChange={e => setForm({ ...form, daily_rate: e.target.value })} /></label>
-          <label>Daily rate 🇨🇦 (CAD)<input type="number" step="0.01" value={form.daily_rate_cad} onChange={e => setForm({ ...form, daily_rate_cad: e.target.value })} placeholder="Optional" /></label>
+          <label>Daily rate (GHS)<input type="number" step="0.01" value={form.daily_rate} onChange={e => setForm({ ...form, daily_rate: e.target.value })} /></label>
+          <label>Daily rate (CAD)<input type="number" step="0.01" value={form.daily_rate_cad} onChange={e => setForm({ ...form, daily_rate_cad: e.target.value })} placeholder="Optional" /></label>
           <label>Seats<input type="number" value={form.seats} onChange={e => setForm({ ...form, seats: e.target.value })} /></label>
           <label>Transmission
             <select value={form.transmission} onChange={e => setForm({ ...form, transmission: e.target.value })}>
@@ -152,8 +152,8 @@ function AdminRentals() {
             <img src={p.image_url || "/favicon.ico"} alt="" />
             <div><strong>{p.name}</strong><span className="ga-muted">{p.vehicle_type} {!p.active && "· inactive"}</span></div>
             <div className="ga-admin-price">
-              🇬🇭 GHS {Number(p.daily_rate).toFixed(2)} / day
-              {p.daily_rate_cad ? <><br /><span className="ga-muted ga-small">🇨🇦 CAD ${Number(p.daily_rate_cad).toFixed(2)} / day</span></> : null}
+              GHS {Number(p.daily_rate).toFixed(2)} / day
+              {p.daily_rate_cad ? <><br /><span className="ga-muted ga-small">CAD ${Number(p.daily_rate_cad).toFixed(2)} / day</span></> : null}
             </div>
             <div className="ga-admin-actions">
               <button onClick={() => edit(p)}>Edit</button>

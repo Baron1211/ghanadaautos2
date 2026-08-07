@@ -150,8 +150,8 @@ function AdminParts() {
               {categories?.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </label>
-          <label>Price 🇬🇭 (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
-          <label>Price 🇨🇦 (CAD)<input type="number" step="0.01" value={form.price_cad} onChange={e => setForm({ ...form, price_cad: e.target.value })} placeholder="Optional" /></label>
+          <label>Price (GHS)<input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} /></label>
+          <label>Price (CAD)<input type="number" step="0.01" value={form.price_cad} onChange={e => setForm({ ...form, price_cad: e.target.value })} placeholder="Optional" /></label>
           <label>Stock<input type="number" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} /></label>
           <label>Low-stock alert at<input type="number" value={form.low_stock_threshold} onChange={e => setForm({ ...form, low_stock_threshold: e.target.value })} /></label>
           <label className="ga-form-full">Description<textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></label>
@@ -270,8 +270,8 @@ function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any
           </span>
         </div>
         <div className="ga-admin-price">
-          🇬🇭 GHS {Number(p.price).toFixed(2)}
-          {p.price_cad ? <><br /><span className="ga-muted ga-small">🇨🇦 CAD ${Number(p.price_cad).toFixed(2)}</span></> : null}
+          GHS {Number(p.price).toFixed(2)}
+          {p.price_cad ? <><br /><span className="ga-muted ga-small">CAD ${Number(p.price_cad).toFixed(2)}</span></> : null}
         </div>
         <div className="ga-admin-actions">
           <button onClick={() => setOpen(o => !o)}>{open ? "Hide variations" : "Variations"}</button>
@@ -302,8 +302,8 @@ function PartRow({ p, selected, onSelect, onEdit, onToggle, onRemove }: { p: any
           ) : <p className="ga-muted ga-small">No variations. Add one below to offer per-size or per-model pricing.</p>}
           <div className="ga-form-grid" style={{ marginTop: 12 }}>
             <label>Label<input value={nv.label} onChange={e => setNv({ ...nv, label: e.target.value })} placeholder="e.g. 205/55R16" /></label>
-            <label>Price 🇬🇭 (GHS)<input type="number" step="0.01" value={nv.price} onChange={e => setNv({ ...nv, price: e.target.value })} /></label>
-            <label>Price 🇨🇦 (CAD)<input type="number" step="0.01" value={nv.price_cad} onChange={e => setNv({ ...nv, price_cad: e.target.value })} placeholder="Optional" /></label>
+            <label>Price (GHS)<input type="number" step="0.01" value={nv.price} onChange={e => setNv({ ...nv, price: e.target.value })} /></label>
+            <label>Price (CAD)<input type="number" step="0.01" value={nv.price_cad} onChange={e => setNv({ ...nv, price_cad: e.target.value })} placeholder="Optional" /></label>
             <label>Stock<input type="number" value={nv.stock} onChange={e => setNv({ ...nv, stock: e.target.value })} /></label>
             <label>Attributes JSON<input value={nv.attributes} onChange={e => setNv({ ...nv, attributes: e.target.value })} placeholder='{"fits":"Toyota Corolla 2015"}' /></label>
           </div>
