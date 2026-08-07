@@ -55,7 +55,7 @@ function VehicleDetail() {
       const v: any = vehicle;
       const { data } = await (supabase as any)
         .from("vehicles")
-        .select("id,name,brand,body_type,year,price,image_url,images,mileage_km,fuel")
+        .select("id,name,brand,body_type,year,price,price_cad,image_url,images,mileage_km,fuel")
         .eq("active", true)
         .neq("id", id)
         .or(`body_type.eq.${v?.body_type ?? ""},brand.eq.${v?.brand ?? ""}`)
@@ -184,7 +184,7 @@ function VehicleDetail() {
             <span>{vehicle.body_type || "Vehicle"} · {vehicle.brand || ""}</span>
           </div>
           <h1 className="ga-shop-title">{vehicle.name}</h1>
-          <div className="ga-shop-price">GHS {Number(vehicle.price).toLocaleString()}</div>
+          <div className="ga-shop-price"><DualPrice ghs={vehicle.price} cad={vehicle.price_cad} size="lg" /></div>
 
           <div className="ga-shop-quick-specs">
             {vehicle.year && <span>📅 {vehicle.year}</span>}
@@ -299,7 +299,7 @@ function VehicleDetail() {
                   <div className="ga-vd-similar-body">
                     <div className="ga-vd-similar-eyebrow">{s.body_type || "Vehicle"} · {s.year || ""}</div>
                     <div className="ga-vd-similar-name">{s.name}</div>
-                    <div className="ga-vd-similar-price">GHS {Number(s.price).toLocaleString()}</div>
+                    <div className="ga-vd-similar-price"><DualPrice ghs={s.price} cad={s.price_cad} size="sm" /></div>
                   </div>
                 </Link>
               ))}
