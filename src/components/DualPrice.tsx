@@ -20,9 +20,9 @@ function GhFlag() {
   );
 }
 
-function CaFlag() {
+function CaFlag({ round }: { round?: boolean }) {
   return (
-    <svg className="ga-flag" viewBox="0 0 18 12" role="img" aria-label="Canada">
+    <svg className="ga-flag" viewBox={round ? "3 0 12 12" : "0 0 18 12"} preserveAspectRatio="xMidYMid slice" role="img" aria-label="Canada">
       <rect width="18" height="12" fill="#fff" />
       <rect width="4.5" height="12" x="0" fill="#D52B1E" />
       <rect width="4.5" height="12" x="13.5" fill="#D52B1E" />
@@ -32,21 +32,33 @@ function CaFlag() {
 }
 
 export default function DualPrice({ ghs, cad, suffix, size = "md", decimals = 0 }: Props) {
+  const hasCad = cad != null && Number(cad) > 0;
   return (
     <div className={`ga-price-stack ga-price-${size}`}>
-      <span className="ga-price-row ga-price-primary">
-        <GhFlag />
-        <span className="ga-price-cur">GHS</span>
-        <span className="ga-price-val">{fmt(Number(ghs), decimals)}</span>
-        {suffix ? <span className="ga-price-suffix">{suffix}</span> : null}
-      </span>
-      {cad != null && Number(cad) > 0 ? (
-        <span className="ga-price-row ga-price-secondary">
-          <CaFlag />
-          <span className="ga-price-cur">CAD</span>
-          <span className="ga-price-val">${fmt(Number(cad), decimals)}</span>
-          {suffix ? <span className="ga-price-suffix">{suffix}</span> : null}
+      <div className="ga-price-main">
+        <span className="ga-price-flagwrap">
+          <GhFlag />
+          <span className="ga-price-flagdot" aria-hidden="true" />
         </span>
+        <span className="ga-price-figure">
+          <span className="ga-price-label">Local price</span>
+          <span className="ga-price-amount">
+            <span className="ga-price-symbol">GH₵</span>
+            <span className="ga-price-val">{fmt(Number(ghs), decimals)}</span>
+            {suffix ? <span className="ga-price-suffix">{suffix}</span> : null}
+          </span>
+        </span>
+      </div>
+      {hasCad ? (
+        <div className="ga-price-conv">
+          <span className="ga-price-connector" aria-hidden="true" />
+          <span className="ga-price-chip">
+            <CaFlag round />
+            <span className="ga-price-cur">CAD</span>
+            <span className="ga-price-cadval">${fmt(Number(cad), decimals)}</span>
+            {suffix ? <span className="ga-price-suffix">{suffix}</span> : null}
+          </span>
+        </div>
       ) : null}
     </div>
   );

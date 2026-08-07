@@ -3709,64 +3709,145 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .ga-fc-mode { font-size: .88rem; }
 }
 
-/* ===== Dual currency price display ===== */
+/* ===== Dual currency price display — "Precision exchange" ===== */
 .ga .ga-price-stack {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   align-items: flex-start;
+  font-size: 21px;
 }
-.ga .ga-price-row {
+.ga .ga-price-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.ga .ga-price-flagwrap {
+  position: relative;
   display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  line-height: 1.15;
-  white-space: nowrap;
-}
-.ga .ga-price-row .ga-flag {
-  width: 1.35em;
-  height: 0.9em;
-  border-radius: 2px;
-  align-self: center;
   flex: 0 0 auto;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12));
 }
-.ga .ga-price-primary {
-  font-weight: 800;
-  color: var(--dark, #0b1f17);
+.ga .ga-price-stack .ga-flag {
+  display: block;
+  flex: 0 0 auto;
 }
-.ga .ga-price-primary .ga-price-cur {
-  font-size: 0.62em;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--emerald, #0f8a5f);
-  text-transform: uppercase;
+.ga .ga-price-main .ga-flag {
+  width: 1.72em;
+  height: 1.15em;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(10, 30, 20, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
-.ga .ga-price-secondary {
-  font-weight: 700;
-  color: var(--muted, #667);
-  background: rgba(15, 138, 95, 0.07);
-  border: 1px solid rgba(15, 138, 95, 0.14);
+.ga .ga-price-flagdot {
+  position: absolute;
+  right: -0.16em;
+  bottom: -0.16em;
+  width: 0.42em;
+  height: 0.42em;
   border-radius: 999px;
-  padding: 2px 9px;
-  font-size: 0.62em;
+  background: var(--emerald, #0f8a5f);
+  border: 0.11em solid #fff;
 }
-.ga .ga-price-secondary .ga-price-cur {
-  letter-spacing: 0.06em;
+.ga .ga-price-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.16em;
+  min-width: 0;
+}
+.ga .ga-price-label {
+  font-size: 0.44em;
+  font-weight: 800;
+  letter-spacing: 0.19em;
   text-transform: uppercase;
-  opacity: 0.85;
+  line-height: 1;
+  color: var(--emerald, #0f8a5f);
+}
+.ga .ga-price-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 0.16em;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--dark, #0b1f17);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.ga .ga-price-symbol {
+  font-size: 0.6em;
+  font-weight: 700;
+  color: #5b6b63;
+  letter-spacing: 0;
+}
+.ga .ga-price-conv {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+}
+.ga .ga-price-connector {
+  height: 1px;
+  width: 1.1em;
+  background: #dbe2e0;
+  transition: width 0.35s ease, background 0.35s ease;
+}
+.ga .ga-price-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42em;
+  padding: 0.3em 0.62em;
+  border-radius: 999px;
+  background: #f6f8f7;
+  border: 1px solid #e3e9e6;
+  white-space: nowrap;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.ga .ga-price-chip .ga-flag {
+  width: 0.95em;
+  height: 0.95em;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1.5px #fff, 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+.ga .ga-price-chip .ga-price-cur {
+  font-size: 0.46em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8b9691;
+}
+.ga .ga-price-cadval {
+  font-size: 0.56em;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--orange, #f97316);
+  font-variant-numeric: tabular-nums;
 }
 .ga .ga-price-suffix {
-  font-size: 0.62em;
-  font-weight: 600;
-  color: var(--muted, #667);
+  font-size: 0.46em;
+  font-weight: 700;
+  color: #8b9691;
   text-transform: none;
   letter-spacing: 0;
 }
+.ga .ga-price-amount .ga-price-suffix { font-size: 0.4em; }
+.ga .vcard:hover .ga-price-connector,
+.ga .part-card:hover .ga-price-connector,
+.ga .rcard:hover .ga-price-connector {
+  width: 1.7em;
+  background: var(--orange, #f97316);
+}
+.ga .vcard:hover .ga-price-chip,
+.ga .part-card:hover .ga-price-chip,
+.ga .rcard:hover .ga-price-chip {
+  background: #fff;
+  border-color: rgba(249, 115, 22, 0.28);
+}
 .ga .ga-price-sm { font-size: 17px; }
-.ga .ga-price-md { font-size: 21px; }
-.ga .ga-price-lg { font-size: 30px; }
+.ga .ga-price-md { font-size: 22px; }
+.ga .ga-price-lg { font-size: 34px; }
+@media (max-width: 600px) {
+  .ga .ga-price-lg { font-size: 27px; }
+  .ga .ga-price-md { font-size: 20px; }
+}
 @media (max-width: 640px) {
   .ga .ga-price-lg { font-size: 25px; }
   .ga .ga-price-md { font-size: 19px; }
