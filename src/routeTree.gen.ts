@@ -9,9 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
+import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
 import { Route as RepairsRouteImport } from './routes/repairs'
 import { Route as RentalsRouteImport } from './routes/rentals'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PartsRouteImport } from './routes/parts'
 import { Route as ImportRouteImport } from './routes/import'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -46,9 +49,19 @@ import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authen
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
   path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShippingPolicyRoute = ShippingPolicyRouteImport.update({
+  id: '/shipping-policy',
+  path: '/shipping-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RepairsRoute = RepairsRouteImport.update({
@@ -59,6 +72,11 @@ const RepairsRoute = RepairsRouteImport.update({
 const RentalsRoute = RentalsRouteImport.update({
   id: '/rentals',
   path: '/rentals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartsRoute = PartsRouteImport.update({
@@ -241,9 +259,12 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/import': typeof ImportRoute
   '/parts': typeof PartsRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/rentals': typeof RentalsRouteWithChildren
   '/repairs': typeof RepairsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -275,8 +296,11 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/faq': typeof FaqRoute
   '/import': typeof ImportRoute
+  '/privacy': typeof PrivacyRoute
   '/repairs': typeof RepairsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -312,9 +336,12 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/import': typeof ImportRoute
   '/parts': typeof PartsRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/rentals': typeof RentalsRouteWithChildren
   '/repairs': typeof RepairsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -351,9 +378,12 @@ export interface FileRouteTypes {
     | '/faq'
     | '/import'
     | '/parts'
+    | '/privacy'
     | '/rentals'
     | '/repairs'
+    | '/shipping-policy'
     | '/support'
+    | '/terms'
     | '/admin'
     | '/dashboard'
     | '/auth/confirmed'
@@ -385,8 +415,11 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/faq'
     | '/import'
+    | '/privacy'
     | '/repairs'
+    | '/shipping-policy'
     | '/support'
+    | '/terms'
     | '/dashboard'
     | '/auth/confirmed'
     | '/blog/$slug'
@@ -421,9 +454,12 @@ export interface FileRouteTypes {
     | '/faq'
     | '/import'
     | '/parts'
+    | '/privacy'
     | '/rentals'
     | '/repairs'
+    | '/shipping-policy'
     | '/support'
+    | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/auth/confirmed'
@@ -460,9 +496,12 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   ImportRoute: typeof ImportRoute
   PartsRoute: typeof PartsRouteWithChildren
+  PrivacyRoute: typeof PrivacyRoute
   RentalsRoute: typeof RentalsRouteWithChildren
   RepairsRoute: typeof RepairsRoute
+  ShippingPolicyRoute: typeof ShippingPolicyRoute
   SupportRoute: typeof SupportRoute
+  TermsRoute: typeof TermsRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
@@ -472,11 +511,25 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/support': {
       id: '/support'
       path: '/support'
       fullPath: '/support'
       preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shipping-policy': {
+      id: '/shipping-policy'
+      path: '/shipping-policy'
+      fullPath: '/shipping-policy'
+      preLoaderRoute: typeof ShippingPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/repairs': {
@@ -491,6 +544,13 @@ declare module '@tanstack/react-router' {
       path: '/rentals'
       fullPath: '/rentals'
       preLoaderRoute: typeof RentalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/parts': {
@@ -826,9 +886,12 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   ImportRoute: ImportRoute,
   PartsRoute: PartsRouteWithChildren,
+  PrivacyRoute: PrivacyRoute,
   RentalsRoute: RentalsRouteWithChildren,
   RepairsRoute: RepairsRoute,
+  ShippingPolicyRoute: ShippingPolicyRoute,
   SupportRoute: SupportRoute,
+  TermsRoute: TermsRoute,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
   VehiclesIdRoute: VehiclesIdRoute,
@@ -838,3 +901,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

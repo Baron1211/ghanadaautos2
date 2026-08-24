@@ -33,7 +33,7 @@ export default function SiteFooter() {
           <div>
             <h4>Support</h4>
             <div className="footer-links">
-              <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><Link to="/cars">Financing</Link><Link to="/support">Contact Support</Link>
+              <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><Link to="/cars">Financing</Link><Link to="/support">Contact Support</Link><Link to="/terms">Terms &amp; Conditions</Link><Link to="/privacy">Privacy Policy</Link><Link to="/shipping-policy">Shipping &amp; Import Policy</Link>
             </div>
           </div>
           <div>
