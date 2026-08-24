@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as RepairsRouteImport } from './routes/repairs'
 import { Route as RentalsRouteImport } from './routes/rentals'
@@ -46,6 +47,11 @@ import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authen
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
   path: '/support',
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/rentals': typeof RentalsRouteWithChildren
   '/repairs': typeof RepairsRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -277,6 +284,7 @@ export interface FileRoutesByTo {
   '/import': typeof ImportRoute
   '/repairs': typeof RepairsRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -315,6 +323,7 @@ export interface FileRoutesById {
   '/rentals': typeof RentalsRouteWithChildren
   '/repairs': typeof RepairsRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -354,6 +363,7 @@ export interface FileRouteTypes {
     | '/rentals'
     | '/repairs'
     | '/support'
+    | '/terms'
     | '/admin'
     | '/dashboard'
     | '/auth/confirmed'
@@ -387,6 +397,7 @@ export interface FileRouteTypes {
     | '/import'
     | '/repairs'
     | '/support'
+    | '/terms'
     | '/dashboard'
     | '/auth/confirmed'
     | '/blog/$slug'
@@ -424,6 +435,7 @@ export interface FileRouteTypes {
     | '/rentals'
     | '/repairs'
     | '/support'
+    | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/auth/confirmed'
@@ -463,6 +475,7 @@ export interface RootRouteChildren {
   RentalsRoute: typeof RentalsRouteWithChildren
   RepairsRoute: typeof RepairsRoute
   SupportRoute: typeof SupportRoute
+  TermsRoute: typeof TermsRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
@@ -472,6 +485,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/support': {
       id: '/support'
       path: '/support'
@@ -829,6 +849,7 @@ const rootRouteChildren: RootRouteChildren = {
   RentalsRoute: RentalsRouteWithChildren,
   RepairsRoute: RepairsRoute,
   SupportRoute: SupportRoute,
+  TermsRoute: TermsRoute,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
   VehiclesIdRoute: VehiclesIdRoute,
