@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
+import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
 import { Route as RepairsRouteImport } from './routes/repairs'
 import { Route as RentalsRouteImport } from './routes/rentals'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -56,6 +57,11 @@ const TermsRoute = TermsRouteImport.update({
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
   path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShippingPolicyRoute = ShippingPolicyRouteImport.update({
+  id: '/shipping-policy',
+  path: '/shipping-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RepairsRoute = RepairsRouteImport.update({
@@ -256,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/rentals': typeof RentalsRouteWithChildren
   '/repairs': typeof RepairsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -291,6 +298,7 @@ export interface FileRoutesByTo {
   '/import': typeof ImportRoute
   '/privacy': typeof PrivacyRoute
   '/repairs': typeof RepairsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -331,6 +339,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/rentals': typeof RentalsRouteWithChildren
   '/repairs': typeof RepairsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -372,6 +381,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/rentals'
     | '/repairs'
+    | '/shipping-policy'
     | '/support'
     | '/terms'
     | '/admin'
@@ -407,6 +417,7 @@ export interface FileRouteTypes {
     | '/import'
     | '/privacy'
     | '/repairs'
+    | '/shipping-policy'
     | '/support'
     | '/terms'
     | '/dashboard'
@@ -446,6 +457,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/rentals'
     | '/repairs'
+    | '/shipping-policy'
     | '/support'
     | '/terms'
     | '/_authenticated/admin'
@@ -487,6 +499,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   RentalsRoute: typeof RentalsRouteWithChildren
   RepairsRoute: typeof RepairsRoute
+  ShippingPolicyRoute: typeof ShippingPolicyRoute
   SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
@@ -510,6 +523,13 @@ declare module '@tanstack/react-router' {
       path: '/support'
       fullPath: '/support'
       preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shipping-policy': {
+      id: '/shipping-policy'
+      path: '/shipping-policy'
+      fullPath: '/shipping-policy'
+      preLoaderRoute: typeof ShippingPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/repairs': {
@@ -869,6 +889,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   RentalsRoute: RentalsRouteWithChildren,
   RepairsRoute: RepairsRoute,
+  ShippingPolicyRoute: ShippingPolicyRoute,
   SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
   BookingsNumberRoute: BookingsNumberRoute,
