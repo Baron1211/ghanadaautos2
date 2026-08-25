@@ -244,7 +244,12 @@ function GhanadaHome() {
           </div>
           <div className="hero-actions">
             <Link to="/cars" className="btn btn-primary">{hero("cta_label")}</Link>
+            <Link to="/track" search={{ number: "" }} className="btn btn-outline ga-hero-track-btn">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l3-1.72" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /><circle cx="18" cy="18" r="3" /><path d="m20.2 20.2 1.8 1.8" /></svg>
+              Track Your Item
+            </Link>
           </div>
+
           <div className="hero-stats">
             <div><strong>{hero("stat1_value")}</strong><span>{hero("stat1_label")}</span></div>
             <div><strong>{hero("stat2_value")}</strong><span>{hero("stat2_label")}</span></div>
