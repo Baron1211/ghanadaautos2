@@ -86,14 +86,17 @@ export default function SiteHeader() {
               <Link to="/repairs">Repairs</Link>
               <Link to="/parts">Spare Parts</Link>
               <Link to="/import">Import From Canada</Link>
-              <Link to="/track">Track My Order</Link>
+              <Link to="/track" search={{ number: "" }}>Track My Order</Link>
             </div>
           </div>
           <Link to="/" hash="contact">Contact</Link>
         </nav>
         <div className="nav-right">
           <NotificationBell />
-          <Link to="/checkout" className="icon-btn" aria-label="Cart">🛒</Link>
+          <Link to="/checkout" className="icon-btn" aria-label="Cart">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5" /><circle cx="18" cy="20" r="1.5" /><path d="M2 3h2.2l2.3 11.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7H5" /></svg>
+          </Link>
+
           <div className="nav-divider" />
           <div className="auth-links">
             {userId ? (
@@ -132,7 +135,7 @@ export default function SiteHeader() {
             <Link to="/repairs" className="mobile-sub" onClick={closeMenu}>Repairs</Link>
             <Link to="/parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</Link>
             <Link to="/import" className="mobile-sub" onClick={closeMenu}>Import From Canada</Link>
-            <Link to="/track" className="mobile-sub" onClick={closeMenu}>Track My Order</Link>
+            <Link to="/track" search={{ number: "" }} className="mobile-sub" onClick={closeMenu}>Track My Order</Link>
           </div>
         )}
         <Link to="/" hash="contact" onClick={closeMenu}>Contact</Link>

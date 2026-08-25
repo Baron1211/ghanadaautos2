@@ -667,7 +667,7 @@ function TrackingTab({ userId }: { userId: string }) {
         <Truck size={26} />
         <strong>No shipments yet</strong>
         <p className="ga-muted">Once we dispatch an order you'll see live tracking here.</p>
-        <Link to="/track" className="ga-btn-primary">Track by number</Link>
+        <Link to="/track" search={{ number: "" }} className="ga-btn-primary">Track by number</Link>
       </div>
     );
   }
