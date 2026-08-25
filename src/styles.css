@@ -4192,7 +4192,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 }
 .ga .ga-trk-empty strong { font-size: 18px; }
 .ga .ga-trk-empty .ga-muted { max-width: 420px; font-size: 14px; }
-.ga .ga-trk-empty .btn { margin-top: 10px; }
+.ga .ga-trk-empty .btn { margin-top: 10px; color: #0F172A; border-color: #CBD5E1; background: #fff; }
+.ga .ga-trk-empty .btn:hover { background: #0F8A5F; border-color: #0F8A5F; color: #fff; }
 
 .ga .ga-trk-result { display: grid; gap: 18px; }
 .ga .ga-trk-card {
