@@ -54,6 +54,7 @@ function GhanadaHome() {
   const sec = useContent("home_sections");
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [trackNo, setTrackNo] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement | null>(null);
