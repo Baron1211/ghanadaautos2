@@ -4313,3 +4313,40 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga-ship-head { grid-template-columns: 1fr; }
   .ga-staff-head { grid-template-columns: 40px 1fr; }
 }
+
+/* ---- Homepage track strip ---- */
+.ga .ga-hero-track-btn { display: inline-flex; align-items: center; gap: 8px; }
+.ga .ga-track-strip { padding: 0; margin-top: -34px; position: relative; z-index: 4; }
+.ga .ga-track-strip-card {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding: 18px 22px; border-radius: 18px;
+  background: linear-gradient(120deg, #04150F 0%, #0A2C1F 60%, #0F3D2B 100%);
+  border: 1px solid rgba(255,255,255,.1);
+  box-shadow: 0 22px 48px rgba(4,21,15,.28);
+  color: #fff;
+}
+.ga .ga-track-strip-copy { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.ga .ga-track-strip-icon {
+  display: grid; place-items: center; flex: 0 0 auto; width: 44px; height: 44px; border-radius: 14px;
+  background: rgba(249,115,22,.18); color: #FDBA74;
+}
+.ga .ga-track-strip-copy strong { display: block; font-size: 16px; letter-spacing: -.2px; }
+.ga .ga-track-strip-copy span { display: block; font-size: 13px; color: rgba(255,255,255,.66); }
+.ga .ga-track-strip-form {
+  display: flex; align-items: center; gap: 8px; flex: 0 1 460px; padding: 6px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 999px;
+}
+.ga .ga-track-strip-form input {
+  flex: 1; min-width: 0; background: transparent; border: 0; outline: none;
+  color: #fff; font-size: 14px; padding: 10px 14px;
+}
+.ga .ga-track-strip-form input::placeholder { color: rgba(255,255,255,.55); }
+.ga .ga-track-strip-form .btn { border-radius: 999px; padding: 10px 22px; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .ga .ga-track-strip { margin-top: -18px; }
+  .ga .ga-track-strip-card { flex-direction: column; align-items: stretch; gap: 14px; padding: 18px; border-radius: 16px; }
+  .ga .ga-track-strip-form { flex: 1 1 auto; flex-wrap: wrap; border-radius: 14px; padding: 10px; gap: 10px; }
+  .ga .ga-track-strip-form input { flex: 1 1 100%; background: rgba(255,255,255,.08); border-radius: 10px; }
+  .ga .ga-track-strip-form .btn { flex: 1 1 100%; border-radius: 10px; }
+}
