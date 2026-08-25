@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrackRouteImport } from './routes/track'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
@@ -49,6 +50,11 @@ import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authen
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -265,6 +271,7 @@ export interface FileRoutesByFullPath {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/track': typeof TrackRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -301,6 +308,7 @@ export interface FileRoutesByTo {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/track': typeof TrackRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -342,6 +350,7 @@ export interface FileRoutesById {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/track': typeof TrackRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -384,6 +393,7 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/support'
     | '/terms'
+    | '/track'
     | '/admin'
     | '/dashboard'
     | '/auth/confirmed'
@@ -420,6 +430,7 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/support'
     | '/terms'
+    | '/track'
     | '/dashboard'
     | '/auth/confirmed'
     | '/blog/$slug'
@@ -460,6 +471,7 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/support'
     | '/terms'
+    | '/track'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/auth/confirmed'
@@ -502,6 +514,7 @@ export interface RootRouteChildren {
   ShippingPolicyRoute: typeof ShippingPolicyRoute
   SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
+  TrackRoute: typeof TrackRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
@@ -511,6 +524,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -892,6 +912,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShippingPolicyRoute: ShippingPolicyRoute,
   SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
+  TrackRoute: TrackRoute,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
   VehiclesIdRoute: VehiclesIdRoute,
