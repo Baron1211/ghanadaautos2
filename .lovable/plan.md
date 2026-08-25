@@ -1,55 +1,52 @@
-## What we're building
+# Admin platform upgrade: repairs, staff roles, CMS, notifications, FX rate, tracking
 
-A complete e-commerce + rental system on top of the existing homepage.
+Six connected features, built on the existing admin console and customer dashboard.
 
-### 1. Database changes (one migration)
+## 1. Repair requests
 
-- `part_variations` — per-part SKUs with own price, stock, image, attributes (e.g. "Size: 205/55R16", "Fits: Toyota Corolla 2015").
-- `rental_bookings` — separate from parts orders. Fields: rental_id, user_id (nullable for guest), guest_name/email/phone, pickup_date, return_date, destination, with_driver (bool), daily_rate, driver_daily_fee, days, total, status.
-- `orders` — add: guest_name, guest_email, payment_method ('paystack'|'cod'), payment_status, payment_ref. Make `user_id` nullable for guest checkout.
-- `cart_items` — add `variation_id` (nullable).
-- `site_settings` — key/value JSON store for banners, driver fee, contact info, service descriptions.
-- Add GRANT SELECT to `anon` on `parts`, `part_variations`, `rentals` so guests can browse.
-- All admin-write RLS uses existing `has_role(auth.uid(),'admin')`.
+Customer side (`/repairs`): the existing booking form becomes a real request form with car type (SUV/Sedan/Pickup/Van/Motorcycle), make, model, year, the body part / area to repair, plus name, phone, email, preferred date, location and a description. Works for guests and signed-in users.
 
-### 2. Public product & rental pages
+Admin side: new "Repair Requests" page listing every request with vehicle details, contact info, status (new → contacted → scheduled → in progress → completed → cancelled), an internal note field, and a quote amount. Count of new requests shows on the admin overview.
 
-- `/parts/$id` — hero image, description, variation selector, stock, quantity, Add to Cart, Buy Now (guest checkout).
-- `/rentals/$id` — car details, date pickers, destination input, self-drive vs with-driver toggle (shows extra $/day from `site_settings.driver_daily_fee`), computed total, "Book Now".
-- Wire homepage cards + parts/rentals lists to link into these pages.
+## 2. Super admin + staff permissions
 
-### 3. Checkout
+- The current admin accounts become **super admins**.
+- Super admins can invite/onboard staff by email and toggle access per admin section: Vehicles, Parts, Rentals, Catalog, Orders, Bookings, Repair Requests, Users, CMS/Content, Notifications, Tracking, Settings.
+- The admin sidebar only shows sections a staff member is allowed to see, and each page blocks access if the permission is off. Database rules enforce it too, not just the UI.
+- Only super admins can manage staff, permissions, and the exchange rate.
 
-- `/checkout` — supports both authenticated and guest. Collects name, email, phone, address.
-- Payment method radio: **Paystack** (placeholder button — real integration comes next when you provide the Paystack keys) and **Cash on delivery / bank transfer**.
-- On submit: creates `orders` + `order_items`, clears cart, redirects to `/orders/$orderNumber` confirmation page (works for guests via order_number lookup).
-- Rental bookings go through `/rentals/$id/book` → creates `rental_bookings` row, confirmation page.
+## 3. CMS for site text and images
 
-### 4. Customer dashboard (extend existing `/dashboard`)
+New "Content" section in the admin panel with tabs for each part of the site: homepage hero and carousel slides, service cards, testimonials, section headings, about/contact blocks, footer text, and contact details. Every field is editable text, and image fields use the existing uploader with previews. Changes appear on the public site immediately, with the current wording kept as fallback so nothing ever renders blank.
 
-- Tabs: **My Orders**, **My Rentals**, **Profile**.
-- Each order/rental expandable to show items, status, receipt/print view.
+Editing UI is a clean two-column layout on desktop that collapses to stacked cards with sticky save on mobile.
 
-### 5. Admin panel (extend existing `/admin`)
+## 4. Site-wide notification banner
 
-Existing: index (stats), parts, rentals, orders, users. Add / upgrade:
+Admin creates a banner: message, optional link, style (info / promo / warning), and an on/off switch. When on, it shows at the top of every public page; visitors can dismiss it, and it stays hidden for them until the message changes. Turning it off removes it instantly.
 
-- **Parts admin**: create/edit/delete + image upload to `product-images` bucket + manage variations inline (add/remove/edit each variation's price/stock/attributes).
-- **Rentals admin**: create/edit/delete + image upload + set daily_rate; global driver fee configured in Site Settings.
-- **Orders admin**: filter by status, update status (pending → confirmed → shipped → delivered → cancelled), view customer details, mark paid.
-- **Rental bookings admin** (new page): view all bookings, confirm/cancel, contact customer.
-- **Users admin**: existing list + toggle admin role.
-- **Site Settings** (new page): edit driver daily fee, contact phones, WhatsApp number, addresses, hero tagline. Homepage reads from `site_settings` with sensible fallbacks.
+## 5. Personal notifications to signed-in users
 
-### 6. Paystack
+Admin can send a notification to one user, to all customers, or to everyone attached to a specific order — for shipping updates, payment confirmations, or general messages. Users get a bell with an unread count in the header and a Notifications tab in their dashboard, with read/unread state. In-app only, no emails.
 
-Placeholder now. When you're ready, share the Paystack public + secret keys and we'll wire the inline checkout + server-side verification webhook in a follow-up.
+Order status changes and tracking updates automatically generate a notification for the customer.
 
-### Technical notes
+## 6. Currency rate (CAD ↔ GHS)
 
-- Server functions for order/booking creation (they must run under `requireSupabaseAuth` for signed-in users, and via a public `/api/public/*` route for guests to avoid the auth gate).
-- Image upload via `supabase.storage.from('product-images')` from the admin UI.
-- All new tables get GRANT + RLS + `updated_at` trigger following the standard pattern.
-- Route file for guest order lookup uses `order_number` + email as a light auth check.
+Super admin sets one exchange rate in settings. Every CAD price on the site is calculated from the product's GHS price using that rate — product cards, detail pages, cart and checkout. The per-product CAD fields are removed from the admin forms, and existing stored CAD values stop being used. The rate change takes effect everywhere at once, and the settings page shows a live example ("GH₵ 100,000 = CAD $X") before saving.
 
-Proceed?
+## 7. Tracking system
+
+- Admin can add tracking to an order, or create a standalone shipment record for imports that never went through the website checkout.
+- Each tracking record has a tracking number, current status (pending → received → in transit → at port → clearing → ready for pickup → delivered), current location, estimated arrival, and a timeline of updates where each entry has a status, location, date and an admin message.
+- Customers see tracking in their dashboard order view; anyone can look up a shipment on a new public `/track` page using the tracking number. The timeline renders as a vertical stepper on desktop and a compact list on mobile.
+- Adding a timeline entry notifies the linked customer automatically.
+
+## Technical notes
+
+- One migration adds: `repair_requests`, `admin_permissions` (per-user section flags) plus an `is_super_admin` marker on roles, `site_content` (key/value, reusing the existing `site_settings` pattern), `announcements`, `notifications`, `shipments` and `shipment_events`. All get GRANTs, RLS, and `updated_at` triggers.
+- Public write paths (guest repair requests, public tracking lookup by number) go through security-definer functions so no table is exposed to anonymous reads beyond what's needed; tracking lookup returns no personal data.
+- Permission checks use a `has_permission(user_id, section)` security-definer function used both in RLS policies and in the admin UI guard.
+- `DualPrice` switches to deriving CAD from the GHS amount and the rate loaded from settings via a small shared hook, so the component API stays the same across all existing call sites.
+- The exchange rate and content keys are cached client-side per session to avoid refetching on every page.
+- New routes: `/track`, `/admin/repairs`, `/admin/staff`, `/admin/content`, `/admin/notifications`, `/admin/tracking`, and a Notifications tab in the customer dashboard.
