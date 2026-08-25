@@ -34,8 +34,10 @@ function CaFlag({ round }: { round?: boolean }) {
   );
 }
 
-export default function DualPrice({ ghs, cad, suffix, size = "md", decimals = 0 }: Props) {
-  const hasCad = cad != null && Number(cad) > 0;
+export default function DualPrice({ ghs, suffix, size = "md", decimals = 0 }: Props) {
+  const rate = useCadRate();
+  const cad = ghsToCad(ghs, rate);
+  const hasCad = Number(ghs || 0) > 0 && cad > 0;
   return (
     <div className={`ga-price-stack ga-price-${size}`}>
       <div className="ga-price-main">
