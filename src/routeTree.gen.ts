@@ -47,6 +47,7 @@ import { Route as AuthenticatedAdminRepairsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminRentalsRouteImport } from './routes/_authenticated/admin.rentals'
 import { Route as AuthenticatedAdminPartsRouteImport } from './routes/_authenticated/admin.parts'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
 import { Route as AuthenticatedAdminCatalogRouteImport } from './routes/_authenticated/admin.catalog'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -247,6 +248,12 @@ const AuthenticatedAdminOrdersRoute =
     path: '/orders',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCatalogRoute =
   AuthenticatedAdminCatalogRouteImport.update({
     id: '/catalog',
@@ -301,6 +308,7 @@ export interface FileRoutesByFullPath {
   '/rentals/': typeof RentalsIndexRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
@@ -339,6 +347,7 @@ export interface FileRoutesByTo {
   '/rentals': typeof RentalsIndexRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
@@ -384,6 +393,7 @@ export interface FileRoutesById {
   '/rentals/': typeof RentalsIndexRoute
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/_authenticated/admin/rentals': typeof AuthenticatedAdminRentalsRoute
@@ -429,6 +439,7 @@ export interface FileRouteTypes {
     | '/rentals/'
     | '/admin/bookings'
     | '/admin/catalog'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
@@ -467,6 +478,7 @@ export interface FileRouteTypes {
     | '/rentals'
     | '/admin/bookings'
     | '/admin/catalog'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
@@ -511,6 +523,7 @@ export interface FileRouteTypes {
     | '/rentals/'
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/catalog'
+    | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/parts'
     | '/_authenticated/admin/rentals'
@@ -816,6 +829,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/catalog': {
       id: '/_authenticated/admin/catalog'
       path: '/catalog'
@@ -850,6 +870,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
   AuthenticatedAdminCatalogRoute: typeof AuthenticatedAdminCatalogRoute
+  AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
   AuthenticatedAdminPartsRoute: typeof AuthenticatedAdminPartsRoute
   AuthenticatedAdminRentalsRoute: typeof AuthenticatedAdminRentalsRoute
@@ -864,6 +885,7 @@ interface AuthenticatedAdminRouteChildren {
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
   AuthenticatedAdminCatalogRoute: AuthenticatedAdminCatalogRoute,
+  AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
   AuthenticatedAdminPartsRoute: AuthenticatedAdminPartsRoute,
   AuthenticatedAdminRentalsRoute: AuthenticatedAdminRentalsRoute,
