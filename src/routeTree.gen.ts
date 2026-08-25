@@ -42,6 +42,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminVehiclesRouteImport } from './routes/_authenticated/admin.vehicles'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminRepairsRouteImport } from './routes/_authenticated/admin.repairs'
 import { Route as AuthenticatedAdminRentalsRouteImport } from './routes/_authenticated/admin.rentals'
 import { Route as AuthenticatedAdminPartsRouteImport } from './routes/_authenticated/admin.parts'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
@@ -216,6 +217,12 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminRepairsRoute =
+  AuthenticatedAdminRepairsRouteImport.update({
+    id: '/repairs',
+    path: '/repairs',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminRentalsRoute =
   AuthenticatedAdminRentalsRouteImport.update({
     id: '/rentals',
@@ -290,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/admin/repairs': typeof AuthenticatedAdminRepairsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
@@ -326,6 +334,7 @@ export interface FileRoutesByTo {
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/admin/repairs': typeof AuthenticatedAdminRepairsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
@@ -369,6 +378,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/_authenticated/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/_authenticated/admin/repairs': typeof AuthenticatedAdminRepairsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
@@ -412,6 +422,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
+    | '/admin/repairs'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/vehicles'
@@ -448,6 +459,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
+    | '/admin/repairs'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/vehicles'
@@ -490,6 +502,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/parts'
     | '/_authenticated/admin/rentals'
+    | '/_authenticated/admin/repairs'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/vehicles'
@@ -755,6 +768,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/repairs': {
+      id: '/_authenticated/admin/repairs'
+      path: '/repairs'
+      fullPath: '/admin/repairs'
+      preLoaderRoute: typeof AuthenticatedAdminRepairsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/rentals': {
       id: '/_authenticated/admin/rentals'
       path: '/rentals'
@@ -813,6 +833,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
   AuthenticatedAdminPartsRoute: typeof AuthenticatedAdminPartsRoute
   AuthenticatedAdminRentalsRoute: typeof AuthenticatedAdminRentalsRoute
+  AuthenticatedAdminRepairsRoute: typeof AuthenticatedAdminRepairsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVehiclesRoute: typeof AuthenticatedAdminVehiclesRoute
@@ -825,6 +846,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
   AuthenticatedAdminPartsRoute: AuthenticatedAdminPartsRoute,
   AuthenticatedAdminRentalsRoute: AuthenticatedAdminRentalsRoute,
+  AuthenticatedAdminRepairsRoute: AuthenticatedAdminRepairsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVehiclesRoute: AuthenticatedAdminVehiclesRoute,
