@@ -1818,7 +1818,8 @@
   gap: 12px;
   margin-top: 18px;
 }
-.ga .social-row > div {
+.ga .social-row > div,
+.ga .social-row > a {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -1827,7 +1828,18 @@
   align-items: center;
   justify-content: center;
   font-size: 14px;
+  color: #fff;
+  transition: background 0.2s ease;
 }
+.ga .social-row > a:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.ga .social-row > a svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+}
+
 .ga .footer-bottom {
   display: flex;
   justify-content: space-between;
