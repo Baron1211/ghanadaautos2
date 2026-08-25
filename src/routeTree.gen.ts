@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrackRouteImport } from './routes/track'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
@@ -40,15 +41,25 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminVehiclesRouteImport } from './routes/_authenticated/admin.vehicles'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminStaffRouteImport } from './routes/_authenticated/admin.staff'
+import { Route as AuthenticatedAdminShipmentsRouteImport } from './routes/_authenticated/admin.shipments'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminRepairsRouteImport } from './routes/_authenticated/admin.repairs'
 import { Route as AuthenticatedAdminRentalsRouteImport } from './routes/_authenticated/admin.rentals'
 import { Route as AuthenticatedAdminPartsRouteImport } from './routes/_authenticated/admin.parts'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
+import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
 import { Route as AuthenticatedAdminCatalogRouteImport } from './routes/_authenticated/admin.catalog'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -204,10 +215,27 @@ const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminStaffRoute = AuthenticatedAdminStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminShipmentsRoute =
+  AuthenticatedAdminShipmentsRouteImport.update({
+    id: '/shipments',
+    path: '/shipments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminSettingsRoute =
   AuthenticatedAdminSettingsRouteImport.update({
     id: '/settings',
     path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminRepairsRoute =
+  AuthenticatedAdminRepairsRouteImport.update({
+    id: '/repairs',
+    path: '/repairs',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminRentalsRoute =
@@ -225,6 +253,18 @@ const AuthenticatedAdminOrdersRoute =
   AuthenticatedAdminOrdersRouteImport.update({
     id: '/orders',
     path: '/orders',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentRoute =
+  AuthenticatedAdminContentRouteImport.update({
+    id: '/content',
+    path: '/content',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminCatalogRoute =
@@ -265,6 +305,7 @@ export interface FileRoutesByFullPath {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/track': typeof TrackRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -280,10 +321,15 @@ export interface FileRoutesByFullPath {
   '/rentals/': typeof RentalsIndexRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/admin/repairs': typeof AuthenticatedAdminRepairsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/shipments': typeof AuthenticatedAdminShipmentsRoute
+  '/admin/staff': typeof AuthenticatedAdminStaffRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -301,6 +347,7 @@ export interface FileRoutesByTo {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/track': typeof TrackRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -315,10 +362,15 @@ export interface FileRoutesByTo {
   '/rentals': typeof RentalsIndexRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/admin/repairs': typeof AuthenticatedAdminRepairsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/shipments': typeof AuthenticatedAdminShipmentsRoute
+  '/admin/staff': typeof AuthenticatedAdminStaffRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -342,6 +394,7 @@ export interface FileRoutesById {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/track': typeof TrackRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/confirmed': typeof AuthConfirmedRoute
@@ -357,10 +410,15 @@ export interface FileRoutesById {
   '/rentals/': typeof RentalsIndexRoute
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
+  '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/parts': typeof AuthenticatedAdminPartsRoute
   '/_authenticated/admin/rentals': typeof AuthenticatedAdminRentalsRoute
+  '/_authenticated/admin/repairs': typeof AuthenticatedAdminRepairsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/shipments': typeof AuthenticatedAdminShipmentsRoute
+  '/_authenticated/admin/staff': typeof AuthenticatedAdminStaffRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/vehicles': typeof AuthenticatedAdminVehiclesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -384,6 +442,7 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/support'
     | '/terms'
+    | '/track'
     | '/admin'
     | '/dashboard'
     | '/auth/confirmed'
@@ -399,10 +458,15 @@ export interface FileRouteTypes {
     | '/rentals/'
     | '/admin/bookings'
     | '/admin/catalog'
+    | '/admin/content'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
+    | '/admin/repairs'
     | '/admin/settings'
+    | '/admin/shipments'
+    | '/admin/staff'
     | '/admin/users'
     | '/admin/vehicles'
     | '/admin/'
@@ -420,6 +484,7 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/support'
     | '/terms'
+    | '/track'
     | '/dashboard'
     | '/auth/confirmed'
     | '/blog/$slug'
@@ -434,10 +499,15 @@ export interface FileRouteTypes {
     | '/rentals'
     | '/admin/bookings'
     | '/admin/catalog'
+    | '/admin/content'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/parts'
     | '/admin/rentals'
+    | '/admin/repairs'
     | '/admin/settings'
+    | '/admin/shipments'
+    | '/admin/staff'
     | '/admin/users'
     | '/admin/vehicles'
     | '/admin'
@@ -460,6 +530,7 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/support'
     | '/terms'
+    | '/track'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/auth/confirmed'
@@ -475,10 +546,15 @@ export interface FileRouteTypes {
     | '/rentals/'
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/catalog'
+    | '/_authenticated/admin/content'
+    | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/parts'
     | '/_authenticated/admin/rentals'
+    | '/_authenticated/admin/repairs'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/shipments'
+    | '/_authenticated/admin/staff'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/vehicles'
     | '/_authenticated/admin/'
@@ -502,6 +578,7 @@ export interface RootRouteChildren {
   ShippingPolicyRoute: typeof ShippingPolicyRoute
   SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
+  TrackRoute: typeof TrackRoute
   BookingsNumberRoute: typeof BookingsNumberRoute
   OrdersNumberRoute: typeof OrdersNumberRoute
   VehiclesIdRoute: typeof VehiclesIdRoute
@@ -511,6 +588,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -728,11 +812,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/staff': {
+      id: '/_authenticated/admin/staff'
+      path: '/staff'
+      fullPath: '/admin/staff'
+      preLoaderRoute: typeof AuthenticatedAdminStaffRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/shipments': {
+      id: '/_authenticated/admin/shipments'
+      path: '/shipments'
+      fullPath: '/admin/shipments'
+      preLoaderRoute: typeof AuthenticatedAdminShipmentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/settings': {
       id: '/_authenticated/admin/settings'
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/repairs': {
+      id: '/_authenticated/admin/repairs'
+      path: '/repairs'
+      fullPath: '/admin/repairs'
+      preLoaderRoute: typeof AuthenticatedAdminRepairsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/rentals': {
@@ -754,6 +859,20 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/admin/orders'
       preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content': {
+      id: '/_authenticated/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AuthenticatedAdminContentRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/catalog': {
@@ -790,10 +909,15 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
   AuthenticatedAdminCatalogRoute: typeof AuthenticatedAdminCatalogRoute
+  AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
+  AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
   AuthenticatedAdminPartsRoute: typeof AuthenticatedAdminPartsRoute
   AuthenticatedAdminRentalsRoute: typeof AuthenticatedAdminRentalsRoute
+  AuthenticatedAdminRepairsRoute: typeof AuthenticatedAdminRepairsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminShipmentsRoute: typeof AuthenticatedAdminShipmentsRoute
+  AuthenticatedAdminStaffRoute: typeof AuthenticatedAdminStaffRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVehiclesRoute: typeof AuthenticatedAdminVehiclesRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -802,10 +926,15 @@ interface AuthenticatedAdminRouteChildren {
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
   AuthenticatedAdminCatalogRoute: AuthenticatedAdminCatalogRoute,
+  AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
+  AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
   AuthenticatedAdminPartsRoute: AuthenticatedAdminPartsRoute,
   AuthenticatedAdminRentalsRoute: AuthenticatedAdminRentalsRoute,
+  AuthenticatedAdminRepairsRoute: AuthenticatedAdminRepairsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminShipmentsRoute: AuthenticatedAdminShipmentsRoute,
+  AuthenticatedAdminStaffRoute: AuthenticatedAdminStaffRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVehiclesRoute: AuthenticatedAdminVehiclesRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
@@ -892,6 +1021,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShippingPolicyRoute: ShippingPolicyRoute,
   SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
+  TrackRoute: TrackRoute,
   BookingsNumberRoute: BookingsNumberRoute,
   OrdersNumberRoute: OrdersNumberRoute,
   VehiclesIdRoute: VehiclesIdRoute,
