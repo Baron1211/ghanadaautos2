@@ -1,5 +1,8 @@
+import { useCadRate, ghsToCad } from "@/lib/fx";
+
 type Props = {
   ghs: number | null | undefined;
+  /** Deprecated: CAD is now derived from the admin-managed exchange rate. */
   cad?: number | null;
   suffix?: string;
   size?: "sm" | "md" | "lg";
