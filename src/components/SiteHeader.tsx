@@ -72,6 +72,7 @@ export default function SiteHeader() {
         <nav className="main-links">
           <Link to="/">Home</Link>
           <Link to="/cars">Cars</Link>
+          <Link to="/track" search={{ number: "" }}>Track Order</Link>
           <div className={`nav-dropdown${servicesOpen ? " is-open" : ""}`} ref={servicesRef}>
             <button
               className="nav-dropdown-trigger"
@@ -121,6 +122,7 @@ export default function SiteHeader() {
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <Link to="/" onClick={closeMenu}>Home</Link>
         <Link to="/cars" onClick={closeMenu}>Cars</Link>
+        <Link to="/track" search={{ number: "" }} onClick={closeMenu}>Track Order</Link>
         <button
           type="button"
           className={`mobile-group-toggle${servicesOpen ? " is-open" : ""}`}

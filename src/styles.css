@@ -808,6 +808,12 @@
   .ga .hero-slide-name { font-size: 17px; }
 }
 
+@media (max-width: 760px) {
+  .ga .ga-track-home { padding: 34px 0; }
+  .ga .ga-track-home-card { grid-template-columns: 1fr; padding: 24px; }
+  .ga .ga-track-home-card .btn { width: 100%; }
+}
+
 /* Quick services */
 .ga .services-grid {
   display: grid;
@@ -852,6 +858,37 @@
   font-size: 13px;
   color: var(--muted);
 }
+
+.ga .ga-track-home {
+  padding: 62px 0;
+  background: #0b2f24;
+}
+.ga .ga-track-home-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+  padding: 34px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(15, 138, 95, 0.96), rgba(6, 95, 70, 0.98));
+  box-shadow: 0 24px 70px rgba(6, 95, 70, 0.24);
+  color: #fff;
+}
+.ga .ga-track-home-card .eyebrow { color: #bbf7d0; }
+.ga .ga-track-home-card .eyebrow::before { background: var(--orange); }
+.ga .ga-track-home-card h2 {
+  color: #fff;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 850;
+  line-height: 1.08;
+  max-width: 720px;
+}
+.ga .ga-track-home-card p {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 720px;
+}
+.ga .ga-track-home-card .btn { white-space: nowrap; }
 
 /* Filter tabs */
 .ga .filter-tabs {
