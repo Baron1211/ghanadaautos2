@@ -42,7 +42,10 @@ export default function CartBar() {
   return (
     <div className="ga-cart-bar" role="region" aria-label="Shopping cart">
       <Link to="/checkout" className="ga-cart-bar-pill">
-        <span className="ga-cart-bar-pill-icon" aria-hidden>🛒</span>
+        <span className="ga-cart-bar-pill-icon" aria-hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="20" r="1.5" /><circle cx="18" cy="20" r="1.5" /><path d="M2 3h2.2l2.3 11.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7H5" /></svg>
+        </span>
+
         <span className="ga-cart-bar-pill-count">{count}</span>
         <span className="ga-cart-bar-pill-text">Proceed to Checkout</span>
         <span className="ga-cart-bar-pill-arrow" aria-hidden>→</span>
