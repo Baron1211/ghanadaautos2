@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { useContent } from "@/lib/cms";
-import { PackageSearch, MapPin, Clock } from "lucide-react";
+import { PackageSearch, MapPin, Clock, Truck, ShieldCheck, Check } from "lucide-react";
 
 export const Route = createFileRoute("/track")({
   validateSearch: (search: Record<string, unknown>) => ({ number: (search.number as string) || "" }),
