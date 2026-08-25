@@ -75,7 +75,7 @@ function AdminLayout() {
         </Link>
         <nav className="ga-admin-nav">
           <div className="ga-admin-nav-label">Manage</div>
-          {NAV.map(n => (
+          {nav.map(n => (
             <Link
               key={n.to}
               to={n.to}
@@ -91,7 +91,7 @@ function AdminLayout() {
           <div className="ga-admin-user">
             <div className="ga-admin-user-avatar">{(email[0] || "A").toUpperCase()}</div>
             <div>
-              <strong>Administrator</strong>
+              <strong>{access.isSuperAdmin ? "Super Admin" : "Administrator"}</strong>
               <span>{email}</span>
             </div>
           </div>
@@ -107,7 +107,7 @@ function AdminLayout() {
           <div className="ga-admin-crumbs">
             <span>Admin</span>
             <span className="sep">/</span>
-            <span className="current">{NAV.find(n => isActive(n.to, n.exact))?.label || "Overview"}</span>
+            <span className="current">{nav.find(n => isActive(n.to, n.exact))?.label || "Overview"}</span>
           </div>
           <div className="ga-admin-topbar-actions">
             <Link to="/" className="ga-admin-chip">View site</Link>
