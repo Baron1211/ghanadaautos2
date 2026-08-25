@@ -279,6 +279,37 @@ function GhanadaHome() {
         </div>
       </section>
 
+      {/* TRACK STRIP */}
+      <section className="ga-track-strip">
+        <div className="container">
+          <div className="ga-track-strip-card">
+            <div className="ga-track-strip-copy">
+              <span className="ga-track-strip-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l3-1.72" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /><circle cx="18" cy="18" r="3" /><path d="m20.2 20.2 1.8 1.8" /></svg>
+              </span>
+              <div>
+                <strong>Track your item</strong>
+                <span>Live status, location and updates from Canada to Ghana.</span>
+              </div>
+            </div>
+            <form
+              className="ga-track-strip-form"
+              onSubmit={(e) => { e.preventDefault(); navigate({ to: "/track", search: { number: trackNo.trim() } }); }}
+            >
+              <input
+                value={trackNo}
+                onChange={(e) => setTrackNo(e.target.value)}
+                placeholder="Tracking number e.g. GA-8F3K21AB"
+                aria-label="Tracking number"
+              />
+              <button className="btn btn-primary" type="submit">Track</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+
+
       {/* CAR SEARCH BAR */}
       <section className="ga-search-section">
         <div className="container">
