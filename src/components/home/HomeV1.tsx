@@ -24,8 +24,6 @@ import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
 
 export default function HomeV1() {
-  const hero = useContent("home_hero");
-  const sec = useContent("home_sections");
   return <GhanadaHome />;
 }
 
@@ -52,6 +50,8 @@ const rentalsFallback = [
 ];
 
 function GhanadaHome() {
+  const hero = useContent("home_hero");
+  const sec = useContent("home_sections");
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);

@@ -86,7 +86,7 @@ export default function SiteHeader() {
               <Link to="/repairs">Repairs</Link>
               <Link to="/parts">Spare Parts</Link>
               <Link to="/import">Import From Canada</Link>
-              <Link to="/track">Track My Order</Link>
+              <Link to="/track" search={{ number: "" }}>Track My Order</Link>
             </div>
           </div>
           <Link to="/" hash="contact">Contact</Link>
@@ -132,7 +132,7 @@ export default function SiteHeader() {
             <Link to="/repairs" className="mobile-sub" onClick={closeMenu}>Repairs</Link>
             <Link to="/parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</Link>
             <Link to="/import" className="mobile-sub" onClick={closeMenu}>Import From Canada</Link>
-            <Link to="/track" className="mobile-sub" onClick={closeMenu}>Track My Order</Link>
+            <Link to="/track" search={{ number: "" }} className="mobile-sub" onClick={closeMenu}>Track My Order</Link>
           </div>
         )}
         <Link to="/" hash="contact" onClick={closeMenu}>Contact</Link>
