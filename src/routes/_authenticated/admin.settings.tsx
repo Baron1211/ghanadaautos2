@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { clearCadRateCache, DEFAULT_CAD_RATE } from "@/lib/fx";
 
 export const Route = createFileRoute("/_authenticated/admin/settings")({
   component: AdminSettings,
@@ -9,6 +10,7 @@ export const Route = createFileRoute("/_authenticated/admin/settings")({
 
 function AdminSettings() {
   const [driverFee, setDriverFee] = useState("40");
+  const [fxRate, setFxRate] = useState(String(DEFAULT_CAD_RATE));
   const [contact, setContact] = useState({ phone_ca: "", phone_gh: "", whatsapp: "", address_ca: "", address_gh: "", email: "" });
   const [hero, setHero] = useState({ eyebrow: "", title: "", subtitle: "" });
   const [saving, setSaving] = useState(false);
@@ -18,6 +20,7 @@ function AdminSettings() {
       const { data } = await supabase.from("site_settings").select("*");
       data?.forEach((r: any) => {
         if (r.key === "driver_daily_fee") setDriverFee(String(r.value.amount ?? 40));
+        if (r.key === "fx_rate") setFxRate(String(r.value.cad_to_ghs ?? DEFAULT_CAD_RATE));
         if (r.key === "contact") setContact({ ...contact, ...r.value });
         if (r.key === "hero") setHero({ ...hero, ...r.value });
       });
@@ -26,27 +29,46 @@ function AdminSettings() {
   }, []);
 
   const save = async () => {
+    if (!(Number(fxRate) > 0)) { toast.error("Exchange rate must be greater than zero"); return; }
     setSaving(true);
     const rows = [
       { key: "driver_daily_fee", value: { amount: Number(driverFee), currency: "GHS" } },
+      { key: "fx_rate", value: { cad_to_ghs: Number(fxRate) } },
       { key: "contact", value: contact },
       { key: "hero", value: hero },
     ];
     const { error } = await supabase.from("site_settings").upsert(rows);
     setSaving(false);
     if (error) toast.error(error.message);
-    else toast.success("Settings saved");
+    else { clearCadRateCache(); toast.success("Settings saved"); }
   };
 
   return (
     <>
       <h1>Site Settings</h1>
+
+      <div className="ga-admin-form">
+        <h3>Currency conversion</h3>
+        <p className="ga-muted ga-small">
+          Every price on the website is stored in Ghana Cedis. This rate converts them to Canadian Dollars everywhere —
+          product cards, product pages and checkout.
+        </p>
+        <div className="ga-form-grid">
+          <label>1 CAD equals (GHS)<input type="number" step="0.0001" value={fxRate} onChange={e => setFxRate(e.target.value)} /></label>
+          <div className="ga-fx-preview">
+            <span>Example</span>
+            <strong>GH₵ 10,000 = CA${(10000 / (Number(fxRate) || 1)).toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
+          </div>
+        </div>
+      </div>
+
       <div className="ga-admin-form">
         <h3>Rental driver fee</h3>
         <div className="ga-form-grid">
           <label>Driver daily fee (GHS)<input type="number" step="0.01" value={driverFee} onChange={e => setDriverFee(e.target.value)} /></label>
         </div>
       </div>
+
 
       <div className="ga-admin-form">
         <h3>Contact info</h3>
