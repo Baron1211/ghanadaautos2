@@ -44,6 +44,60 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_permissions: {
+        Row: {
+          created_at: string
+          id: string
+          section: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          section: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          section?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      announcements: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          link_label: string | null
+          link_url: string | null
+          message: string
+          style: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          link_label?: string | null
+          link_url?: string | null
+          message: string
+          style?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          link_label?: string | null
+          link_url?: string | null
+          message?: string
+          style?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       brands: {
         Row: {
           active: boolean
@@ -178,6 +232,39 @@ export type Database = {
           slug?: string
           sort_order?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link_url: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link_url?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link_url?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -625,6 +712,190 @@ export type Database = {
         }
         Relationships: []
       }
+      repair_requests: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string
+          id: string
+          location: string | null
+          make: string | null
+          model: string | null
+          notes: string | null
+          part: string
+          preferred_date: string | null
+          preferred_time: string | null
+          quote_amount: number | null
+          request_number: string
+          service: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+          vehicle_type: string
+          year: number | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          customer_email?: string | null
+          customer_name: string
+          customer_phone: string
+          id?: string
+          location?: string | null
+          make?: string | null
+          model?: string | null
+          notes?: string | null
+          part: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          quote_amount?: number | null
+          request_number?: string
+          service?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          vehicle_type?: string
+          year?: number | null
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          location?: string | null
+          make?: string | null
+          model?: string | null
+          notes?: string | null
+          part?: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          quote_amount?: number | null
+          request_number?: string
+          service?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          vehicle_type?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
+      shipment_events: {
+        Row: {
+          created_at: string
+          happened_at: string
+          id: string
+          location: string | null
+          message: string | null
+          shipment_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          happened_at?: string
+          id?: string
+          location?: string | null
+          message?: string | null
+          shipment_id: string
+          status: string
+        }
+        Update: {
+          created_at?: string
+          happened_at?: string
+          id?: string
+          location?: string | null
+          message?: string | null
+          shipment_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipment_events_shipment_id_fkey"
+            columns: ["shipment_id"]
+            isOneToOne: false
+            referencedRelation: "shipments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shipments: {
+        Row: {
+          carrier: string | null
+          created_at: string
+          current_location: string | null
+          customer_email: string | null
+          customer_name: string | null
+          description: string | null
+          eta: string | null
+          id: string
+          order_id: string | null
+          status: string
+          tracking_number: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          carrier?: string | null
+          created_at?: string
+          current_location?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          description?: string | null
+          eta?: string | null
+          id?: string
+          order_id?: string | null
+          status?: string
+          tracking_number: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          carrier?: string | null
+          created_at?: string
+          current_location?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          description?: string | null
+          eta?: string | null
+          id?: string
+          order_id?: string | null
+          status?: string
+          tracking_number?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           key: string
@@ -647,18 +918,21 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_super_admin: boolean
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
+          is_super_admin?: boolean
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
+          is_super_admin?: boolean
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
@@ -827,10 +1101,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      broadcast_notification: {
+        Args: { _body: string; _kind?: string; _link?: string; _title: string }
+        Returns: number
+      }
       create_rental_booking: { Args: { _booking: Json }; Returns: Json }
+      create_repair_request: { Args: { _req: Json }; Returns: string }
       get_guest_booking: {
         Args: { _access_token: string; _booking_number: string }
         Returns: Json
+      }
+      has_permission: {
+        Args: { _section: string; _user_id: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
@@ -839,6 +1122,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
+      track_shipment: { Args: { _tracking_number: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "customer"
