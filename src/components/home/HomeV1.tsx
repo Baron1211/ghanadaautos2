@@ -11,6 +11,7 @@ import { blogPosts } from "@/lib/blog";
 import DualPrice from "@/components/DualPrice";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import SiteHeader from "@/components/SiteHeader";
+import { useContent } from "@/lib/cms";
 
 import engineImg from "@/assets/parts/engine.jpg.asset.json";
 import brakeImg from "@/assets/parts/brake.jpg.asset.json";
@@ -23,6 +24,8 @@ import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
 
 export default function HomeV1() {
+  const hero = useContent("home_hero");
+  const sec = useContent("home_sections");
   return <GhanadaHome />;
 }
 
@@ -225,11 +228,11 @@ function GhanadaHome() {
         <div className="hero-glow" aria-hidden />
         <div className="hero-content hero-split">
           <div className="hero-copy">
-          <div className="eyebrow">Ghana's Complete Automotive Company</div>
+          <div className="eyebrow">{hero("eyebrow")}</div>
           <h1>
-            Your Complete
+            {hero("title_line1")}
             <br />
-            Automotive Partner
+            {hero("title_line2")}
           </h1>
           <div className="sub">
             <span>Buy Cars</span>
@@ -240,13 +243,13 @@ function GhanadaHome() {
             <span>Clearing &amp; Forwarding</span>
           </div>
           <div className="hero-actions">
-            <Link to="/cars" className="btn btn-primary">Browse Cars →</Link>
+            <Link to="/cars" className="btn btn-primary">{hero("cta_label")}</Link>
           </div>
           <div className="hero-stats">
-            <div><strong>10+</strong><span>Years Experience</span></div>
-            <div><strong>500+</strong><span>Cars Sold</span></div>
-            <div><strong>2,500+</strong><span>Satisfied Customers</span></div>
-            <div><strong>24/7</strong><span>Customer Support</span></div>
+            <div><strong>{hero("stat1_value")}</strong><span>{hero("stat1_label")}</span></div>
+            <div><strong>{hero("stat2_value")}</strong><span>{hero("stat2_label")}</span></div>
+            <div><strong>{hero("stat3_value")}</strong><span>{hero("stat3_label")}</span></div>
+            <div><strong>{hero("stat4_value")}</strong><span>{hero("stat4_label")}</span></div>
           </div>
           </div>
 
@@ -336,8 +339,8 @@ function GhanadaHome() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">What We Do</div>
-            <h2>One company, every automotive need</h2>
+            <div className="eyebrow">{sec("services_eyebrow")}</div>
+            <h2>{sec("services_title")}</h2>
             <p>From the showroom floor to the port of Tema — sales, rentals, repairs, parts and logistics, all under one roof.</p>
           </div>
           <div className="services-grid">
@@ -363,8 +366,8 @@ function GhanadaHome() {
       <section className="section" id="cars" style={{ background: "#fff" }}>
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">Featured Vehicles</div>
-            <h2>Find your next car</h2>
+            <div className="eyebrow">{sec("vehicles_eyebrow")}</div>
+            <h2>{sec("vehicles_title")}</h2>
           </div>
           <div style={{ textAlign: "center", marginBottom: 24 }}>
             <Link to="/cars" className="btn btn-ghost">Browse all cars for sale →</Link>
@@ -428,8 +431,8 @@ function GhanadaHome() {
       <section className="section" id="parts">
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">Shop Spare Parts</div>
-            <h2>Genuine parts, guaranteed fit</h2>
+            <div className="eyebrow">{sec("parts_eyebrow")}</div>
+            <h2>{sec("parts_title")}</h2>
           </div>
           <div className="parts-grid">
             {(dbParts && dbParts.length > 0
@@ -485,8 +488,8 @@ function GhanadaHome() {
           style={{ background: "linear-gradient(100deg, rgba(6,95,70,.94) 20%, rgba(6,95,70,.55) 60%, rgba(6,95,70,.2) 100%)" }}
         />
         <div className="band-content">
-          <div className="eyebrow">Car Rentals</div>
-          <h2>Rent a Car</h2>
+          <div className="eyebrow">{sec("rentals_eyebrow")}</div>
+          <h2>{sec("rentals_title")}</h2>
           <div className="vehicle-grid rental-grid">
             {(dbRentals && dbRentals.length > 0
               ? dbRentals.map((r: any) => (
@@ -554,8 +557,8 @@ function GhanadaHome() {
           style={{ background: "linear-gradient(100deg, rgba(6,95,70,.95) 25%, rgba(6,95,70,.6) 65%, rgba(6,95,70,.25) 100%)" }}
         />
         <div className="band-content">
-          <div className="eyebrow">🇨🇦 Import From Canada</div>
-          <h2>Import your dream vehicle from Canada</h2>
+          <div className="eyebrow">{sec("import_eyebrow")}</div>
+          <h2>{sec("import_title")}</h2>
           <p className="lead">We source, inspect, purchase, ship and deliver vehicles directly from Canada to Ghana — start to finish.</p>
           <div className="timeline">
             {["Choose Vehicle", "Inspection", "Purchase", "Shipping", "Arrival", "Customs", "Delivery"].map((t, i) => (

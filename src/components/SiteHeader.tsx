@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import logoAsset from "@/assets/ghanada-logo.png.asset.json";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
+import NotificationBell from "@/components/NotificationBell";
 
 export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,6 +35,7 @@ export default function SiteHeader() {
 
   return (
     <header>
+      <AnnouncementBanner />
       <div className="topbar">
         <div className="topbar-inner">
           <div className="topbar-social">
@@ -83,11 +86,13 @@ export default function SiteHeader() {
               <Link to="/repairs">Repairs</Link>
               <Link to="/parts">Spare Parts</Link>
               <Link to="/import">Import From Canada</Link>
+              <Link to="/track">Track My Order</Link>
             </div>
           </div>
           <Link to="/" hash="contact">Contact</Link>
         </nav>
         <div className="nav-right">
+          <NotificationBell />
           <Link to="/checkout" className="icon-btn" aria-label="Cart">🛒</Link>
           <div className="nav-divider" />
           <div className="auth-links">
@@ -127,6 +132,7 @@ export default function SiteHeader() {
             <Link to="/repairs" className="mobile-sub" onClick={closeMenu}>Repairs</Link>
             <Link to="/parts" className="mobile-sub" onClick={closeMenu}>Spare Parts</Link>
             <Link to="/import" className="mobile-sub" onClick={closeMenu}>Import From Canada</Link>
+            <Link to="/track" className="mobile-sub" onClick={closeMenu}>Track My Order</Link>
           </div>
         )}
         <Link to="/" hash="contact" onClick={closeMenu}>Contact</Link>

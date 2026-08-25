@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import {
   LayoutDashboard, Package, CarFront, ShoppingCart, UserRound,
   LogOut, Menu, X, ArrowRight, Trash2, Home, ReceiptText, CalendarRange,
-  Camera, Mail, Phone, MapPin, Save, Check,
+  Camera, Mail, Phone, MapPin, Save, Check, Bell, Truck,
 } from "lucide-react";
 import logoAsset from "../../assets/ghanada-logo.png.asset.json";
 
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
 });
 
-type Tab = "overview" | "orders" | "rentals" | "cart" | "profile";
+type Tab = "overview" | "orders" | "rentals" | "tracking" | "notifications" | "cart" | "profile";
 
 const GHS = (n: number) => `GHS ${Number(n || 0).toLocaleString("en-GH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -65,6 +65,8 @@ function Dashboard() {
     { id: "overview", label: "Overview", icon: LayoutDashboard },
     { id: "orders", label: "Orders & Receipts", icon: Package },
     { id: "rentals", label: "My Rentals", icon: CarFront },
+    { id: "tracking", label: "Track Shipments", icon: Truck },
+    { id: "notifications", label: "Notifications", icon: Bell },
     { id: "cart", label: "My Cart", icon: ShoppingCart },
     { id: "profile", label: "Profile", icon: UserRound },
   ];
@@ -144,6 +146,8 @@ function Dashboard() {
                 {tab === "overview" && "A snapshot of your orders, rentals, and cart."}
                 {tab === "orders" && "Every purchase and its receipt."}
                 {tab === "rentals" && "All your car rental bookings."}
+                {tab === "tracking" && "Follow every shipment linked to your account."}
+                {tab === "notifications" && "Updates from Ghanada Autos about your orders, payments and shipping."}
                 {tab === "cart" && "Review, adjust, and check out your cart."}
                 {tab === "profile" && "Manage your contact details and delivery address."}
               </p>
@@ -153,6 +157,8 @@ function Dashboard() {
           {tab === "overview" && <OverviewTab userId={userId} onGo={setTab} />}
           {tab === "orders" && <OrdersTab userId={userId} />}
           {tab === "rentals" && <RentalsTab userId={userId} />}
+          {tab === "tracking" && <TrackingTab userId={userId} />}
+          {tab === "notifications" && <NotificationsTab userId={userId} />}
           {tab === "cart" && <CartTab userId={userId} />}
           {tab === "profile" && <ProfileTab userId={userId} onSaved={(p) => setProfile((prev) => ({ ...prev, ...p }))} />}
         </main>
@@ -639,5 +645,124 @@ function ProfileTab({ userId, onSaved }: { userId: string; onSaved?: (p: { full_
         </div>
       </div>
     </div>
+  );
+}
+function TrackingTab({ userId }: { userId: string }) {
+  const { data: shipments } = useQuery({
+    queryKey: ["my-shipments", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("shipments")
+        .select("*, events:shipment_events(id, status, location, message, happened_at)")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false });
+      return data || [];
+    },
+  });
+
+  if (!shipments?.length) {
+    return (
+      <div className="ga-empty-card">
+        <Truck size={26} />
+        <strong>No shipments yet</strong>
+        <p className="ga-muted">Once we dispatch an order you'll see live tracking here.</p>
+        <Link to="/track" className="ga-btn-primary">Track by number</Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="ga-admin-list">
+      {shipments.map((s: any) => (
+        <div key={s.id} className="ga-track-result">
+          <div className="ga-track-head">
+            <div>
+              <span className="ga-muted ga-small">Tracking number</span>
+              <h3>{s.tracking_number}</h3>
+              {s.description ? <p className="ga-muted">{s.description}</p> : null}
+            </div>
+            <span className={`ga-status ga-status-${s.status}`}>{String(s.status).replace(/_/g, " ")}</span>
+          </div>
+          <div className="ga-track-meta">
+            <div><MapPin size={15} /> <span>{s.current_location || "Awaiting update"}</span></div>
+            <div><CalendarRange size={15} /> <span>{s.eta ? `ETA ${new Date(s.eta).toLocaleDateString()}` : "ETA to be confirmed"}</span></div>
+            {s.carrier ? <div><Truck size={15} /> <span>{s.carrier}</span></div> : null}
+          </div>
+          {(s.events || []).length > 0 && (
+            <ol className="ga-track-timeline">
+              {[...s.events].sort((a: any, b: any) => (a.happened_at < b.happened_at ? 1 : -1)).map((e: any, i: number) => (
+                <li key={e.id} className={i === 0 ? "is-current" : ""}>
+                  <div className="ga-track-bullet" />
+                  <div>
+                    <strong>{String(e.status).replace(/_/g, " ")}</strong>
+                    {e.location ? <span className="ga-muted"> · {e.location}</span> : null}
+                    {e.message ? <p>{e.message}</p> : null}
+                    <small>{new Date(e.happened_at).toLocaleString()}</small>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function NotificationsTab({ userId }: { userId: string }) {
+  const qc = useQueryClient();
+  const { data: notes } = useQuery({
+    queryKey: ["my-notifications", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase.from("notifications")
+        .select("*").eq("user_id", userId).order("created_at", { ascending: false });
+      return data || [];
+    },
+  });
+
+  const markRead = async (id: string) => {
+    await supabase.from("notifications").update({ read_at: new Date().toISOString() }).eq("id", id);
+    qc.invalidateQueries({ queryKey: ["my-notifications", userId] });
+  };
+
+  const markAll = async () => {
+    await supabase.from("notifications").update({ read_at: new Date().toISOString() }).eq("user_id", userId).is("read_at", null);
+    qc.invalidateQueries({ queryKey: ["my-notifications", userId] });
+  };
+
+  if (!notes?.length) {
+    return (
+      <div className="ga-empty-card">
+        <Bell size={26} />
+        <strong>No notifications</strong>
+        <p className="ga-muted">Order, payment and shipping updates will appear here.</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="ga-admin-actions" style={{ marginBottom: 12 }}>
+        <button onClick={markAll} disabled={!notes.some((n: any) => !n.read_at)}>Mark all as read</button>
+      </div>
+      <div className="ga-note-list">
+        {notes.map((n: any) => (
+          <div key={n.id} className={`ga-note${n.read_at ? "" : " is-unread"}`}>
+            <span className={`ga-bell-kind ga-bell-kind-${n.kind}`} />
+            <div>
+              <strong>{n.title}</strong>
+              {n.body ? <p>{n.body}</p> : null}
+              <div className="ga-note-foot">
+                <small>{new Date(n.created_at).toLocaleString()}</small>
+                {n.link_url ? <a href={n.link_url}>Open →</a> : null}
+                {!n.read_at && <button onClick={() => markRead(n.id)}>Mark read</button>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

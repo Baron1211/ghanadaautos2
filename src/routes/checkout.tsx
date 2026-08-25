@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Trash2, Mail, ShieldCheck, UserRound, LogIn } from "lucide-react";
+import { useCadRate, ghsToCad } from "@/lib/fx";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -35,34 +36,9 @@ function Checkout() {
   return <CheckoutInner />;
 }
 
-async function withCadPrices(rows: LineItem[]): Promise<LineItem[]> {
-  const partIds = rows.filter(r => r.part_id && !r.variation_id).map(r => r.part_id!) as string[];
-  const varIds = rows.filter(r => r.variation_id).map(r => r.variation_id!) as string[];
-  const rentalIds = rows.filter(r => r.rental_id).map(r => r.rental_id!) as string[];
-  const vehicleIds = rows.filter(r => r.vehicle_id).map(r => r.vehicle_id!) as string[];
-  const [parts, vars, rentals, vehicles] = await Promise.all([
-    partIds.length ? (supabase as any).from("parts").select("id, price_cad").in("id", partIds) : { data: [] },
-    varIds.length ? (supabase as any).from("part_variations").select("id, price_cad").in("id", varIds) : { data: [] },
-    rentalIds.length ? (supabase as any).from("rentals").select("id, daily_rate_cad").in("id", rentalIds) : { data: [] },
-    vehicleIds.length ? (supabase as any).from("vehicles").select("id, price_cad").in("id", vehicleIds) : { data: [] },
-  ]);
-  const m = new Map<string, number>();
-  (parts.data || []).forEach((r: any) => m.set(`p${r.id}`, Number(r.price_cad || 0)));
-  (vars.data || []).forEach((r: any) => m.set(`v${r.id}`, Number(r.price_cad || 0)));
-  (rentals.data || []).forEach((r: any) => m.set(`r${r.id}`, Number(r.daily_rate_cad || 0)));
-  (vehicles.data || []).forEach((r: any) => m.set(`c${r.id}`, Number(r.price_cad || 0)));
-  return rows.map(r => ({
-    ...r,
-    unit_price_cad:
-      (r.variation_id ? m.get(`v${r.variation_id}`) : undefined) ??
-      (r.part_id ? m.get(`p${r.part_id}`) : undefined) ??
-      (r.rental_id ? m.get(`r${r.rental_id}`) : undefined) ??
-      (r.vehicle_id ? m.get(`c${r.vehicle_id}`) : undefined) ?? 0,
-  }));
-}
-
 function CheckoutInner() {
   const navigate = useNavigate();
+  const rate = useCadRate();
   const [userId, setUserId] = useState<string | null>(null);
   const [items, setItems] = useState<LineItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,10 +90,10 @@ function CheckoutInner() {
             rental_start: c.rental_start,
           } as LineItem;
         });
-        setItems(await withCadPrices(mapped));
+        setItems(mapped);
       } else {
         const guest = JSON.parse(localStorage.getItem("guest_cart") || "[]") as any[];
-        setItems(await withCadPrices(guest.map((g, i) => ({ ...g, key: `g${i}`, unit_price: Number(g.unit_price) }))));
+        setItems(guest.map((g, i) => ({ ...g, key: `g${i}`, unit_price: Number(g.unit_price) })));
       }
       setLoading(false);
     })();
@@ -126,11 +102,11 @@ function CheckoutInner() {
   const lineUnits = (i: LineItem) =>
     i.item_type === "rental" ? (i.rental_days || 1) : i.quantity;
   const subtotalGhs = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
-  const cadAvailable = items.length > 0 && items.every(i => Number(i.unit_price_cad || 0) > 0);
-  const subtotalCad = items.reduce((s, i) => s + Number(i.unit_price_cad || 0) * lineUnits(i), 0);
+  const cadAvailable = items.length > 0 && rate > 0;
+  const subtotalCad = ghsToCad(subtotalGhs, rate);
   const activeCad = cur === "CAD" && cadAvailable;
   const subtotal = activeCad ? subtotalCad : subtotalGhs;
-  const unitOf = (i: LineItem) => (activeCad ? Number(i.unit_price_cad || 0) : i.unit_price);
+  const unitOf = (i: LineItem) => (activeCad ? ghsToCad(i.unit_price, rate) : i.unit_price);
   const money = (n: number) => (activeCad ? `CA$${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : `GH₵${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}`);
 
   const removeItem = async (key: string) => {
