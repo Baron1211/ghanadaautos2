@@ -14,6 +14,8 @@ export const Route = createFileRoute("/track")({
       { name: "description", content: "Track your Ghanada Autos vehicle, parts or shipment with your tracking number." },
       { property: "og:title", content: "Track Your Order — Ghanada Autos" },
       { property: "og:description", content: "Enter your tracking number to see live shipment status, location and updates." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: TrackPage,

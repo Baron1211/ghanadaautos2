@@ -350,7 +350,7 @@ function GhanadaHome() {
               ["🛠️", "Repairs", "Certified technicians, honest pricing.", "/repairs"],
               ["⚙️", "Spare Parts", "Genuine parts, all major brands.", "/parts"],
               ["🚢", "Import From Canada", "Sourced, inspected & shipped for you.", "/import"],
-              ["📋", "Clearing & Forwarding", "Full customs & port handling.", "/import"],
+              ["📦", "Track Shipment", "Check status, location and delivery updates.", "/track"],
             ] as const).map(([icon, title, desc, to]) => (
               <Link key={title} to={to} className="service-card">
                 <div className="service-icon">{icon}</div>
@@ -572,6 +572,20 @@ function GhanadaHome() {
         </div>
       </section>
 
+      {/* TRACKING */}
+      <section className="ga-track-home">
+        <div className="container">
+          <div className="ga-track-home-card">
+            <div>
+              <div className="eyebrow">Shipment Tracking</div>
+              <h2>Track your order from Canada to Ghana</h2>
+              <p>Use the tracking number from your invoice or update message to view the latest status, current location, ETA and shipment timeline.</p>
+            </div>
+            <Link to="/track" search={{ number: "" }} className="btn btn-primary">Track My Order →</Link>
+          </div>
+        </div>
+      </section>
+
 
 
 
@@ -728,7 +742,7 @@ function GhanadaHome() {
             <div>
               <h4>Support</h4>
               <div className="footer-links">
-                <Link to="/faq">FAQs</Link><Link to="/support" hash="track">Track Shipment</Link><Link to="/cars">Financing</Link><Link to="/support">Contact Support</Link>
+                <Link to="/faq">FAQs</Link><Link to="/track" search={{ number: "" }}>Track Shipment</Link><Link to="/cars">Financing</Link><Link to="/support">Contact Support</Link>
               </div>
             </div>
             <div>

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import SiteHeader from "@/components/SiteHeader";
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/support")({
 });
 
 function SupportPage() {
+  const navigate = useNavigate();
   const [track, setTrack] = useState("");
   const [form, setForm] = useState({ name: "", email: "", phone: "", topic: "Order / Invoice", message: "" });
   const [busy, setBusy] = useState(false);
@@ -26,8 +27,7 @@ function SupportPage() {
   const submitTrack = (e: React.FormEvent) => {
     e.preventDefault();
     if (!track.trim()) { toast.error("Enter your order or shipment reference"); return; }
-    toast.success(`We received reference ${track.trim()}. Our logistics team will email you the latest status shortly.`);
-    setTrack("");
+    navigate({ to: "/track", search: { number: track.trim() } });
   };
 
   const submitMessage = (e: React.FormEvent) => {
@@ -71,7 +71,7 @@ function SupportPage() {
 
           <div id="track" style={{ ...card, marginBottom: 40, scrollMarginTop: 120 }}>
             <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>Track a shipment or order</h3>
-            <p style={{ color: "#4b5a54", marginBottom: 16 }}>Enter your order number, booking number or bill of lading reference and we'll email you the latest status.</p>
+            <p style={{ color: "#4b5a54", marginBottom: 16 }}>Enter the tracking number from your invoice or update message to see the latest shipment status.</p>
             <form onSubmit={submitTrack} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <input style={{ ...input, flex: "1 1 240px" }} placeholder="e.g. GA-10234 or BL reference" value={track} onChange={(e) => setTrack(e.target.value)} />
               <button className="btn btn-primary" type="submit">Track</button>
