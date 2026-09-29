@@ -179,12 +179,12 @@ function TrackPage() {
               <div className="ga-trk-help-card">
                 <span className="ga-trk-help-icon"><Truck size={18} /></span>
                 <h3>Shipping timelines</h3>
-                <p>Ocean freight from China to Takoradi typically takes 4–6 weeks, plus clearing at the port.</p>
+                <p>Ocean freight from China to Accra typically takes 4–6 weeks, plus clearing at the port.</p>
               </div>
               <div className="ga-trk-help-card">
                 <span className="ga-trk-help-icon"><ShieldCheck size={18} /></span>
                 <h3>Need a hand?</h3>
-                <p>Message us on WhatsApp at +233 592 495 787 and we’ll check your shipment for you.</p>
+                <p>Message us on WhatsApp at <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a> and we’ll check your shipment for you.</p>
               </div>
             </div>
           )}

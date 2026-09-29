@@ -80,7 +80,7 @@ function ImportPage() {
               </div>
               <div className="mini-stat">
                 <div className="service-icon">💬</div>
-                <div><strong>Direct WhatsApp</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>+233 592 495 787</span></div>
+                <div><strong>Direct WhatsApp</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}><a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></span></div>
               </div>
             </div>
             <form className="form-grid" onSubmit={submit}>

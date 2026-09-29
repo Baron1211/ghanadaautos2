@@ -8,7 +8,7 @@ export const Route = createFileRoute("/support")({
   head: () => ({
     meta: [
       { title: "Contact Support & Track Shipment — RRR Auto Export" },
-      { name: "description", content: "Reach the RRR Auto Export support team in Guangzhou and Takoradi, track an import shipment, or send a message about an order, rental or repair." },
+      { name: "description", content: "Reach the RRR Auto Export support team in Guangzhou and Accra, track an import shipment, or send a message about an order, rental or repair." },
       { property: "og:title", content: "Contact Support & Track Shipment — RRR Auto Export" },
       { property: "og:description", content: "Talk to RRR Auto Export support or track your import shipment status." },
       { property: "og:type", content: "website" },
@@ -57,13 +57,12 @@ function SupportPage() {
 
           <div style={{ display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", marginBottom: 40 }}>
             {[
-              { t: "Call us", l1: "+233 592 495 787", l2: "+233 592 495 787" },
-              { t: "WhatsApp", l1: "+233 592 495 787", l2: "Chat 8am – 8pm GMT" },
-              { t: "Locations", l1: "Guangzhou, China", l2: "Takoradi, Ghana" },
+              { t: "Call / WhatsApp", l1: "+233 592 495 787", l2: "Chat 8am – 8pm GMT" },
+              { t: "Locations", l1: "Guangzhou, China", l2: "Accra, Ghana" },
             ].map((c) => (
               <div key={c.t} style={card}>
                 <h4 style={{ fontWeight: 800, marginBottom: 8 }}>{c.t}</h4>
-                <div style={{ color: "#4b5a54" }}>{c.l1}</div>
+                <div style={{ color: "#4b5a54" }}>{c.l1.startsWith("+") ? <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">{c.l1}</a> : c.l1}</div>
                 <div style={{ color: "#4b5a54" }}>{c.l2}</div>
               </div>
             ))}

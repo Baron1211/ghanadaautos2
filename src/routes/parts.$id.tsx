@@ -158,8 +158,8 @@ function PartDetail() {
 
           <div className="ga-detail-meta">
             <div>✅ Genuine parts</div>
-            <div>🚚 Ships from Guangzhou & Takoradi</div>
-            <div>💬 WhatsApp support: +233 592 495 787</div>
+            <div>🚚 Ships from Guangzhou & Accra</div>
+            <div>💬 WhatsApp support: <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></div>
           </div>
         </div>
       </div>

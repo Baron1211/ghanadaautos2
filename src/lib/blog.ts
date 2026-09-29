@@ -26,10 +26,10 @@ export const blogPosts: BlogPost[] = [
     body: [
       "Buying a car from China can save you thousands, but only if you avoid the common traps. Before you commit, work through this five-point checklist with your RRR Auto Export advisor.",
       "1. Verify the accident and title history. Every reputable Chinese dealer will provide a CarFax report. Look for salvage titles, flood damage, and repeat body work.",
-      "2. Confirm the model year matches Ghana's import age rules. Vehicles older than 10 years attract heavy penalty duties at Tema and Takoradi ports.",
+      "2. Confirm the model year matches Ghana's import age rules. Vehicles older than 10 years attract heavy penalty duties at Tema and Accra ports.",
       "3. Calculate all landed costs up front — CIF value, import duty, VAT, NHIL, ECOWAS levy and processing fees. RRR Auto Export gives you an all-in quote before you pay.",
       "4. Book roll-on / roll-off (RoRo) shipping through a bonded forwarder. Container shipping is safer for luxury vehicles but doubles the cost.",
-      "5. Plan your clearing. Our Takoradi office handles port clearance, DVLA registration and delivery to your door — usually within 10 working days of arrival.",
+      "5. Plan your clearing. Our Accra office handles port clearance, DVLA registration and delivery to your door — usually within 10 working days of arrival.",
     ],
   },
   {

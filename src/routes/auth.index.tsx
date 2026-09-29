@@ -152,7 +152,7 @@ function AuthPage() {
             <h2>Drive, ship and source with RRR Auto Export.</h2>
             <p>
               Your account keeps every rental booking, spare-part order and China
-              import in one place — from Guangzhou to Takoradi.
+              import in one place — from Guangzhou to Accra.
             </p>
             <ul className="ga-auth-hero-features">
               <li><span className="dot">✓</span> Book self-drive rentals or request a driver in seconds</li>
@@ -161,7 +161,7 @@ function AuthPage() {
             </ul>
           </div>
           <div className="ga-auth-hero-foot">
-            🇨🇳 Guangzhou · 🇬🇭 Takoradi &nbsp;·&nbsp; +233 592 495 787
+            🇨🇳 Guangzhou · 🇬🇭 Accra &nbsp;·&nbsp; <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a>
           </div>
         </div>
       </aside>

@@ -95,7 +95,7 @@ function RepairsPage() {
                 <div><strong>Fast Turnaround</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>Most jobs done within 24 hours</span></div>
               </div>
               <div className="mini-stat">
-                <div><strong>WhatsApp Support</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>+233 592 495 787</span></div>
+                <div><strong>WhatsApp Support</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}><a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></span></div>
               </div>
             </div>
 

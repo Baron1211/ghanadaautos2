@@ -102,11 +102,10 @@ export default function LegalPage({ eyebrow, title, intro, effectiveDate, lastUp
               <h3>RRR Auto Export</h3>
               <div className="legal-contact-grid">
                 <div><span>Website</span><a href="https://www.ghanadaautos.com">www.ghanadaautos.com</a></div>
-                <div><span>Ghana</span><a href="tel:+233592495787">+233 592 495 787</a></div>
-                <div><span>China</span><a href="tel:+233592495787">+233 592 495 787</a></div>
+                <div><span>Phone</span><a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></div>
                 <div><span>WhatsApp</span><a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></div>
                 <div><span>Email</span><a href="mailto:netwekusa@gmail.com">netwekusa@gmail.com</a></div>
-                <div><span>Locations</span><p>Takoradi, Ghana &amp; Guangzhou, China</p></div>
+                <div><span>Locations</span><p>Accra, Ghana &amp; Guangzhou, China</p></div>
               </div>
               <div className="legal-links">
                 <Link to="/terms">Terms &amp; Conditions</Link>

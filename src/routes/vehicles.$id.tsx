@@ -214,7 +214,7 @@ function VehicleDetail() {
           <ul className="ga-shop-trust">
             <li>✅ Inspected, cleared & ready to drive</li>
             <li>🚚 Delivery available across Ghana</li>
-            <li>💬 WhatsApp support: +233 592 495 787</li>
+            <li>💬 WhatsApp support: <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></li>
             <li>🔒 Secure checkout — our team confirms every order</li>
           </ul>
         </div>

@@ -53,7 +53,7 @@ export default function SiteHeader() {
             </a>
           </div>
           <div className="topbar-contact">
-            <a href="tel:+233592495787">
+            <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1 .3 2 .5 3.1.5.4 0 .7.3.7.7V18c0 .4-.3.7-.7.7A14.7 14.7 0 0 1 2.6 4c0-.4.3-.7.7-.7h2.9c.4 0 .7.3.7.7 0 1 .2 2.1.5 3.1.1.3 0 .6-.2.8l-1.6 1.9z"/></svg>
               +233 592 495 787
             </a>

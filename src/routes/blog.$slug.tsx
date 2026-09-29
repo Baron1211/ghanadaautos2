@@ -68,7 +68,7 @@ function BlogPost() {
         <div className="ga-blog-cta">
           <div>
             <h3>Talk to a RRR Auto Export advisor</h3>
-            <p>Whether you're importing, buying or booking a service — our team in Guangzhou and Takoradi is one message away.</p>
+            <p>Whether you're importing, buying or booking a service — our team in Guangzhou and Accra is one message away.</p>
           </div>
           <a className="ga-btn-primary" href="https://wa.me/233592495787">WhatsApp us</a>
         </div>

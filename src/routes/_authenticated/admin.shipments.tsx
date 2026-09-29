@@ -116,7 +116,7 @@ function AdminShipments() {
           </label>
           <label>Current location<input value={form.current_location} onChange={(e) => setForm({ ...form, current_location: e.target.value })} /></label>
           <label>ETA<input type="date" value={form.eta} onChange={(e) => setForm({ ...form, eta: e.target.value })} /></label>
-          <label className="ga-form-full">Description<input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="e.g. 2019 Toyota Highlander — Guangzhou to Takoradi" /></label>
+          <label className="ga-form-full">Description<input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="e.g. 2019 Toyota Highlander — Guangzhou to Accra" /></label>
         </div>
         <button className="ga-btn-primary" onClick={create} disabled={saving}>{saving ? "Saving…" : "Create shipment"}</button>
       </div>

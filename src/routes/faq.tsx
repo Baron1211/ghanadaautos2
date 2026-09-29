@@ -22,7 +22,7 @@ const faqs: { group: string; items: { q: string; a: string }[] }[] = [
     group: "Buying a vehicle",
     items: [
       { q: "Are the listed prices final?", a: "Listed prices are in Ghana Cedis (GHS) and exclude registration and insurance unless stated. Our sales team confirms the final invoice before payment." },
-      { q: "Can I inspect a car before paying?", a: "Yes. Reserve the vehicle online and book an inspection at our Takoradi yard, or request a full inspection report and video walkaround if you are out of town." },
+      { q: "Can I inspect a car before paying?", a: "Yes. Reserve the vehicle online and book an inspection at our Accra yard, or request a full inspection report and video walkaround if you are out of town." },
       { q: "Do you offer financing?", a: "Yes. Use the finance calculator on any vehicle page to estimate your monthly payment, then submit an inquiry and our finance desk will guide you through approval." },
     ],
   },
@@ -44,7 +44,7 @@ const faqs: { group: string; items: { q: string; a: string }[] }[] = [
   {
     group: "Import from China & clearing",
     items: [
-      { q: "How long does an import take?", a: "Typically 6–10 weeks from purchase to Tema/Takoradi port clearance, depending on shipping schedules." },
+      { q: "How long does an import take?", a: "Typically 6–10 weeks from purchase to Tema port clearance, depending on shipping schedules." },
       { q: "What does the import quote cover?", a: "Vehicle cost, inland transport in China, ocean freight, duties and clearing. We send a full breakdown before you commit." },
       { q: "Can you clear a vehicle I bought myself?", a: "Yes. Our clearing and forwarding team handles documentation, duties and delivery for vehicles you sourced yourself." },
     ],

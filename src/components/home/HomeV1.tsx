@@ -710,17 +710,15 @@ function RRRHome() {
               <div className="map-fake" />
               <div className="contact-details">
                 {[
-                  ["📍", "Locations", "Guangzhou, China · Takoradi, Ghana"],
-                  ["🇨🇳", "China", "+233 592 495 787"],
-                  ["🇬🇭", "Ghana", "+233 592 495 787"],
-                  ["💬", "WhatsApp", "+233 592 495 787"],
+                  ["📍", "Locations", "Guangzhou, China · Accra, Ghana"],
+                  ["💬", "Phone / WhatsApp", "+233 592 495 787"],
                   ["🕒", "Business Hours", "Mon – Sat, 8:00am – 6:00pm"],
                 ].map(([icon, title, val]) => (
                   <div key={title} className="contact-row">
                     <div className="service-icon">{icon}</div>
                     <div>
                       <h5>{title}</h5>
-                      <p>{val}</p>
+                      <p>{/^+d/.test(String(val)) ? <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">{val}</a> : val}</p>
                     </div>
                   </div>
                 ))}
