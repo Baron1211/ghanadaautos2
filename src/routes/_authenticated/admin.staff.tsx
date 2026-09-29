@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,6 +34,7 @@ function AdminStaff() {
     },
   });
 
+  const [search, setSearch] = useState("");
   const { data: customers } = useQuery({
     queryKey: ["admin-nonstaff"],
     queryFn: async () => {
@@ -48,10 +50,10 @@ function AdminStaff() {
     qc.invalidateQueries({ queryKey: ["admin-nonstaff"] });
   };
 
-  const addStaff = async (userId: string) => {
-    const { error } = await supabase.from("user_roles").insert({ user_id: userId, role: "admin" });
+  const addStaff = async (userId: string, superAdmin = false) => {
+    const { error } = await supabase.from("user_roles").insert({ user_id: userId, role: "admin", is_super_admin: superAdmin } as any);
     if (error) return toast.error(error.message);
-    toast.success("Staff admin added — now grant section access");
+    toast.success(superAdmin ? "Super admin added — they can now open the admin panel" : "Staff admin added — now tick the sections they can access");
     refresh();
   };
 
@@ -133,9 +135,10 @@ function AdminStaff() {
 
       <div className="ga-admin-form">
         <h3>Onboard a new admin</h3>
-        <p className="ga-muted ga-small">The person must already have a customer account on the website.</p>
+        <p className="ga-muted ga-small">Ask the person to create a free account on the website (Sign in → Create account) first. They will then appear below — choose a super admin (full access) or a staff admin (only the sections you tick). They can open the admin panel at /admin as soon as you add them.</p>
+        <input className="ga-search" placeholder="Search by name or phone…" value={search} onChange={(e) => setSearch(e.target.value)} style={{ width: "100%", marginBottom: 12 }} />
         <div className="ga-admin-list">
-          {(customers || []).slice(0, 50).map((c: any) => (
+          {(customers || []).filter((c: any) => { const q = search.trim().toLowerCase(); return !q || (c.full_name || "").toLowerCase().includes(q) || (c.phone || "").toLowerCase().includes(q); }).slice(0, 100).map((c: any) => (
             <div key={c.id} className="ga-admin-row">
               <div />
               <div>
@@ -144,7 +147,8 @@ function AdminStaff() {
               </div>
               <div />
               <div className="ga-admin-actions">
-                <button className="ga-btn-primary" onClick={() => addStaff(c.id)}>Make admin</button>
+                <button onClick={() => addStaff(c.id, false)}>Make staff admin</button>
+                <button className="ga-btn-primary" onClick={() => addStaff(c.id, true)}>Make super admin</button>
               </div>
             </div>
           ))}
