@@ -4349,3 +4349,48 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .ga-track-strip-form input { flex: 1 1 100%; background: rgba(255,255,255,.08); border-radius: 10px; }
   .ga .ga-track-strip-form .btn { flex: 1 1 100%; border-radius: 10px; }
 }
+
+
+/* ===== Icons & cards refresh (clean line icons, soft cards) ===== */
+.ga .ico, .ico { width: 1.15em; height: 1.15em; flex: none; vertical-align: -0.2em; }
+.ga .service-icon .ico { width: 24px; height: 24px; }
+.ga .fav-btn .ico { width: 17px; height: 17px; color: #475569; }
+.ga .vmeta .ico, .ga .rental-card .vmeta .ico { width: 15px; height: 15px; color: var(--green); }
+.ga .btn .ico { width: 16px; height: 16px; margin-right: 6px; vertical-align: -0.2em; }
+.ga .service-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(16, 185, 129, 0.10); color: var(--green);
+  border: 1px solid rgba(16, 185, 129, 0.18);
+}
+.ga .service-card, .ga .why-card, .ga .vcard, .ga .part-card, .ga .rental-card, .ga .rcard {
+  border: 1px solid #e6ebf0;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+.ga .service-card:hover, .ga .vcard:hover, .ga .part-card:hover, .ga .rental-card:hover, .ga .rcard:hover {
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.10);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+.ga .vcard .vimg { height: auto; aspect-ratio: 16 / 10; background: #f1f5f9; }
+.ga .fav-btn { background: #fff; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12); }
+.ga .vbody { padding: 16px 18px 18px; }
+.ga .vbody h4 { font-size: 16px; }
+.ga .vmeta {
+  border-top: 1px solid #eef1f5; padding-top: 12px; gap: 8px 16px;
+  color: #64748b; font-size: 12.5px;
+}
+.ga .vactions .btn { border-radius: 10px; }
+.ga .admin-icon-fix { display: inline-flex; }
+.ga-admin-nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; }
+.ga-admin-nav-icon .ico { width: 18px; height: 18px; }
+.ga-quick span .ico { width: 22px; height: 22px; }
+.ga-admin-brand--stack { flex-direction: column; align-items: flex-start; gap: 8px; }
+.ga-admin-brand--stack img { height: 64px; }
+.ga-admin-brand--stack span { font-size: 12px; color: #86efac; letter-spacing: .14em; text-transform: uppercase; }
+.ga-vd-box-icon .ico { width: 22px; height: 22px; }
+
+.ga .vcard .ga-price-label, .ga .vcard .ga-price-flagwrap,
+.ga .part-card .ga-price-label, .ga .part-card .ga-price-flagwrap,
+.ga .rental-card .ga-price-label, .ga .rental-card .ga-price-flagwrap { display: none; }
+.ga .vcard .ga-price-main, .ga .part-card .ga-price-main, .ga .rental-card .ga-price-main { gap: 0; }
+.ga .vcard .ga-price-amount { font-size: 20px; font-weight: 800; color: var(--green); }

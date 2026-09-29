@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -126,20 +127,20 @@ function AdminOverview() {
       <section className="ga-admin-card">
         <div className="ga-admin-card-head"><h3>Quick Actions</h3></div>
         <div className="ga-quick-grid">
-          <Link to="/admin/parts" className="ga-quick"><span>⚙</span><strong>Add spare part</strong><small>Upload image, price & variations</small></Link>
-          <Link to="/admin/rentals" className="ga-quick"><span>🚗</span><strong>Add rental vehicle</strong><small>Set daily rate & availability</small></Link>
-          <Link to="/admin/catalog" className="ga-quick"><span>🏷</span><strong>Categories & brands</strong><small>Organise your product taxonomy</small></Link>
-          <Link to="/admin/orders" className="ga-quick"><span>🧾</span><strong>Fulfil orders</strong><small>Update statuses & mark shipped</small></Link>
-          <Link to="/admin/bookings" className="ga-quick"><span>📅</span><strong>Confirm bookings</strong><small>Approve or cancel rentals</small></Link>
-          <Link to="/admin/users" className="ga-quick"><span>👥</span><strong>Manage users</strong><small>Grant or revoke admin access</small></Link>
-          <Link to="/admin/settings" className="ga-quick"><span>⚙︎</span><strong>Site settings</strong><small>Hero, contact info & driver fee</small></Link>
+          <Link to="/admin/parts" className="ga-quick"><span><EmojiIcon e="⚙" /></span><strong>Add spare part</strong><small>Upload image, price & variations</small></Link>
+          <Link to="/admin/rentals" className="ga-quick"><span><EmojiIcon e="🚗" /></span><strong>Add rental vehicle</strong><small>Set daily rate & availability</small></Link>
+          <Link to="/admin/catalog" className="ga-quick"><span><EmojiIcon e="🏷" /></span><strong>Categories & brands</strong><small>Organise your product taxonomy</small></Link>
+          <Link to="/admin/orders" className="ga-quick"><span><EmojiIcon e="🧾" /></span><strong>Fulfil orders</strong><small>Update statuses & mark shipped</small></Link>
+          <Link to="/admin/bookings" className="ga-quick"><span><EmojiIcon e="📅" /></span><strong>Confirm bookings</strong><small>Approve or cancel rentals</small></Link>
+          <Link to="/admin/users" className="ga-quick"><span><EmojiIcon e="👥" /></span><strong>Manage users</strong><small>Grant or revoke admin access</small></Link>
+          <Link to="/admin/settings" className="ga-quick"><span><EmojiIcon e="⚙" /></span><strong>Site settings</strong><small>Hero, contact info & driver fee</small></Link>
         </div>
       </section>
 
       {data?.lowStockItems && data.lowStockItems.length > 0 && (
         <section className="ga-admin-card">
           <div className="ga-admin-card-head">
-            <h3>⚠ Low / Out of Stock</h3>
+            <h3><EmojiIcon e="⚠" /> Low / Out of Stock</h3>
             <Link to="/admin/parts" className="ga-admin-link">Manage inventory →</Link>
           </div>
           <table className="ga-admin-table">

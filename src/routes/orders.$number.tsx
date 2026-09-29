@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -35,7 +36,7 @@ function OrderView() {
     <div className="ga-detail">
       <div className="ga-detail-nav"><Link to="/">← Home</Link></div>
       <div className="ga-confirm">
-        <div className="ga-confirm-check">✅</div>
+        <div className="ga-confirm-check"><EmojiIcon e="✅" /></div>
         <h1>Thank you!</h1>
         <p>Your order <strong>{data.order_number}</strong> was received.</p>
         <span className={`ga-badge ga-badge-${data.status}`}>{data.status}</span>

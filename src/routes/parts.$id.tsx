@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import DualPrice from "@/components/DualPrice";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -157,9 +158,9 @@ function PartDetail() {
           </div>
 
           <div className="ga-detail-meta">
-            <div>✅ Genuine parts</div>
-            <div>🚚 Ships from Guangzhou & Accra</div>
-            <div>💬 WhatsApp support: <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></div>
+            <div><EmojiIcon e="✅" /> Genuine parts</div>
+            <div><EmojiIcon e="🚚" /> Ships from Guangzhou & Accra</div>
+            <div><EmojiIcon e="💬" /> WhatsApp support: <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></div>
           </div>
         </div>
       </div>

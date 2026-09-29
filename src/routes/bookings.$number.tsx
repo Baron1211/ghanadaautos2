@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -45,7 +46,7 @@ function BookingView() {
     <div className="ga-detail">
       <div className="ga-detail-nav"><Link to="/">← Home</Link></div>
       <div className="ga-confirm">
-        <div className="ga-confirm-check">🚗</div>
+        <div className="ga-confirm-check"><EmojiIcon e="🚗" /></div>
         <h1>Booking received!</h1>
         <p>Reference <strong>{data.booking_number}</strong></p>
         <span className={`ga-badge ga-badge-${data.status}`}>{data.status}</span>

@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import DualPrice from "@/components/DualPrice";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -160,13 +161,13 @@ function CarsPage() {
                   <h4><Link to="/vehicles/$id" params={{ id: vehicleSlug(v) }} className="ga-link-plain">{v.name}</Link></h4>
                   <div className="vprice"><DualPrice ghs={v.price} cad={v.price_cad} size="md" /></div>
                   <div className="vmeta">
-                    {v.year && <span>📅 {v.year}</span>}
-                    {v.mileage_km ? <span>🛣️ {Number(v.mileage_km).toLocaleString()} km</span> : null}
-                    {v.fuel && <span>⛽ {v.fuel}</span>}
-                    {v.transmission && <span>⚙️ {v.transmission}</span>}
+                    {v.year && <span><EmojiIcon e="📅" /> {v.year}</span>}
+                    {v.mileage_km ? <span><EmojiIcon e="🛣" /> {Number(v.mileage_km).toLocaleString()} km</span> : null}
+                    {v.fuel && <span><EmojiIcon e="⛽" /> {v.fuel}</span>}
+                    {v.transmission && <span><EmojiIcon e="⚙" /> {v.transmission}</span>}
                   </div>
                   <div className="vactions">
-                    <button className="btn btn-ghost" onClick={() => quickAdd(v, false)}>🛒 Add</button>
+                    <button className="btn btn-ghost" onClick={() => quickAdd(v, false)}><EmojiIcon e="🛒" /> Add</button>
                     <button className="btn btn-primary" onClick={() => quickAdd(v, true)}>Buy Now</button>
                   </div>
                 </div>

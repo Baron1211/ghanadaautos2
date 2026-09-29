@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import DualPrice from "@/components/DualPrice";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -187,11 +188,11 @@ function VehicleDetail() {
           <div className="ga-shop-price"><DualPrice ghs={vehicle.price} cad={vehicle.price_cad} size="lg" /></div>
 
           <div className="ga-shop-quick-specs">
-            {vehicle.year && <span>📅 {vehicle.year}</span>}
-            {vehicle.mileage_km ? <span>🛣️ {Number(vehicle.mileage_km).toLocaleString()} km</span> : null}
-            {vehicle.fuel && <span>⛽ {vehicle.fuel}</span>}
-            {vehicle.transmission && <span>⚙️ {vehicle.transmission}</span>}
-            {vehicle.seats && <span>👤 {vehicle.seats} seats</span>}
+            {vehicle.year && <span><EmojiIcon e="📅" /> {vehicle.year}</span>}
+            {vehicle.mileage_km ? <span><EmojiIcon e="🛣" /> {Number(vehicle.mileage_km).toLocaleString()} km</span> : null}
+            {vehicle.fuel && <span><EmojiIcon e="⛽" /> {vehicle.fuel}</span>}
+            {vehicle.transmission && <span><EmojiIcon e="⚙" /> {vehicle.transmission}</span>}
+            {vehicle.seats && <span><EmojiIcon e="👤" /> {vehicle.seats} seats</span>}
           </div>
 
           <div className="ga-shop-buybox">
@@ -212,10 +213,10 @@ function VehicleDetail() {
           </div>
 
           <ul className="ga-shop-trust">
-            <li>✅ Inspected, cleared & ready to drive</li>
-            <li>🚚 Delivery available across Ghana</li>
-            <li>💬 WhatsApp support: <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></li>
-            <li>🔒 Secure checkout — our team confirms every order</li>
+            <li><EmojiIcon e="✅" /> Inspected, cleared & ready to drive</li>
+            <li><EmojiIcon e="🚚" /> Delivery available across Ghana</li>
+            <li><EmojiIcon e="💬" /> WhatsApp support: <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></li>
+            <li><EmojiIcon e="🔒" /> Secure checkout — our team confirms every order</li>
           </ul>
         </div>
       </div>
@@ -226,7 +227,7 @@ function VehicleDetail() {
           <div className="ga-vd-grid">
             {detailBoxes.map((b) => (
               <div key={b.label} className="ga-vd-box">
-                <div className="ga-vd-box-icon">{b.icon}</div>
+                <div className="ga-vd-box-icon"><EmojiIcon e={b.icon} /></div>
                 <div className="ga-vd-box-body">
                   <div className="ga-vd-box-label">{b.label}</div>
                   <div className="ga-vd-box-value">{b.value ? String(b.value) : "—"}</div>

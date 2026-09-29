@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import DualPrice from "@/components/DualPrice";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -124,7 +125,7 @@ function PartsPage() {
                   <div className="stars">★★★★★</div>
                   <div className="part-price"><DualPrice ghs={p.price} cad={p.price_cad} size="sm" decimals={2} /></div>
                   <div className="part-actions">
-                    <button className="part-add" onClick={() => quickAdd(p, false)} aria-label="Add to cart">🛒</button>
+                    <button className="part-add" onClick={() => quickAdd(p, false)} aria-label="Add to cart"><EmojiIcon e="🛒" /></button>
                     <button className="add-cart" onClick={() => quickAdd(p, true)}>Buy Now</button>
                   </div>
                 </div>

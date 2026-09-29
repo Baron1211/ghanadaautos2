@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import DualPrice from "@/components/DualPrice";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -125,9 +126,9 @@ function RentalsPage() {
                     <DualPrice ghs={r.daily_rate} cad={(r as any).daily_rate_cad} size="sm" decimals={2} suffix="/ day" />
                   </div>
                   <div className="vmeta">
-                    {r.seats && <span>👤 {r.seats} seats</span>}
-                    {r.transmission && <span>⚙️ {r.transmission}</span>}
-                    {r.fuel && <span>⛽ {r.fuel}</span>}
+                    {r.seats && <span><EmojiIcon e="👤" /> {r.seats} seats</span>}
+                    {r.transmission && <span><EmojiIcon e="⚙" /> {r.transmission}</span>}
+                    {r.fuel && <span><EmojiIcon e="⛽" /> {r.fuel}</span>}
                   </div>
                   <div className="vactions">
                     <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => navigate({ to: "/rentals/$id", params: { id: r.id }, hash: "book" })}>Book Now</button>

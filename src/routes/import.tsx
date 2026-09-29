@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import { useState } from "react";
 import { toast } from "sonner";
 import SiteHeader from "@/components/SiteHeader";
@@ -71,15 +72,15 @@ function ImportPage() {
               <h3>Request a Vehicle Import</h3>
               <p>Send us the details — we'll come back with sourcing options, timelines and a landed cost in Ghana.</p>
               <div className="mini-stat">
-                <div className="service-icon">🚢</div>
+                <div className="service-icon"><EmojiIcon e="🚢" /></div>
                 <div><strong>Guangzhou → Tema</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>Trusted RoRo & container carriers</span></div>
               </div>
               <div className="mini-stat">
-                <div className="service-icon">📋</div>
+                <div className="service-icon"><EmojiIcon e="📋" /></div>
                 <div><strong>Full Documentation</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>Customs, duties & clearing handled</span></div>
               </div>
               <div className="mini-stat">
-                <div className="service-icon">💬</div>
+                <div className="service-icon"><EmojiIcon e="💬" /></div>
                 <div><strong>Direct WhatsApp</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}><a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></span></div>
               </div>
             </div>

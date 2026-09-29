@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import DualPrice from "@/components/DualPrice";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -141,9 +142,9 @@ function RentalDetail() {
 
           {(rental.seats || rental.transmission || rental.fuel) && (
             <div className="ga-shop-specs" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(120px,1fr))", gap: 12, margin: "16px 0" }}>
-              {rental.seats && <div><small>Seats</small><strong>👤 {rental.seats}</strong></div>}
-              {rental.transmission && <div><small>Transmission</small><strong>⚙️ {rental.transmission}</strong></div>}
-              {rental.fuel && <div><small>Fuel</small><strong>⛽ {rental.fuel}</strong></div>}
+              {rental.seats && <div><small>Seats</small><strong><EmojiIcon e="👤" /> {rental.seats}</strong></div>}
+              {rental.transmission && <div><small>Transmission</small><strong><EmojiIcon e="⚙" /> {rental.transmission}</strong></div>}
+              {rental.fuel && <div><small>Fuel</small><strong><EmojiIcon e="⛽" /> {rental.fuel}</strong></div>}
             </div>
           )}
           {Array.isArray(rental.features) && rental.features.length > 0 && (

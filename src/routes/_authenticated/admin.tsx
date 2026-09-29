@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAccess } from "@/lib/admin-perms";
@@ -66,12 +67,9 @@ function AdminLayout() {
   return (
     <div className={"ga-admin-shell" + (drawer ? " is-drawer-open" : "")}>
       <aside className="ga-admin-side">
-        <Link to="/" className="ga-admin-brand" onClick={() => setDrawer(false)}>
+        <Link to="/" className="ga-admin-brand ga-admin-brand--stack" onClick={() => setDrawer(false)}>
           <img src={logoAsset} alt="RRR Auto Export" />
-          <div>
-            <strong>RRR Auto Export</strong>
-            <span>Admin Console</span>
-          </div>
+          <span>Admin Console</span>
         </Link>
         <nav className="ga-admin-nav">
           <div className="ga-admin-nav-label">Manage</div>
@@ -82,7 +80,7 @@ function AdminLayout() {
               onClick={() => setDrawer(false)}
               className={"ga-admin-nav-link" + (isActive(n.to, n.exact) ? " active" : "")}
             >
-              <span className="ga-admin-nav-icon">{n.icon}</span>
+              <span className="ga-admin-nav-icon"><EmojiIcon e={n.icon} /></span>
               <span>{n.label}</span>
             </Link>
           ))}
@@ -103,7 +101,7 @@ function AdminLayout() {
 
       <div className="ga-admin-content">
         <header className="ga-admin-topbar">
-          <button className="ga-admin-burger" onClick={() => setDrawer(v => !v)} aria-label="Open menu">☰</button>
+          <button className="ga-admin-burger" onClick={() => setDrawer(v => !v)} aria-label="Open menu"><EmojiIcon e="☰" /></button>
           <div className="ga-admin-crumbs">
             <span>Admin</span>
             <span className="sep">/</span>

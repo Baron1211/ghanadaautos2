@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import EmojiIcon from "@/components/EmojiIcon";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -390,7 +391,7 @@ function RRRHome() {
               ["📦", "Track Shipment", "Check status, location and delivery updates.", "/track"],
             ] as const).map(([icon, title, desc, to]) => (
               <Link key={title} to={to} className="service-card">
-                <div className="service-icon">{icon}</div>
+                <div className="service-icon"><EmojiIcon e={icon} /></div>
                 <h4>{title}</h4>
                 <p>{desc}</p>
               </Link>
@@ -415,20 +416,20 @@ function RRRHome() {
                 <div className="vimg" onClick={() => openVehicle(v)} style={{ cursor: "pointer" }}>
                    {v.finance_available && <span className="finance-tag">Finance Available</span>}
                    {v.condition === "new" && <span className="condition-tag">New</span>}
-                   <span className="fav-btn">♡</span>
+                   <span className="fav-btn"><EmojiIcon e="♡" /></span>
                    <img src={v.image_url || vehicles[0].img} alt={v.name} />
                  </div>
                  <div className="vbody">
                   <h4><Link to="/vehicles/$id" params={{ id: vehicleSlug(v) }} className="ga-link-plain">{v.name}</Link></h4>
                    <div className="vprice"><DualPrice ghs={v.price} cad={v.price_cad} size="md" /></div>
                   <div className="vmeta">
-                    {v.year && <span>📅 {v.year}</span>}
-                    {v.mileage_km ? <span>🛣️ {Number(v.mileage_km).toLocaleString()} km</span> : null}
-                    {v.fuel && <span>⛽ {v.fuel}</span>}
-                    {v.transmission && <span>⚙️ {v.transmission}</span>}
+                    {v.year && <span><EmojiIcon e="📅" /> {v.year}</span>}
+                    {v.mileage_km ? <span><EmojiIcon e="🛣" /> {Number(v.mileage_km).toLocaleString()} km</span> : null}
+                    {v.fuel && <span><EmojiIcon e="⛽" /> {v.fuel}</span>}
+                    {v.transmission && <span><EmojiIcon e="⚙" /> {v.transmission}</span>}
                   </div>
                   <div className="vactions">
-                    <button className="btn btn-ghost" onClick={() => quickAddVehicle(v, false)} aria-label="Add to cart">🛒 Add</button>
+                    <button className="btn btn-ghost" onClick={() => quickAddVehicle(v, false)} aria-label="Add to cart"><EmojiIcon e="🛒" /> Add</button>
                     <button className="btn btn-primary" onClick={() => quickAddVehicle(v, true)}>Buy Now</button>
                   </div>
                  <button className="vcard-details" onClick={() => openVehicle(v)}>View full details →</button>
@@ -445,14 +446,14 @@ function RRRHome() {
               <div key={v.name} className="vcard">
                 <div className="vimg">
                   {v.finance && <span className="finance-tag">Finance Available</span>}
-                  <span className="fav-btn">♡</span>
+                  <span className="fav-btn"><EmojiIcon e="♡" /></span>
                   <img src={v.img} alt={v.name} />
                 </div>
                 <div className="vbody">
                   <h4>{v.name}</h4>
                   <div className="vprice">{v.price}</div>
                   <div className="vmeta">
-                    <span>📅 {v.year}</span><span>🛣️ {v.miles}</span><span>⛽ {v.fuel}</span><span>⚙️ {v.trans}</span>
+                    <span><EmojiIcon e="📅" /> {v.year}</span><span><EmojiIcon e="🛣" /> {v.miles}</span><span><EmojiIcon e="⛽" /> {v.fuel}</span><span><EmojiIcon e="⚙" /> {v.trans}</span>
                   </div>
                   <div className="vactions">
                     <Link to="/cars" className="btn btn-primary" style={{ width: "100%", textAlign: "center" }}>Browse cars</Link>
@@ -548,9 +549,9 @@ function RRRHome() {
                          <DualPrice ghs={r.daily_rate} cad={r.daily_rate_cad} size="sm" decimals={2} suffix="/ day" />
                        </div>
                       <div className="vmeta">
-                        {r.seats && <span>👤 {r.seats} seats</span>}
-                        {r.transmission && <span>⚙️ {r.transmission}</span>}
-                        {r.fuel && <span>⛽ {r.fuel}</span>}
+                        {r.seats && <span><EmojiIcon e="👤" /> {r.seats} seats</span>}
+                        {r.transmission && <span><EmojiIcon e="⚙" /> {r.transmission}</span>}
+                        {r.fuel && <span><EmojiIcon e="⛽" /> {r.fuel}</span>}
                       </div>
                       <div className="vactions">
                         <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => openRental(r.id)}>Book Now</button>
@@ -572,7 +573,7 @@ function RRRHome() {
                         <span>Daily rental</span>
                         <strong>{r.price.replace(" / day", "")}</strong>
                       </div>
-                      <div className="vmeta"><span>👤 {r.seats}</span><span>⚙️ {r.trans}</span><span>⛽ {r.fuel}</span></div>
+                      <div className="vmeta"><span><EmojiIcon e="👤" /> {r.seats}</span><span><EmojiIcon e="⚙" /> {r.trans}</span><span><EmojiIcon e="⛽" /> {r.fuel}</span></div>
                       <div className="vactions">
                         <Link to="/rentals" className="btn btn-primary" style={{ width: "100%", textAlign: "center" }}>Browse rentals</Link>
                       </div>
@@ -715,7 +716,7 @@ function RRRHome() {
                   ["🕒", "Business Hours", "Mon – Sat, 8:00am – 6:00pm"],
                 ].map(([icon, title, val]) => (
                   <div key={title} className="contact-row">
-                    <div className="service-icon">{icon}</div>
+                    <div className="service-icon"><EmojiIcon e={icon} /></div>
                     <div>
                       <h5>{title}</h5>
                       <p>{String(val).startsWith("+") ? <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">{val}</a> : val}</p>
