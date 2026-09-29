@@ -4582,3 +4582,20 @@ select[data-ga-dd] { display: none !important; }
 .ga .wa2-input span { padding: 8px 12px; }
 .ga .wa2-input b { width: 36px; height: 36px; }
 @media (max-width: 640px) { .ga .wa2-window { width: calc(100vw - 28px); max-height: min(400px, calc(100vh - 260px)); } }
+
+/* Delivery address autocomplete */
+.ga-addr { position: relative; }
+.ga-addr > input { width: 100%; box-sizing: border-box; padding-right: 36px; }
+.ga-addr-spin { position: absolute; right: 12px; top: 50%; margin-top: -8px; color: #94A3B8; animation: ga-addr-rot 1s linear infinite; }
+@keyframes ga-addr-rot { to { transform: rotate(360deg); } }
+.ga-addr-list { position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px; list-style: none; background: #fff; border: 1px solid #E2E8F0; border-radius: 14px; box-shadow: 0 14px 34px rgba(15,23,42,.14); max-height: 300px; overflow-y: auto; }
+.ga-addr-list li { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border-radius: 10px; cursor: pointer; text-transform: none; letter-spacing: 0; }
+.ga-addr-list li svg { flex: none; margin-top: 2px; color: #F97316; }
+.ga-addr-list li.active, .ga-addr-list li:hover { background: #FFF7ED; }
+.ga-addr-list li strong { display: block; font-size: 14px; color: #0F172A; font-weight: 600; }
+.ga-addr-list li small { display: block; font-size: 12px; color: #64748B; font-weight: 400; }
+.ga-addr-list li.ga-addr-empty { color: #64748B; font-size: 13px; cursor: default; }
+.ga-delivery-box { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: #FFF7ED; border: 1px solid #FED7AA; font-size: 14px; color: #334155; text-transform: none; letter-spacing: 0; font-weight: 500; }
+.ga-delivery-box.err { background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
+.ga-summary-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 15px; color: #334155; }
+.ga-summary-row small { color: #64748B; }

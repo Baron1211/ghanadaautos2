@@ -54,7 +54,13 @@ function OrderView() {
               </tr>
             ))}
           </tbody>
-          <tfoot><tr><td colSpan={3}><strong>Total</strong></td><td><strong>{data.currency} {Number(data.total).toFixed(2)}</strong></td></tr></tfoot>
+          <tfoot>
+            {Number((data as any).delivery_fee) > 0 && (<>
+              <tr><td colSpan={3}>Subtotal</td><td>{data.currency} {Number(data.subtotal).toFixed(2)}</td></tr>
+              <tr><td colSpan={3}>Delivery{(data as any).delivery_distance_km ? ` (${Number((data as any).delivery_distance_km)} km)` : ""}</td><td>{data.currency} {Number((data as any).delivery_fee).toFixed(2)}</td></tr>
+            </>)}
+            <tr><td colSpan={3}><strong>Total</strong></td><td><strong>{data.currency} {Number(data.total).toFixed(2)}</strong></td></tr>
+          </tfoot>
         </table>
         <p className="ga-muted">Payment: {data.payment_method || "arranged with team"} · Status: {data.payment_status}</p>
         {data.shipping_address && <p className="ga-muted">Ship to: {data.shipping_address}</p>}

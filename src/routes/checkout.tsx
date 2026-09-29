@@ -1,5 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
+import { quoteDelivery, type DeliveryQuote } from "@/lib/delivery.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Trash2, Mail, ShieldCheck, UserRound, LogIn } from "lucide-react";
@@ -48,6 +51,18 @@ function CheckoutInner() {
   const [payment, setPayment] = useState<"paystack" | "cod">("cod");
   const [placing, setPlacing] = useState(false);
   const [guestMode, setGuestMode] = useState<"choose" | "guest">("choose");
+  const [deliveryOn, setDeliveryOn] = useState(false);
+  const [addrText, setAddrText] = useState("");
+  const [quote, setQuote] = useState<DeliveryQuote | null>(null);
+  const [quoting, setQuoting] = useState(false);
+  const [quoteErr, setQuoteErr] = useState("");
+  const picked = useRef<{ placeId: string; token: string } | null>(null);
+  const getQuote = useServerFn(quoteDelivery);
+
+  useEffect(() => {
+    supabase.from("site_settings").select("value").eq("key", "delivery").maybeSingle()
+      .then(({ data }) => setDeliveryOn(!!(data?.value as any)?.enabled));
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -101,7 +116,26 @@ function CheckoutInner() {
   const subtotalGhs = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
   const subtotal = subtotalGhs;
   const unitOf = (i: LineItem) => i.unit_price;
+  const deliveryFee = deliveryOn && quote ? quote.fee : 0;
+  const total = subtotal + deliveryFee;
   const money = (n: number) => `GH₵${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+
+  const runQuote = async (placeId: string, token: string) => {
+    setQuoting(true); setQuoteErr("");
+    try {
+      setQuote(await getQuote({ data: { placeId, sessionToken: token, subtotal } }));
+    } catch (e: any) {
+      setQuote(null); setQuoteErr(e.message || "Could not calculate delivery.");
+    } finally {
+      setQuoting(false);
+    }
+  };
+
+  // Free-delivery thresholds depend on the cart total, so refresh the preview when it changes.
+  useEffect(() => {
+    if (deliveryOn && picked.current && quote) runQuote(picked.current.placeId, picked.current.token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subtotal]);
 
   const removeItem = async (key: string) => {
     setItems(items.filter(i => i.key !== key));
@@ -118,15 +152,22 @@ function CheckoutInner() {
 
   const place = async () => {
     if (!items.length) return;
-    if (!name || !email || !phone || !address) { toast.error("Please fill all required fields"); return; }
+    if (!name || !email || !phone || (!deliveryOn && !address)) { toast.error("Please fill all required fields"); return; }
+    if (deliveryOn && !quote) { toast.error("Please select your delivery address from the suggestions"); return; }
     setPlacing(true);
     try {
       const orderPayload: any = {
-        user_id: userId, subtotal, total: subtotal, currency: "GHS",
-        shipping_address: address, phone, notes,
+        user_id: userId, subtotal, total, currency: "GHS",
+        shipping_address: deliveryOn && quote ? [quote.address, address].filter(Boolean).join(" — ") : address,
+        phone, notes,
         payment_method: payment,
         payment_status: "unpaid",
       };
+      if (deliveryOn && quote) {
+        // The database recomputes fee and total from this server-issued quote; tampered values are overwritten.
+        orderPayload.delivery_quote_id = quote.quoteId;
+        orderPayload.delivery_fee = quote.fee;
+      }
       if (!userId) { orderPayload.guest_name = name; orderPayload.guest_email = email; }
       const { data: order, error } = await supabase.from("orders").insert(orderPayload).select().single();
       if (error) throw error;
@@ -220,7 +261,29 @@ function CheckoutInner() {
             <label>Full name<input value={name} onChange={e => setName(e.target.value)} /></label>
             <label>Email<input type="email" value={email} onChange={e => setEmail(e.target.value)} /></label>
             <label>Phone<input value={phone} onChange={e => setPhone(e.target.value)} /></label>
-            <label className="ga-form-full">Shipping address<textarea value={address} onChange={e => setAddress(e.target.value)} /></label>
+            {deliveryOn ? (
+              <>
+                <div className="ga-form-full">
+                  <label>Delivery location</label>
+                  <AddressAutocomplete
+                    value={addrText}
+                    onChange={(t) => { setAddrText(t); if (quote) { setQuote(null); picked.current = null; } setQuoteErr(""); }}
+                    onSelect={(s, token) => { picked.current = { placeId: s.placeId, token }; runQuote(s.placeId, token); }}
+                  />
+                  {quoting && <div className="ga-delivery-box">Calculating delivery…</div>}
+                  {quoteErr && !quoting && <div className="ga-delivery-box err">{quoteErr}</div>}
+                  {quote && !quoting && (
+                    <div className="ga-delivery-box">
+                      <strong>{quote.address}</strong><br />
+                      {quote.distanceKm} km by road · Delivery {quote.fee === 0 ? "FREE" : money(quote.fee)}
+                    </div>
+                  )}
+                </div>
+                <label className="ga-form-full">House no., landmark or directions (optional)<textarea value={address} onChange={e => setAddress(e.target.value)} /></label>
+              </>
+            ) : (
+              <label className="ga-form-full">Shipping address<textarea value={address} onChange={e => setAddress(e.target.value)} /></label>
+            )}
             <label className="ga-form-full">Notes<textarea value={notes} onChange={e => setNotes(e.target.value)} /></label>
           </div>
 
@@ -287,8 +350,17 @@ function CheckoutInner() {
               </div>
             </div>
           </div>
-          <div className="ga-summary-total"><span>Total (GHS)</span><strong>{money(subtotal)}</strong></div>
-          <button className="ga-btn-primary ga-checkout-cta" onClick={place} disabled={placing}>
+          {deliveryOn && (
+            <>
+              <div className="ga-summary-row"><span>Subtotal</span><span>{money(subtotal)}</span></div>
+              <div className="ga-summary-row">
+                <span>Delivery{quote ? <small> ({quote.distanceKm} km)</small> : null}</span>
+                <span>{quoting ? "Calculating…" : quote ? (quote.fee === 0 ? "FREE" : money(quote.fee)) : "Select address"}</span>
+              </div>
+            </>
+          )}
+          <div className="ga-summary-total"><span>Total (GHS)</span><strong>{money(total)}</strong></div>
+          <button className="ga-btn-primary ga-checkout-cta" onClick={place} disabled={placing || quoting}>
             {placing ? "Placing order…" : "Place order"}
           </button>
           <p className="ga-checkout-trust"><ShieldCheck size={14} /> Secure checkout — we'll email your invoice and payment confirmation.</p>
