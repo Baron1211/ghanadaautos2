@@ -718,7 +718,7 @@ function RRRHome() {
                     <div className="service-icon">{icon}</div>
                     <div>
                       <h5>{title}</h5>
-                      <p>{/^+d/.test(String(val)) ? <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">{val}</a> : val}</p>
+                      <p>{String(val).startsWith("+") ? <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">{val}</a> : val}</p>
                     </div>
                   </div>
                 ))}
