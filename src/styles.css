@@ -4495,3 +4495,76 @@ select[data-ga-dd] { display: none !important; }
 .ga .brand-row a:hover::after, .ga .brand-row a:focus-visible::after { transform: scaleX(1); }
 .ga .brand-row:hover { opacity: 1; filter: none; }
 @media (max-width: 640px) { .ga .brand-row a { font-size: 15px; } }
+
+
+/* ===== Real-WhatsApp style chat pop-up ===== */
+.ga .wa-widget { gap: 14px; }
+.ga .wa2-window {
+  width: 340px; max-width: calc(100vw - 28px); border-radius: 16px; overflow: hidden;
+  background: #efeae2; box-shadow: 0 24px 60px rgba(2, 20, 14, .35), 0 2px 6px rgba(0, 0, 0, .12);
+  transform-origin: bottom right; animation: wa2-in .45s cubic-bezier(.2, .9, .3, 1.25) both;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@keyframes wa2-in { from { opacity: 0; transform: translateY(16px) scale(.9); } to { opacity: 1; transform: none; } }
+.ga .wa2-header { display: flex; align-items: center; gap: 11px; padding: 10px 10px 10px 12px; background: #008069; color: #fff; }
+.ga .wa2-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: contain; background: #fff; padding: 3px; flex: 0 0 auto; }
+.ga .wa2-who { min-width: 0; flex: 1; }
+.ga .wa2-name { display: flex; align-items: center; gap: 5px; font-weight: 700; font-size: 15.5px; line-height: 1.2; }
+.ga .wa2-verified { width: 16px; height: 16px; flex: 0 0 auto; }
+.ga .wa2-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255, 255, 255, .85); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ga .wa2-dot { width: 8px; height: 8px; border-radius: 50%; background: #5bff9b; box-shadow: 0 0 0 0 rgba(91, 255, 155, .7); animation: wa2-pulse 2s infinite; }
+@keyframes wa2-pulse { 70% { box-shadow: 0 0 0 7px rgba(91, 255, 155, 0); } 100% { box-shadow: 0 0 0 0 rgba(91, 255, 155, 0); } }
+.ga .wa2-close { width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; color: #fff; display: grid; place-items: center; cursor: pointer; }
+.ga .wa2-close:hover { background: rgba(255, 255, 255, .16); }
+.ga .wa2-body {
+  padding: 12px 12px 14px; min-height: 170px;
+  background-color: #efeae2;
+  background-image:
+    radial-gradient(rgba(11, 20, 26, .045) 1.2px, transparent 1.4px),
+    radial-gradient(rgba(11, 20, 26, .03) 1px, transparent 1.2px);
+  background-size: 22px 22px, 34px 34px; background-position: 0 0, 11px 11px;
+}
+.ga .wa2-day { width: fit-content; margin: 0 auto 8px; padding: 4px 11px; border-radius: 8px; background: #fff; color: #54656f; font-size: 11.5px; font-weight: 600; box-shadow: 0 1px 1px rgba(11, 20, 26, .1); }
+.ga .wa2-secure { margin: 0 auto 12px; padding: 6px 10px; max-width: 92%; text-align: center; border-radius: 8px; background: #fff4c4; color: #54656f; font-size: 11.5px; line-height: 1.35; box-shadow: 0 1px 1px rgba(11, 20, 26, .08); }
+.ga .wa2-bubble {
+  position: relative; width: fit-content; max-width: 88%; padding: 8px 10px 6px 11px;
+  background: #fff; color: #111b21; font-size: 14.5px; line-height: 1.4;
+  border-radius: 0 10px 10px 10px; box-shadow: 0 1px 1px rgba(11, 20, 26, .14);
+  animation: wa2-msg .3s ease both;
+}
+.ga .wa2-bubble::before { content: ""; position: absolute; top: 0; left: -7px; border: 7px solid transparent; border-top-color: #fff; border-right-color: #fff; border-left: 0; border-bottom: 0; }
+.ga .wa2-bubble em { display: block; text-align: right; font-style: normal; font-size: 11px; color: #667781; margin-top: 2px; }
+@keyframes wa2-msg { from { opacity: 0; transform: translateY(6px) scale(.97); } to { opacity: 1; transform: none; } }
+.ga .wa2-typing { display: flex; gap: 4px; align-items: center; padding: 13px 14px; }
+.ga .wa2-typing i { width: 7px; height: 7px; border-radius: 50%; background: #8696a0; animation: wa2-bounce 1.1s infinite; }
+.ga .wa2-typing i:nth-child(2) { animation-delay: .15s; }
+.ga .wa2-typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes wa2-bounce { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-5px); opacity: 1; } }
+.ga .wa2-quick { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; max-width: 88%; }
+.ga .wa2-quick a {
+  display: block; text-align: center; padding: 9px 12px; border-radius: 10px; background: #fff; color: #027eb5;
+  font-weight: 600; font-size: 14px; text-decoration: none; box-shadow: 0 1px 1px rgba(11, 20, 26, .14);
+  opacity: 0; animation: wa2-msg .35s ease forwards; transition: background .15s;
+}
+.ga .wa2-quick a:nth-child(1) { animation-delay: .1s; } .ga .wa2-quick a:nth-child(2) { animation-delay: .2s; } .ga .wa2-quick a:nth-child(3) { animation-delay: .3s; }
+.ga .wa2-quick a:hover { background: #f0f9ff; }
+.ga .wa2-input { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: #f0f2f5; text-decoration: none; }
+.ga .wa2-input span { flex: 1; padding: 10px 14px; border-radius: 22px; background: #fff; color: #8696a0; font-size: 14px; }
+.ga .wa2-input b { width: 40px; height: 40px; border-radius: 50%; background: #00a884; color: #fff; display: grid; place-items: center; transition: transform .15s, background .15s; }
+.ga .wa2-input:hover b { background: #008f6f; transform: scale(1.06); }
+
+.ga .wa-fab { position: relative; width: 60px; height: 60px; background: #25d366; color: #fff; box-shadow: 0 10px 26px rgba(37, 211, 102, .5), 0 2px 6px rgba(0, 0, 0, .18); }
+.ga .wa-fab::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #25d366; z-index: -1; animation: wa2-ring 2.4s ease-out infinite; }
+@keyframes wa2-ring { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.75); opacity: 0; } }
+.ga .wa-fab svg { width: 34px; height: 34px; fill: currentColor; }
+.ga .wa-badge {
+  position: absolute; top: -3px; right: -3px; min-width: 21px; height: 21px; padding: 0 6px; border-radius: 999px;
+  background: #ff3b30; color: #fff; font-size: 12px; font-weight: 800; display: grid; place-items: center;
+  border: 2px solid #fff; animation: wa2-msg .3s ease both;
+}
+@media (max-width: 640px) { .ga .wa2-window { width: calc(100vw - 28px); } .ga .wa-fab { width: 56px; height: 56px; } }
+@media (prefers-reduced-motion: reduce) { .ga .wa-fab::before, .ga .wa2-dot, .ga .wa2-typing i { animation: none; } }
+
+.ga .wa2-window { display: flex; flex-direction: column; max-height: calc(100vh - 190px); }
+.ga .wa2-body { flex: 1 1 auto; overflow-y: auto; min-height: 0; }
+.ga .wa2-header, .ga .wa2-input { flex: 0 0 auto; }
