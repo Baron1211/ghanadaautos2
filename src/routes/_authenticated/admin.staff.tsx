@@ -4,6 +4,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ADMIN_SECTIONS, useAdminAccess } from "@/lib/admin-perms";
+import { useServerFn } from "@tanstack/react-start";
+import { createSuperAdmin } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/staff")({
   component: AdminStaff,
@@ -35,6 +37,23 @@ function AdminStaff() {
   });
 
   const [search, setSearch] = useState("");
+  const createSuper = useServerFn(createSuperAdmin);
+  const [newAdmin, setNewAdmin] = useState({ fullName: "", email: "", password: "" });
+  const [creating, setCreating] = useState(false);
+  const submitNewAdmin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCreating(true);
+    try {
+      const r = await createSuper({ data: newAdmin });
+      toast.success(r.created ? `Super admin created —  can now sign in at /auth and open /admin` : ` already had an account and is now a super admin`);
+      setNewAdmin({ fullName: "", email: "", password: "" });
+      refresh();
+    } catch (err: any) {
+      toast.error(err?.message || "Could not add the super admin");
+    } finally {
+      setCreating(false);
+    }
+  };
   const { data: customers } = useQuery({
     queryKey: ["admin-nonstaff"],
     queryFn: async () => {
@@ -132,6 +151,17 @@ function AdminStaff() {
           </div>
         ))}
       </div>
+
+      <form className="ga-admin-form" onSubmit={submitNewAdmin}>
+        <h3>Add a super admin (email &amp; password)</h3>
+        <p className="ga-muted ga-small">Creates a login for the person and gives them full access to the admin panel straight away. Share the email and password with them privately — they sign in at /auth and open /admin. If the email already has an account, that account is upgraded and its password is not changed.</p>
+        <div className="ga-form-grid">
+          <label>Full name<input value={newAdmin.fullName} onChange={(e) => setNewAdmin({ ...newAdmin, fullName: e.target.value })} placeholder="Optional" /></label>
+          <label>Email (Gmail)<input type="email" required value={newAdmin.email} onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })} placeholder="name@gmail.com" /></label>
+          <label>Password<input type="text" required minLength={8} value={newAdmin.password} onChange={(e) => setNewAdmin({ ...newAdmin, password: e.target.value })} placeholder="At least 8 characters" autoComplete="new-password" /></label>
+        </div>
+        <button className="ga-btn-primary" type="submit" disabled={creating}>{creating ? "Adding…" : "Add super admin"}</button>
+      </form>
 
       <div className="ga-admin-form">
         <h3>Onboard a new admin</h3>
