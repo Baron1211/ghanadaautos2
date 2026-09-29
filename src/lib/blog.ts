@@ -15,7 +15,7 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "importing-a-car-from-canada",
+    slug: "importing-a-car-from-china",
     tag: "Import Tips",
     title: "5 things to check before importing a car from China",
     date: "July 12, 2026",
