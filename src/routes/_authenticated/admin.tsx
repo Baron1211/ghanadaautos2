@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAccess } from "@/lib/admin-perms";
-import logoAsset from "@/assets/rrr-logo-stacked.png";
+import logoAsset from "@/assets/rrr-logo-stacked-light.png";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({

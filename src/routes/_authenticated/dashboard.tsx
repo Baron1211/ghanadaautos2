@@ -8,7 +8,7 @@ import {
   LogOut, Menu, X, ArrowRight, Trash2, Home, ReceiptText, CalendarRange,
   Camera, Mail, Phone, MapPin, Save, Check, Bell, Truck,
 } from "lucide-react";
-import logoAsset from "@/assets/rrr-logo.jpg";
+import logoAsset from "@/assets/rrr-logo-stacked-light.png";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({

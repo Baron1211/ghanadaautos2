@@ -96,8 +96,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "RRR AUTO EXPORT — Your Complete Automotive Partner" },
       { name: "twitter:description", content: "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from China and clearing & forwarding, all under one roof." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JCOCCRG3zPULHMfk2ZAKwC9JMU72/social-images/social-1784652131371-Untitled_design_(4).webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JCOCCRG3zPULHMfk2ZAKwC9JMU72/social-images/social-1784652131371-Untitled_design_(4).webp" },
+      { property: "og:image", content: "https://rrr-auto-export.vercel.app/og-image.png" },
+      { name: "twitter:image", content: "https://rrr-auto-export.vercel.app/og-image.png" },
     ],
     links: [
       { rel: "icon", type: "image/png", href: "/favicon.png" },

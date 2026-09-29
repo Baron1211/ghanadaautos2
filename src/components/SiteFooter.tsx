@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logoTransparentAsset from "@/assets/rrr-logo-stacked.png";
+import logoTransparentAsset from "@/assets/rrr-logo-stacked-light.png";
 
 export default function SiteFooter() {
   return (

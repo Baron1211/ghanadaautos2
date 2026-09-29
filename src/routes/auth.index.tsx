@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
-import logoAsset from "@/assets/rrr-logo.jpg";
+import logoAsset from "@/assets/rrr-logo.png";
+import logoLightAsset from "@/assets/rrr-logo-light.png";
 
 export const Route = createFileRoute("/auth/")({
   head: () => ({
@@ -147,7 +148,7 @@ function AuthPage() {
         <div className="ga-auth-hero-inner">
           <div>
             <Link to="/" className="ga-auth-hero-logo" aria-label="RRR Auto Export home">
-              <img src={logoAsset} alt="RRR Auto Export" />
+              <img src={logoLightAsset} alt="RRR Auto Export" />
             </Link>
             <h2>Drive, ship and source with RRR Auto Export.</h2>
             <p>
