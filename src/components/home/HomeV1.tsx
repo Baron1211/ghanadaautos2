@@ -708,7 +708,18 @@ function RRRHome() {
           </div>
           <div className="contact-grid">
             <div className="contact-info-card">
-              <div className="map-fake" />
+              <div className="map-live">
+                <iframe
+                  title="RRR Auto Export location — Accra, Ghana"
+                  src="https://maps.google.com/maps?q=Accra%2C%20Ghana&z=12&output=embed"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+                <a className="map-open" href="https://www.google.com/maps/search/?api=1&query=Accra%2C%20Ghana" target="_blank" rel="noopener noreferrer">
+                  <EmojiIcon e="📍" /> Open in Google Maps
+                </a>
+              </div>
               <div className="contact-details">
                 {[
                   ["📍", "Locations", "Guangzhou, China · Accra, Ghana"],
