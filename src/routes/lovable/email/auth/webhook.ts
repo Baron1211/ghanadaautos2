@@ -17,7 +17,7 @@ const SITE_URL = `https://${ROOT_DOMAIN}`
 
 // The SDK handler owns verification, dispatch, and retry semantics; this file
 // owns only the email decisions: subjects, templates, and per-type props.
-const handler = createAuthEmailHandler({
+const buildHandler = () => createAuthEmailHandler({
   apiKey: process.env.LOVABLE_API_KEY!,
   from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
   senderDomain: SENDER_DOMAIN,
@@ -77,10 +77,19 @@ const handler = createAuthEmailHandler({
   },
 })
 
+// Built on first request so a missing LOVABLE_API_KEY cannot crash the whole app at startup.
+let handler: ReturnType<typeof buildHandler> | undefined
+
 export const Route = createFileRoute("/lovable/email/auth/webhook")({
   server: {
     handlers: {
-      POST: ({ request }) => handler(request),
+      POST: ({ request }) => {
+        if (!process.env.LOVABLE_API_KEY) {
+          return Response.json({ error: "Server configuration error" }, { status: 500 })
+        }
+        handler ??= buildHandler()
+        return handler(request)
+      },
     },
   },
 })

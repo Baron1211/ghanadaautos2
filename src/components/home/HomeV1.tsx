@@ -13,11 +13,11 @@ import WhatsAppChat from "@/components/WhatsAppChat";
 import SiteHeader from "@/components/SiteHeader";
 import { useContent } from "@/lib/cms";
 
-import engineImg from "@/assets/parts/engine.jpg.asset.json";
-import brakeImg from "@/assets/parts/brake.jpg.asset.json";
-import tyreImg from "@/assets/parts/tyre.jpg.asset.json";
-import batteryImg from "@/assets/parts/battery.jpg.asset.json";
-import headlightImg from "@/assets/parts/headlight.jpg.asset.json";
+import engineImg from "@/assets/parts/engine.jpg";
+import brakeImg from "@/assets/parts/brake.jpg";
+import tyreImg from "@/assets/parts/tyre.jpg";
+import batteryImg from "@/assets/parts/battery.jpg";
+import headlightImg from "@/assets/parts/headlight.jpg";
 
 import testimonial1 from "@/assets/testimonial-1.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
@@ -35,11 +35,11 @@ const vehicles = [
 ];
 
 const partsFallback = [
-  { name: "Engine Parts", stars: "★★★★★", price: "GH₵ 1,250", img: engineImg.url },
-  { name: "Brake Pads", stars: "★★★★☆", price: "GH₵ 380", img: brakeImg.url },
-  { name: "Tyres", stars: "★★★★★", price: "GH₵ 690", img: tyreImg.url },
-  { name: "Batteries", stars: "★★★★☆", price: "GH₵ 950", img: batteryImg.url },
-  { name: "Headlights", stars: "★★★★★", price: "GH₵ 540", img: headlightImg.url },
+  { name: "Engine Parts", stars: "★★★★★", price: "GH₵ 1,250", img: engineImg },
+  { name: "Brake Pads", stars: "★★★★☆", price: "GH₵ 380", img: brakeImg },
+  { name: "Tyres", stars: "★★★★★", price: "GH₵ 690", img: tyreImg },
+  { name: "Batteries", stars: "★★★★☆", price: "GH₵ 950", img: batteryImg },
+  { name: "Headlights", stars: "★★★★★", price: "GH₵ 540", img: headlightImg },
 ];
 
 const rentalsFallback = [

@@ -1,6 +1,6 @@
-import importAsset from "@/assets/blog/import.jpg.asset.json";
-import oilAsset from "@/assets/blog/oil.jpg.asset.json";
-import buyingAsset from "@/assets/blog/buying.jpg.asset.json";
+import importAsset from "@/assets/blog/import.jpg";
+import oilAsset from "@/assets/blog/oil.jpg";
+import buyingAsset from "@/assets/blog/buying.jpg";
 
 export type BlogPost = {
   slug: string;
@@ -20,7 +20,7 @@ export const blogPosts: BlogPost[] = [
     title: "5 things to check before importing a car from China",
     date: "July 12, 2026",
     readTime: "6 min read",
-    img: importAsset.url,
+    img: importAsset,
     excerpt:
       "From accident history to duty calculations — the essentials every Ghanaian buyer should verify before shipping a Chinese vehicle home.",
     body: [
@@ -38,7 +38,7 @@ export const blogPosts: BlogPost[] = [
     title: "How often should you really change your oil?",
     date: "July 5, 2026",
     readTime: "4 min read",
-    img: oilAsset.url,
+    img: oilAsset,
     excerpt:
       "The old '3,000 miles' rule is dead. Here's what modern engines actually need — and how Ghana's driving conditions change the math.",
     body: [
@@ -53,7 +53,7 @@ export const blogPosts: BlogPost[] = [
     title: "New vs. certified pre-owned: what fits your budget?",
     date: "June 28, 2026",
     readTime: "5 min read",
-    img: buyingAsset.url,
+    img: buyingAsset,
     excerpt:
       "Certified pre-owned can save you 30 – 40% off sticker — but only when the inspection, warranty and paperwork check out. Here's the breakdown.",
     body: [
