@@ -45,7 +45,7 @@ export default function SiteHeader() {
             <a href="https://www.instagram.com/ghanada_autos?igsh=ejBzdW10N2c0MWh2" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c2.7 0 3 0 4.1.06 1 .05 1.6.2 2 .36.5.2.9.45 1.3.85.4.4.65.8.85 1.3.16.4.31 1 .36 2 .06 1.1.06 1.4.06 4.1s0 3-.06 4.1c-.05 1-.2 1.6-.36 2a3.6 3.6 0 0 1-.85 1.3c-.4.4-.8.65-1.3.85-.4.16-1 .31-2 .36-1.1.06-1.4.06-4.1.06s-3 0-4.1-.06c-1-.05-1.6-.2-2-.36a3.6 3.6 0 0 1-1.3-.85 3.6 3.6 0 0 1-.85-1.3c-.16-.4-.31-1-.36-2C2.2 15 2.2 14.7 2.2 12s0-3 .06-4.1c.05-1 .2-1.6.36-2 .2-.5.45-.9.85-1.3.4-.4.8-.65 1.3-.85.4-.16 1-.31 2-.36C7.87 2.2 8.17 2.2 12 2.2zm0 3.3a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm5.2-.9a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3z"/></svg>
             </a>
-            <a href="https://www.tiktok.com/@ghanada.autos?_r=1&_t=ZS-98SpAjVdzT3" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <a href="https://www.tiktok.com/@guangzhoucarking" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 3h-2.7v11.3a2.6 2.6 0 1 1-2.6-2.6c.2 0 .5 0 .7.1V9.1a5.4 5.4 0 1 0 4.6 5.3V8.6c.9.7 2 1.1 3.2 1.2V7.1a3.6 3.6 0 0 1-3.2-4.1z"/></svg>
             </a>
             <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
