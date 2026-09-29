@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/orders/$number")({
   head: () => ({
     meta: [
-      { title: "Order confirmation — Ghanada Autos" },
+      { title: "Order confirmation — RRR Auto Export" },
       { name: "robots", content: "noindex" },
     ],
   }),

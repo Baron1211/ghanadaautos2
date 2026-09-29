@@ -4,10 +4,10 @@ import { blogPosts } from "@/lib/blog";
 export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
-      { title: "Automotive Blog — Ghanada Autos" },
-      { name: "description", content: "Import tips, maintenance guides and buying advice from Ghana & Canada's complete automotive company." },
-      { property: "og:title", content: "Automotive Blog — Ghanada Autos" },
-      { property: "og:description", content: "Import tips, maintenance guides and buying advice from Ghanada Autos." },
+      { title: "Automotive Blog — RRR Auto Export" },
+      { name: "description", content: "Import tips, maintenance guides and buying advice from Ghana & China's complete automotive company." },
+      { property: "og:title", content: "Automotive Blog — RRR Auto Export" },
+      { property: "og:description", content: "Import tips, maintenance guides and buying advice from RRR Auto Export." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -21,7 +21,7 @@ function BlogIndex() {
     <div className="ga-blog-page">
       <div className="ga-blog-hero">
         <div className="container">
-          <div className="eyebrow">The Ghanada Journal</div>
+          <div className="eyebrow">The RRR Auto Export Journal</div>
           <h1>Automotive tips, guides & stories</h1>
           <p>Practical advice from our workshop, import desk and sales floor — built for drivers in Ghana and beyond.</p>
         </div>

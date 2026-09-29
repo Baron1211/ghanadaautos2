@@ -10,9 +10,9 @@ export const Route = createFileRoute("/track")({
   validateSearch: (search: Record<string, unknown>) => ({ number: (search.number as string) || "" }),
   head: () => ({
     meta: [
-      { title: "Track Your Order — Ghanada Autos" },
-      { name: "description", content: "Track your Ghanada Autos vehicle, parts or shipment with your tracking number." },
-      { property: "og:title", content: "Track Your Order — Ghanada Autos" },
+      { title: "Track Your Order — RRR Auto Export" },
+      { name: "description", content: "Track your RRR Auto Export vehicle, parts or shipment with your tracking number." },
+      { property: "og:title", content: "Track Your Order — RRR Auto Export" },
       { property: "og:description", content: "Enter your tracking number to see live shipment status, location and updates." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -103,7 +103,7 @@ function TrackPage() {
               <span className="ga-muted">
                 Double-check the tracking number and try again. Still stuck? Our team can help right away.
               </span>
-              <a className="btn btn-outline" href="https://wa.me/14374364357" target="_blank" rel="noopener noreferrer">
+              <a className="btn btn-outline" href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">
                 Chat with support
               </a>
             </div>
@@ -141,7 +141,7 @@ function TrackPage() {
                   </div>
                   <div>
                     <span className="ga-trk-label"><Truck size={13} /> Carrier</span>
-                    <strong>{result.carrier || "Ghanada Autos Logistics"}</strong>
+                    <strong>{result.carrier || "RRR Auto Export Logistics"}</strong>
                   </div>
                 </div>
               </div>
@@ -174,17 +174,17 @@ function TrackPage() {
               <div className="ga-trk-help-card">
                 <span className="ga-trk-help-icon"><PackageSearch size={18} /></span>
                 <h3>Where is my number?</h3>
-                <p>We send your tracking number by email and WhatsApp once your order leaves our Toronto warehouse.</p>
+                <p>We send your tracking number by email and WhatsApp once your order leaves our Guangzhou warehouse.</p>
               </div>
               <div className="ga-trk-help-card">
                 <span className="ga-trk-help-icon"><Truck size={18} /></span>
                 <h3>Shipping timelines</h3>
-                <p>Ocean freight from Canada to Takoradi typically takes 4–6 weeks, plus clearing at the port.</p>
+                <p>Ocean freight from China to Takoradi typically takes 4–6 weeks, plus clearing at the port.</p>
               </div>
               <div className="ga-trk-help-card">
                 <span className="ga-trk-help-icon"><ShieldCheck size={18} /></span>
                 <h3>Need a hand?</h3>
-                <p>Message us on WhatsApp at +1 437 436 4357 and we’ll check your shipment for you.</p>
+                <p>Message us on WhatsApp at +233 592 495 787 and we’ll check your shipment for you.</p>
               </div>
             </div>
           )}

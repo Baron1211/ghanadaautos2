@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 type Booking = Record<string, any> & { rental?: { name?: string; image_url?: string | null } | null };
 
 export const Route = createFileRoute("/bookings/$number")({
-  head: () => ({ meta: [{ title: "Rental booking — Ghanada Autos" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Rental booking — RRR Auto Export" }, { name: "robots", content: "noindex" }] }),
   validateSearch: (search: Record<string, unknown>) => ({ t: typeof search.t === "string" ? search.t : undefined }),
   component: BookingView,
 });

@@ -4,10 +4,10 @@ import LegalPage, { type LegalSection } from "@/components/LegalPage";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms & Conditions — Ghanada Autos" },
-      { name: "description", content: "Terms and Conditions governing vehicle sales, sourcing, imports, rentals, repairs, spare parts and website use at Ghanada Autos in Ghana and Canada." },
-      { property: "og:title", content: "Terms & Conditions — Ghanada Autos" },
-      { property: "og:description", content: "The terms governing Ghanada Autos vehicle sales, imports, rentals, repairs and spare parts services." },
+      { title: "Terms & Conditions — RRR Auto Export" },
+      { name: "description", content: "Terms and Conditions governing vehicle sales, sourcing, imports, rentals, repairs, spare parts and website use at RRR Auto Export in Ghana and China." },
+      { property: "og:title", content: "Terms & Conditions — RRR Auto Export" },
+      { property: "og:description", content: "The terms governing RRR Auto Export vehicle sales, imports, rentals, repairs and spare parts services." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -17,9 +17,9 @@ export const Route = createFileRoute("/terms")({
 
 const sections: LegalSection[] = [
   {
-    title: "About Ghanada Autos",
+    title: "About RRR Auto Export",
     blocks: [
-      "Ghanada Autos is an automotive business serving customers in Ghana and, where applicable, facilitating automotive transactions and vehicle sourcing from Canada and other approved markets.",
+      "RRR Auto Export is an automotive business serving customers in Ghana and, where applicable, facilitating automotive transactions and vehicle sourcing from China and other approved markets.",
       "Our services may include:",
       { list: [
         "Vehicle sales",
@@ -34,7 +34,7 @@ const sections: LegalSection[] = [
         "Vehicle financing assistance, where available",
         "Other automotive-related services",
       ] },
-      "Some services may be provided directly by Ghanada Autos, while others may involve independent third-party service providers.",
+      "Some services may be provided directly by RRR Auto Export, while others may involve independent third-party service providers.",
     ],
   },
   {
@@ -42,8 +42,8 @@ const sections: LegalSection[] = [
     blocks: [
       "We make reasonable efforts to ensure information displayed on our website is accurate and current.",
       "However, vehicle availability, specifications, mileage, colours, photographs, prices, exchange rates, shipping charges, customs duties, taxes and other information may change.",
-      "An error appearing on the website does not automatically require Ghanada Autos to complete a transaction based on an obvious pricing, typographical or technical error.",
-      "Customers should confirm important information with Ghanada Autos before making a payment or entering into a transaction.",
+      "An error appearing on the website does not automatically require RRR Auto Export to complete a transaction based on an obvious pricing, typographical or technical error.",
+      "Customers should confirm important information with RRR Auto Export before making a payment or entering into a transaction.",
     ],
   },
   {
@@ -57,7 +57,7 @@ const sections: LegalSection[] = [
   {
     title: "Vehicle Condition",
     blocks: [
-      "Unless expressly described as new, vehicles offered by Ghanada Autos may be pre-owned.",
+      "Unless expressly described as new, vehicles offered by RRR Auto Export may be pre-owned.",
       "Normal wear, mileage and cosmetic imperfections may therefore exist depending on the age and previous use of the vehicle.",
       "We encourage customers to review available photographs, inspection information, vehicle history information and other documentation before purchasing.",
       "Where reasonably possible, customers may request an independent inspection before completing a purchase.",
@@ -66,7 +66,7 @@ const sections: LegalSection[] = [
   {
     title: "Prices",
     blocks: [
-      "Vehicle and service prices may be displayed in Ghanaian Cedis (GHS), Canadian Dollars (CAD), United States Dollars (USD), or another stated currency.",
+      "Vehicle and service prices may be displayed in Ghanaian Cedis (GHS).",
       "Unless expressly stated otherwise, a displayed vehicle price may not include:",
       { list: [
         "Registration fees", "Insurance", "Customs duties", "Port charges", "Shipping costs",
@@ -79,25 +79,25 @@ const sections: LegalSection[] = [
   {
     title: "Deposits and Reservations",
     blocks: [
-      "Ghanada Autos may require a deposit to reserve, source, import or purchase a vehicle.",
+      "RRR Auto Export may require a deposit to reserve, source, import or purchase a vehicle.",
       "The amount and refundability of the deposit will be communicated to the customer before payment.",
-      "A reservation is not confirmed until the required deposit has been received and acknowledged by Ghanada Autos.",
-      "Where Ghanada Autos has already incurred costs or committed funds to acquire, transport, inspect, reserve or process a vehicle specifically for a customer, those amounts may be non-refundable to the extent permitted by applicable law and the customer's specific agreement.",
+      "A reservation is not confirmed until the required deposit has been received and acknowledged by RRR Auto Export.",
+      "Where RRR Auto Export has already incurred costs or committed funds to acquire, transport, inspect, reserve or process a vehicle specifically for a customer, those amounts may be non-refundable to the extent permitted by applicable law and the customer's specific agreement.",
     ],
   },
   {
     title: "Payments",
     blocks: [
-      "Payments must be made through payment methods approved by Ghanada Autos.",
-      "Customers are responsible for ensuring that payments are made to official Ghanada Autos payment channels.",
+      "Payments must be made through payment methods approved by RRR Auto Export.",
+      "Customers are responsible for ensuring that payments are made to official RRR Auto Export payment channels.",
       "We will never intentionally require a customer to make payment to an unauthorised personal account.",
-      "Customers should contact Ghanada Autos directly if they receive suspicious payment instructions.",
+      "Customers should contact RRR Auto Export directly if they receive suspicious payment instructions.",
     ],
   },
   {
     title: "Vehicle Sourcing and Special Orders",
     blocks: [
-      "Customers may request that Ghanada Autos locate or purchase a particular vehicle on their behalf.",
+      "Customers may request that RRR Auto Export locate or purchase a particular vehicle on their behalf.",
       "Vehicle sourcing may depend on:",
       { list: [
         "Vehicle availability", "Auction or seller availability", "Customer budget", "Vehicle condition",
@@ -109,13 +109,13 @@ const sections: LegalSection[] = [
   {
     title: "Vehicle Importation",
     blocks: [
-      "Where Ghanada Autos assists with importing a vehicle, estimated costs and delivery dates are estimates unless expressly guaranteed in writing.",
+      "Where RRR Auto Export assists with importing a vehicle, estimated costs and delivery dates are estimates unless expressly guaranteed in writing.",
       "International vehicle transportation may be affected by matters outside our reasonable control, including:",
       { list: [
         "Shipping schedules", "Vessel delays", "Port congestion", "Customs examinations", "Weather",
         "Government action", "Changes in import regulations", "Documentation delays", "Labour disruptions", "Carrier delays",
       ] },
-      "Ghanada Autos will make reasonable efforts to keep customers informed of material developments.",
+      "RRR Auto Export will make reasonable efforts to keep customers informed of material developments.",
     ],
   },
   {
@@ -129,7 +129,7 @@ const sections: LegalSection[] = [
   {
     title: "Vehicle Delivery",
     blocks: [
-      "Delivery dates are estimates unless Ghanada Autos expressly agrees otherwise in writing.",
+      "Delivery dates are estimates unless RRR Auto Export expressly agrees otherwise in writing.",
       "Customers must provide accurate delivery information and cooperate with any documentation or identification requirements necessary to release or deliver a vehicle.",
       "Risk, title and responsibility for a vehicle will transfer according to the customer's applicable purchase, shipping or delivery agreement and applicable law.",
     ],
@@ -138,7 +138,7 @@ const sections: LegalSection[] = [
     title: "Returns, Cancellations and Refunds",
     blocks: [
       "Vehicle purchases, special orders, imported vehicles and customised sourcing transactions may not be returnable merely because a customer changes their mind, subject always to applicable Ghanaian law and the terms communicated before the transaction.",
-      "Where Ghanada Autos agrees to a refund, applicable administrative costs, transaction charges, third-party costs and expenses already incurred may be deducted where legally permitted.",
+      "Where RRR Auto Export agrees to a refund, applicable administrative costs, transaction charges, third-party costs and expenses already incurred may be deducted where legally permitted.",
       "Nothing in these Terms removes any statutory rights a customer may have under applicable law.",
     ],
   },
@@ -153,7 +153,7 @@ const sections: LegalSection[] = [
   {
     title: "Repairs and Maintenance",
     blocks: [
-      "Customers authorise Ghanada Autos to perform the repair, maintenance or diagnostic services described in the applicable work order.",
+      "Customers authorise RRR Auto Export to perform the repair, maintenance or diagnostic services described in the applicable work order.",
       "Additional work requiring a material additional charge should normally be approved by the customer before it is undertaken, except where immediate action is reasonably necessary for safety or to prevent further damage and obtaining approval is impracticable.",
     ],
   },
@@ -188,7 +188,7 @@ const sections: LegalSection[] = [
   {
     title: "Intellectual Property",
     blocks: [
-      "The Ghanada Autos name, logo, website design, original photographs, graphics, text and other proprietary materials may not be copied, reproduced, distributed or commercially exploited without permission, except where otherwise permitted by law.",
+      "The RRR Auto Export name, logo, website design, original photographs, graphics, text and other proprietary materials may not be copied, reproduced, distributed or commercially exploited without permission, except where otherwise permitted by law.",
       "Third-party trademarks remain the property of their respective owners.",
     ],
   },
@@ -216,14 +216,14 @@ const sections: LegalSection[] = [
   {
     title: "Limitation of Liability",
     blocks: [
-      "To the maximum extent permitted by applicable law, Ghanada Autos will not be responsible for indirect or consequential losses arising from circumstances beyond our reasonable control.",
+      "To the maximum extent permitted by applicable law, RRR Auto Export will not be responsible for indirect or consequential losses arising from circumstances beyond our reasonable control.",
       "Nothing in these Terms excludes or limits liability where doing so would be prohibited by applicable law.",
     ],
   },
   {
     title: "Force Majeure",
     blocks: [
-      "Ghanada Autos will not be responsible for a delay or failure caused by circumstances reasonably beyond our control, including natural disasters, severe weather, war, civil disturbance, government restrictions, port closures, shipping disruptions, strikes or major system failures.",
+      "RRR Auto Export will not be responsible for a delay or failure caused by circumstances reasonably beyond our control, including natural disasters, severe weather, war, civil disturbance, government restrictions, port closures, shipping disruptions, strikes or major system failures.",
     ],
   },
   {
@@ -261,7 +261,7 @@ function TermsPage() {
       effectiveDate="24 August 2026"
       lastUpdated="24 August 2026"
       intro={[
-        "Welcome to Ghanada Autos. These Terms and Conditions govern your access to and use of our website, products, vehicle listings and automotive services.",
+        "Welcome to RRR Auto Export. These Terms and Conditions govern your access to and use of our website, products, vehicle listings and automotive services.",
         "By accessing our website, submitting an enquiry, requesting a quotation, making a booking, placing an order, paying a deposit, purchasing a vehicle or otherwise using our services, you acknowledge that you have read and understood these Terms and Conditions.",
       ]}
       sections={sections}

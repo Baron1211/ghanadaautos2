@@ -8,13 +8,13 @@ import {
   LogOut, Menu, X, ArrowRight, Trash2, Home, ReceiptText, CalendarRange,
   Camera, Mail, Phone, MapPin, Save, Check, Bell, Truck,
 } from "lucide-react";
-import logoAsset from "../../assets/ghanada-logo.png.asset.json";
+import logoAsset from "@/assets/rrr-logo.jpg";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "My Dashboard — Ghanada Autos" },
-      { name: "description", content: "Manage your Ghanada Autos orders, cart, and profile." },
+      { title: "My Dashboard — RRR Auto Export" },
+      { name: "description", content: "Manage your RRR Auto Export orders, cart, and profile." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -79,9 +79,9 @@ function Dashboard() {
 
       <aside className="ga-admin-side">
         <Link to="/" className="ga-admin-brand">
-          <img src={logoAsset.url} alt="Ghanada Autos" />
+          <img src={logoAsset} alt="RRR Auto Export" />
           <div>
-            <strong>Ghanada Autos</strong>
+            <strong>RRR Auto Export</strong>
             <span>Customer Portal</span>
           </div>
         </Link>
@@ -147,7 +147,7 @@ function Dashboard() {
                 {tab === "orders" && "Every purchase and its receipt."}
                 {tab === "rentals" && "All your car rental bookings."}
                 {tab === "tracking" && "Follow every shipment linked to your account."}
-                {tab === "notifications" && "Updates from Ghanada Autos about your orders, payments and shipping."}
+                {tab === "notifications" && "Updates from RRR Auto Export about your orders, payments and shipping."}
                 {tab === "cart" && "Review, adjust, and check out your cart."}
                 {tab === "profile" && "Manage your contact details and delivery address."}
               </p>

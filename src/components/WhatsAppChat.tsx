@@ -1,8 +1,8 @@
 import { useState } from "react";
-import logoAsset from "@/assets/ghanada-logo.png.asset.json";
+import logoAsset from "@/assets/rrr-logo-stacked.png";
 
-const NUMBER = "14374364357";
-const DISPLAY = "+1 437 436 4357";
+const NUMBER = "233592495787";
+const DISPLAY = "+233 592 495 787";
 
 export default function WhatsAppChat() {
   const [open, setOpen] = useState(true);
@@ -13,19 +13,19 @@ export default function WhatsAppChat() {
   return (
     <div className="wa-widget">
       {open && (
-        <div className="wa-card" role="dialog" aria-label="Chat with Ghanada Autos on WhatsApp">
+        <div className="wa-card" role="dialog" aria-label="Chat with RRR Auto Export on WhatsApp">
           <button className="wa-close" aria-label="Close chat" onClick={() => setOpen(false)}>×</button>
           <div className="wa-head">
-            <img src={logoAsset.url} alt="Ghanada Autos" className="wa-avatar" />
+            <img src={logoAsset} alt="RRR Auto Export" className="wa-avatar" />
             <div>
-              <div className="wa-name">Ghanada Autos</div>
+              <div className="wa-name">RRR Auto Export</div>
               <div className="wa-sub">WhatsApp · {DISPLAY}</div>
             </div>
           </div>
           <div className="wa-msg">How may I help you? 😀</div>
           <div className="wa-actions">
-            <a className="wa-btn primary" href={link("Hello Ghanada Autos, I'd like to chat.")} target="_blank" rel="noopener noreferrer">Start Chat</a>
-            <a className="wa-btn" href={link("Hello Ghanada Autos, I have a sales inquiry.")} target="_blank" rel="noopener noreferrer">Sales Inquiry</a>
+            <a className="wa-btn primary" href={link("Hello RRR Auto Export, I'd like to chat.")} target="_blank" rel="noopener noreferrer">Start Chat</a>
+            <a className="wa-btn" href={link("Hello RRR Auto Export, I have a sales inquiry.")} target="_blank" rel="noopener noreferrer">Sales Inquiry</a>
           </div>
         </div>
       )}

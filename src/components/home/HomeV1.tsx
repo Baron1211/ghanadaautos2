@@ -5,8 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { addToCart } from "@/lib/cart";
 import { vehicleSlug } from "@/lib/slug";
 import { toast } from "sonner";
-import logoAsset from "@/assets/ghanada-logo.png.asset.json";
-import logoTransparentAsset from "@/assets/ghanada-logo-transparent.png.asset.json";
+import logoAsset from "@/assets/rrr-logo.jpg";
+import logoTransparentAsset from "@/assets/rrr-logo-stacked.png";
 import { blogPosts } from "@/lib/blog";
 import DualPrice from "@/components/DualPrice";
 import WhatsAppChat from "@/components/WhatsAppChat";
@@ -24,7 +24,7 @@ import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
 
 export default function HomeV1() {
-  return <GhanadaHome />;
+  return <RRR Auto ExportHome />;
 }
 
 const vehicles = [
@@ -49,7 +49,7 @@ const rentalsFallback = [
   { name: "Van — Hiace", price: "GH₵ 950 / day", seats: "12 Seats", trans: "Manual", fuel: "Diesel", img: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=500&q=80" },
 ];
 
-function GhanadaHome() {
+function RRR Auto ExportHome() {
   const hero = useContent("home_hero");
   const sec = useContent("home_sections");
   const navigate = useNavigate();
@@ -240,7 +240,7 @@ function GhanadaHome() {
             <span>Rent Cars</span>
             <span>Repair Vehicles</span>
             <span>Genuine Spare Parts</span>
-            <span>Import From Canada</span>
+            <span>Import From China</span>
             <span>Clearing &amp; Forwarding</span>
           </div>
           <div className="hero-actions">
@@ -289,7 +289,7 @@ function GhanadaHome() {
               </span>
               <div>
                 <strong>Track your item</strong>
-                <span>Live status, location and updates from Canada to Ghana.</span>
+                <span>Live status, location and updates from China to Ghana.</span>
               </div>
             </div>
             <form
@@ -386,7 +386,7 @@ function GhanadaHome() {
               ["🔑", "Car Rentals", "Daily, weekly & monthly fleets.", "/rentals"],
               ["🛠️", "Repairs", "Certified technicians, honest pricing.", "/repairs"],
               ["⚙️", "Spare Parts", "Genuine parts, all major brands.", "/parts"],
-              ["🚢", "Import From Canada", "Sourced, inspected & shipped for you.", "/import"],
+              ["🚢", "Import From China", "Sourced, inspected & shipped for you.", "/import"],
               ["📦", "Track Shipment", "Check status, location and delivery updates.", "/track"],
             ] as const).map(([icon, title, desc, to]) => (
               <Link key={title} to={to} className="service-card">
@@ -584,7 +584,7 @@ function GhanadaHome() {
       </section>
 
 
-      {/* IMPORT FROM CANADA */}
+      {/* IMPORT FROM CHINA */}
       <section className="band" id="import">
         <div className="band-bg">
           <img src="https://images.unsplash.com/photo-1494412651409-8963ce7935a7?auto=format&fit=crop&w=2000&q=80" alt="" />
@@ -596,7 +596,7 @@ function GhanadaHome() {
         <div className="band-content">
           <div className="eyebrow">{sec("import_eyebrow")}</div>
           <h2>{sec("import_title")}</h2>
-          <p className="lead">We source, inspect, purchase, ship and deliver vehicles directly from Canada to Ghana — start to finish.</p>
+          <p className="lead">We source, inspect, purchase, ship and deliver vehicles directly from China to Ghana — start to finish.</p>
           <div className="timeline">
             {["Choose Vehicle", "Inspection", "Purchase", "Shipping", "Arrival", "Customs", "Delivery"].map((t, i) => (
               <div key={t} className="step">
@@ -615,7 +615,7 @@ function GhanadaHome() {
           <div className="ga-track-home-card">
             <div>
               <div className="eyebrow">Shipment Tracking</div>
-              <h2>Track your order from Canada to Ghana</h2>
+              <h2>Track your order from China to Ghana</h2>
               <p>Use the tracking number from your invoice or update message to view the latest status, current location, ETA and shipment timeline.</p>
             </div>
             <Link to="/track" search={{ number: "" }} className="btn btn-primary">Track My Order →</Link>
@@ -635,7 +635,7 @@ function GhanadaHome() {
           </div>
           <div className="test-grid">
             {[
-              { q: "Ghanada Autos handled my import from Canada end-to-end. The car arrived exactly as inspected.", name: "Kwame Boateng", city: "Accra", img: testimonial1 },
+              { q: "RRR Auto Export handled my import from China end-to-end. The car arrived exactly as inspected.", name: "Kwame Boateng", city: "Accra", img: testimonial1 },
               { q: "Fast, honest repair service. They diagnosed the issue same-day and had me back on the road quickly.", name: "Ama Serwaa", city: "Kumasi", img: testimonial2 },
               { q: "Rented an SUV for a week-long business trip — clean car, smooth pickup, no hidden fees.", name: "David Owusu", city: "Tema", img: testimonial3 },
             ].map((t) => (
@@ -710,10 +710,10 @@ function GhanadaHome() {
               <div className="map-fake" />
               <div className="contact-details">
                 {[
-                  ["📍", "Locations", "Toronto, Canada · Takoradi, Ghana"],
-                  ["🇨🇦", "Canada", "+1 437 436 4357"],
-                  ["🇬🇭", "Ghana", "+233 547 464 093"],
-                  ["💬", "WhatsApp", "+1 437 436 4357"],
+                  ["📍", "Locations", "Guangzhou, China · Takoradi, Ghana"],
+                  ["🇨🇳", "China", "+233 592 495 787"],
+                  ["🇬🇭", "Ghana", "+233 592 495 787"],
+                  ["💬", "WhatsApp", "+233 592 495 787"],
                   ["🕒", "Business Hours", "Mon – Sat, 8:00am – 6:00pm"],
                 ].map(([icon, title, val]) => (
                   <div key={title} className="contact-row">
@@ -745,9 +745,9 @@ function GhanadaHome() {
           <div className="footer-grid">
             <div>
               <div className="logo">
-                <img src={logoTransparentAsset.url} alt="Ghanada Autos" className="logo-img footer-logo-img" />
+                <img src={logoTransparentAsset} alt="RRR Auto Export" className="logo-img footer-logo-img" />
               </div>
-              <p>Ghana &amp; Canada's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
+              <p>Ghana &amp; China's complete automotive company — sales, rentals, repairs, parts, import &amp; logistics under one roof.</p>
               <div className="social-row">
                 <a href="https://www.facebook.com/share/189pSzrWyD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.55.45-1 1-1z"/></svg>
@@ -758,7 +758,7 @@ function GhanadaHome() {
                 <a href="https://www.tiktok.com/@ghanada.autos?_r=1&amp;_t=ZS-98SpAjVdzT3" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 3h-2.7v11.3a2.6 2.6 0 1 1-2.6-2.6c.2 0 .5 0 .7.1V9.1a5.4 5.4 0 1 0 4.6 5.3V8.6c.9.7 2 1.1 3.2 1.2V7.1a3.6 3.6 0 0 1-3.2-4.1z"/></svg>
                 </a>
-                <a href="https://wa.me/14374364357" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                <a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.05 21.5h-.01a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1-1.44-5.01c0-5.19 4.23-9.41 9.42-9.41 2.52 0 4.88.98 6.66 2.76a9.34 9.34 0 0 1 2.76 6.66c0 5.19-4.23 9.41-9.43 9.41zm5.42-7.12c-.29-.15-1.7-.84-1.96-.93-.26-.1-.45-.15-.64.14-.19.29-.74.93-.9 1.12-.17.19-.33.21-.62.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.7-1.6-1.99-.17-.29-.02-.44.12-.59.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.01 3.08 4.88 4.32.68.29 1.21.47 1.62.6.68.22 1.3.19 1.79.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34z"/></svg>
                 </a>
               </div>
@@ -773,7 +773,7 @@ function GhanadaHome() {
             <div>
               <h4>Services</h4>
               <div className="footer-links">
-                <Link to="/repairs">Repairs</Link><Link to="/parts">Spare Parts</Link><Link to="/import">Import From Canada</Link><Link to="/import">Clearing &amp; Forwarding</Link>
+                <Link to="/repairs">Repairs</Link><Link to="/parts">Spare Parts</Link><Link to="/import">Import From China</Link><Link to="/import">Clearing &amp; Forwarding</Link>
               </div>
             </div>
             <div>
@@ -792,7 +792,7 @@ function GhanadaHome() {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© 2026 Ghanada Autos. All rights reserved.</span>
+            <span>© 2026 RRR Auto Export. All rights reserved.</span>
             <div className="payment-icons">
               <span>VISA</span>
               <span>MTN MoMo</span>

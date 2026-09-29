@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Trash2, Mail, ShieldCheck, UserRound, LogIn } from "lucide-react";
-import { useCadRate, ghsToCad } from "@/lib/fx";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
     meta: [
-      { title: "Checkout — Ghanada Autos" },
-      { name: "description", content: "Complete your Ghanada Autos order." },
+      { title: "Checkout — RRR Auto Export" },
+      { name: "description", content: "Complete your RRR Auto Export order." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -38,7 +37,6 @@ function Checkout() {
 
 function CheckoutInner() {
   const navigate = useNavigate();
-  const rate = useCadRate();
   const [userId, setUserId] = useState<string | null>(null);
   const [items, setItems] = useState<LineItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,7 +46,6 @@ function CheckoutInner() {
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"paystack" | "cod">("cod");
-  const [cur, setCur] = useState<"GHS" | "CAD">("GHS");
   const [placing, setPlacing] = useState(false);
   const [guestMode, setGuestMode] = useState<"choose" | "guest">("choose");
 
@@ -102,12 +99,9 @@ function CheckoutInner() {
   const lineUnits = (i: LineItem) =>
     i.item_type === "rental" ? (i.rental_days || 1) : i.quantity;
   const subtotalGhs = items.reduce((s, i) => s + i.unit_price * lineUnits(i), 0);
-  const cadAvailable = items.length > 0 && rate > 0;
-  const subtotalCad = ghsToCad(subtotalGhs, rate);
-  const activeCad = cur === "CAD" && cadAvailable;
-  const subtotal = activeCad ? subtotalCad : subtotalGhs;
-  const unitOf = (i: LineItem) => (activeCad ? ghsToCad(i.unit_price, rate) : i.unit_price);
-  const money = (n: number) => (activeCad ? `CA$${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : `GH₵${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}`);
+  const subtotal = subtotalGhs;
+  const unitOf = (i: LineItem) => i.unit_price;
+  const money = (n: number) => `GH₵${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
 
   const removeItem = async (key: string) => {
     setItems(items.filter(i => i.key !== key));
@@ -128,7 +122,7 @@ function CheckoutInner() {
     setPlacing(true);
     try {
       const orderPayload: any = {
-        user_id: userId, subtotal, total: subtotal, currency: activeCad ? "CAD" : "GHS",
+        user_id: userId, subtotal, total: subtotal, currency: "GHS",
         shipping_address: address, phone, notes,
         payment_method: payment,
         payment_status: "unpaid",
@@ -286,28 +280,14 @@ function CheckoutInner() {
           <div className="ga-cur-pick">
             <span className="ga-cur-pick-label">Pay in</span>
             <div className="ga-cur-options">
-              <button
-                type="button"
-                className={`ga-cur-opt ${!activeCad ? "selected" : ""}`}
-                onClick={() => setCur("GHS")}
-              >
+              <div className="ga-cur-opt selected">
                 <span className="ga-cur-code"><i className="ga-cur-flag ga-cur-flag-gh" aria-hidden="true" />GHS</span>
                 <strong>GH₵{subtotalGhs.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
                 <small>Ghana Cedis</small>
-              </button>
-              <button
-                type="button"
-                className={`ga-cur-opt ${activeCad ? "selected" : ""} ${cadAvailable ? "" : "disabled"}`}
-                onClick={() => cadAvailable && setCur("CAD")}
-                disabled={!cadAvailable}
-              >
-                <span className="ga-cur-code"><i className="ga-cur-flag ga-cur-flag-ca" aria-hidden="true" />CAD</span>
-                <strong>{cadAvailable ? `CA$${subtotalCad.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : "—"}</strong>
-                <small>{cadAvailable ? "Canadian Dollars" : "Not available for these items"}</small>
-              </button>
+              </div>
             </div>
           </div>
-          <div className="ga-summary-total"><span>Total ({activeCad ? "CAD" : "GHS"})</span><strong>{money(subtotal)}</strong></div>
+          <div className="ga-summary-total"><span>Total (GHS)</span><strong>{money(subtotal)}</strong></div>
           <button className="ga-btn-primary ga-checkout-cta" onClick={place} disabled={placing}>
             {placing ? "Placing order…" : "Place order"}
           </button>

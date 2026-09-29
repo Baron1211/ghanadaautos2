@@ -2,12 +2,12 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAccess } from "@/lib/admin-perms";
-import logoAsset from "../../assets/ghanada-logo-transparent.png.asset.json";
+import logoAsset from "@/assets/rrr-logo-stacked.png";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Admin — Ghanada Autos" },
+      { title: "Admin — RRR Auto Export" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -67,9 +67,9 @@ function AdminLayout() {
     <div className={"ga-admin-shell" + (drawer ? " is-drawer-open" : "")}>
       <aside className="ga-admin-side">
         <Link to="/" className="ga-admin-brand" onClick={() => setDrawer(false)}>
-          <img src={logoAsset.url} alt="Ghanada Autos" />
+          <img src={logoAsset} alt="RRR Auto Export" />
           <div>
-            <strong>Ghanada Autos</strong>
+            <strong>RRR Auto Export</strong>
             <span>Admin Console</span>
           </div>
         </Link>

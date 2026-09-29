@@ -12,10 +12,10 @@ import SiteFooter from "@/components/SiteFooter";
 export const Route = createFileRoute("/parts/$id")({
   head: ({ params }) => ({
     meta: [
-      { title: `Spare Part — Ghanada Autos` },
-      { name: "description", content: "Genuine automotive spare part from Ghanada Autos." },
-      { property: "og:title", content: "Spare Part — Ghanada Autos" },
-      { property: "og:description", content: "Genuine automotive spare part from Ghanada Autos." },
+      { title: `Spare Part — RRR Auto Export` },
+      { name: "description", content: "Genuine automotive spare part from RRR Auto Export." },
+      { property: "og:title", content: "Spare Part — RRR Auto Export" },
+      { property: "og:description", content: "Genuine automotive spare part from RRR Auto Export." },
       { property: "og:type", content: "product" },
     ],
   }),
@@ -115,7 +115,7 @@ function PartDetail() {
           <div className="ga-detail-eyebrow">{part.brand || "Spare Part"} · {part.category || "Genuine"}</div>
           <h1>{part.name}</h1>
           <div className="ga-detail-price"><DualPrice ghs={displayPrice} cad={displayPriceCad} size="lg" decimals={2} /></div>
-          <p className="ga-detail-desc">{part.description || "Quality automotive part sourced by Ghanada Autos."}</p>
+          <p className="ga-detail-desc">{part.description || "Quality automotive part sourced by RRR Auto Export."}</p>
 
           {variations && variations.length > 0 && (
             <div className="ga-detail-variations">
@@ -158,8 +158,8 @@ function PartDetail() {
 
           <div className="ga-detail-meta">
             <div>✅ Genuine parts</div>
-            <div>🚚 Ships from Toronto & Takoradi</div>
-            <div>💬 WhatsApp support: +1 437 436 4357</div>
+            <div>🚚 Ships from Guangzhou & Takoradi</div>
+            <div>💬 WhatsApp support: +233 592 495 787</div>
           </div>
         </div>
       </div>

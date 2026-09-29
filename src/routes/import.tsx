@@ -7,10 +7,10 @@ import SiteFooter from "@/components/SiteFooter";
 export const Route = createFileRoute("/import")({
   head: () => ({
     meta: [
-      { title: "Import From Canada — Ghanada Autos" },
-      { name: "description", content: "We source, inspect, purchase, ship and deliver vehicles from Canada to Ghana. Start-to-finish import service." },
-      { property: "og:title", content: "Import From Canada — Ghanada Autos" },
-      { property: "og:description", content: "We source, inspect, purchase, ship and deliver vehicles from Canada to Ghana. Start-to-finish import service." },
+      { title: "Import From China — RRR Auto Export" },
+      { name: "description", content: "We source, inspect, purchase, ship and deliver vehicles from China to Ghana. Start-to-finish import service." },
+      { property: "og:title", content: "Import From China — RRR Auto Export" },
+      { property: "og:description", content: "We source, inspect, purchase, ship and deliver vehicles from China to Ghana. Start-to-finish import service." },
     ],
   }),
   component: ImportPage,
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/import")({
 const steps = [
   { n: 1, title: "Choose Vehicle", desc: "Tell us your make, model, year and budget — or send a link." },
   { n: 2, title: "Inspection", desc: "We inspect and share a full condition report before you commit." },
-  { n: 3, title: "Purchase", desc: "We buy on your behalf in Canada with secure documentation." },
+  { n: 3, title: "Purchase", desc: "We buy on your behalf in China with secure documentation." },
   { n: 4, title: "Shipping", desc: "Loaded and shipped via trusted RoRo or container carriers." },
   { n: 5, title: "Arrival", desc: "Docks in Tema — we track and update you at every step." },
   { n: 6, title: "Customs & Clearing", desc: "We handle all duties, documentation and port formalities." },
@@ -47,9 +47,9 @@ function ImportPage() {
       <section className="section" style={{ background: "#fff" }}>
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">🇨🇦 Import From Canada</div>
-            <h1>Import your dream vehicle from Canada</h1>
-            <p>We source, inspect, purchase, ship and deliver vehicles directly from Canada to Ghana — start to finish.</p>
+            <div className="eyebrow">🇨🇳 Import From China</div>
+            <h1>Import your dream vehicle from China</h1>
+            <p>We source, inspect, purchase, ship and deliver vehicles directly from China to Ghana — start to finish.</p>
           </div>
 
           <div className="services-grid">
@@ -72,7 +72,7 @@ function ImportPage() {
               <p>Send us the details — we'll come back with sourcing options, timelines and a landed cost in Ghana.</p>
               <div className="mini-stat">
                 <div className="service-icon">🚢</div>
-                <div><strong>Toronto → Tema</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>Trusted RoRo & container carriers</span></div>
+                <div><strong>Guangzhou → Tema</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>Trusted RoRo & container carriers</span></div>
               </div>
               <div className="mini-stat">
                 <div className="service-icon">📋</div>
@@ -80,7 +80,7 @@ function ImportPage() {
               </div>
               <div className="mini-stat">
                 <div className="service-icon">💬</div>
-                <div><strong>Direct WhatsApp</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>+1 437 436 4357</span></div>
+                <div><strong>Direct WhatsApp</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>+233 592 495 787</span></div>
               </div>
             </div>
             <form className="form-grid" onSubmit={submit}>

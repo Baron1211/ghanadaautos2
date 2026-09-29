@@ -4,10 +4,10 @@ import LegalPage, { type LegalSection } from "@/components/LegalPage";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — Ghanada Autos" },
-      { name: "description", content: "How Ghanada Autos collects, uses, shares, stores and protects personal information across vehicle sales, imports, rentals, repairs and parts services." },
-      { property: "og:title", content: "Privacy Policy — Ghanada Autos" },
-      { property: "og:description", content: "How Ghanada Autos handles personal information, cookies, data retention and your privacy rights." },
+      { title: "Privacy Policy — RRR Auto Export" },
+      { name: "description", content: "How RRR Auto Export collects, uses, shares, stores and protects personal information across vehicle sales, imports, rentals, repairs and parts services." },
+      { property: "og:title", content: "Privacy Policy — RRR Auto Export" },
+      { property: "og:description", content: "How RRR Auto Export handles personal information, cookies, data retention and your privacy rights." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -19,7 +19,7 @@ const sections: LegalSection[] = [
   {
     title: "Information We May Collect",
     blocks: [
-      "Depending on how you interact with Ghanada Autos, we may collect:",
+      "Depending on how you interact with RRR Auto Export, we may collect:",
       { sub: "Identity Information" },
       { list: [
         "Full name",
@@ -113,7 +113,7 @@ const sections: LegalSection[] = [
   {
     title: "International Data Transfers",
     blocks: [
-      "Because certain Ghanada Autos activities may involve both Ghana and Canada, information may need to be processed or transmitted internationally.",
+      "Because certain RRR Auto Export activities may involve both Ghana and China, information may need to be processed or transmitted internationally.",
       "Where this occurs, we will take reasonable steps required by applicable law to safeguard personal information.",
     ],
   },
@@ -168,7 +168,7 @@ const sections: LegalSection[] = [
     title: "Third-Party Websites",
     blocks: [
       "Our website may contain links to websites operated by third parties.",
-      "Ghanada Autos is not responsible for the privacy practices of independent third-party websites.",
+      "RRR Auto Export is not responsible for the privacy practices of independent third-party websites.",
     ],
   },
   {
@@ -194,7 +194,7 @@ function PrivacyPage() {
       effectiveDate="24 August 2026"
       lastUpdated="24 August 2026"
       intro={[
-        "Ghanada Autos respects your privacy and is committed to handling personal information responsibly and securely.",
+        "RRR Auto Export respects your privacy and is committed to handling personal information responsibly and securely.",
         "This Privacy Policy explains how we collect, use, store, disclose and protect personal information when you visit www.ghanadaautos.com, contact us or use our automotive services.",
       ]}
       sections={sections}

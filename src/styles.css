@@ -391,7 +391,7 @@
   color: var(--dark-green);
 }
 .ga .logo-img {
-  height: 104px;
+  height: 48px;
   width: auto;
   display: block;
   object-fit: contain;
@@ -400,7 +400,7 @@
   margin-bottom: 16px;
 }
 .ga .footer-logo-img {
-  height: 72px;
+  height: 96px;
   background: transparent;
   padding: 0;
   border-radius: 0;
@@ -2213,10 +2213,10 @@
     font-size: 16px;
   }
   .ga .logo-img {
-    height: 72px;
+    height: 36px;
   }
   .ga .footer-logo-img {
-    height: 60px;
+    height: 80px;
   }
   .ga .logo-mark {
     width: 34px;
@@ -2390,7 +2390,7 @@
   width: fit-content;
   box-shadow: 0 12px 30px rgba(0,0,0,.2);
 }
-.ga-auth-hero-logo img { height: 48px; display: block; }
+.ga-auth-hero-logo img { height: 40px; display: block; }
 .ga-auth-hero h2 {
   font-family: "Manrope", sans-serif;
   font-size: clamp(28px, 3vw, 40px);

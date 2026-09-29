@@ -9,9 +9,9 @@ import SiteFooter from "@/components/SiteFooter";
 export const Route = createFileRoute("/rentals/")({
   head: () => ({
     meta: [
-      { title: "Car Rentals — Ghanada Autos" },
+      { title: "Car Rentals — RRR Auto Export" },
       { name: "description", content: "Rent a car in Ghana — economy, SUV, luxury, pickup and van fleets with self-drive or driver on request." },
-      { property: "og:title", content: "Car Rentals — Ghanada Autos" },
+      { property: "og:title", content: "Car Rentals — RRR Auto Export" },
       { property: "og:description", content: "Rent a car in Ghana — economy, SUV, luxury, pickup and van fleets with self-drive or driver on request." },
     ],
   }),
@@ -65,7 +65,7 @@ function RentalsPage() {
       <section className="section" style={{ background: "#fff" }}>
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">Ghanada Car Rentals</div>
+            <div className="eyebrow">RRR Auto Export Car Rentals</div>
             <h1>Rent a Car in Ghana</h1>
             <p>Choose self-drive or driver on request. Airport pickup, business travel, and weekend getaways.</p>
           </div>

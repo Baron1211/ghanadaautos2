@@ -9,9 +9,9 @@ import { useContent } from "@/lib/cms";
 export const Route = createFileRoute("/repairs")({
   head: () => ({
     meta: [
-      { title: "Auto Repairs & Diagnostics — Ghanada Autos" },
+      { title: "Auto Repairs & Diagnostics — RRR Auto Export" },
       { name: "description", content: "Certified auto repair technicians in Ghana. Request a repair for any make, model or vehicle part and get a quote." },
-      { property: "og:title", content: "Auto Repairs & Diagnostics — Ghanada Autos" },
+      { property: "og:title", content: "Auto Repairs & Diagnostics — RRR Auto Export" },
       { property: "og:description", content: "Request a repair for any make, model or vehicle part and get a quote from certified technicians." },
     ],
   }),
@@ -95,7 +95,7 @@ function RepairsPage() {
                 <div><strong>Fast Turnaround</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>Most jobs done within 24 hours</span></div>
               </div>
               <div className="mini-stat">
-                <div><strong>WhatsApp Support</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>+1 437 436 4357</span></div>
+                <div><strong>WhatsApp Support</strong><br /><span style={{ fontSize: 13, color: "var(--muted)" }}>+233 592 495 787</span></div>
               </div>
             </div>
 

@@ -11,10 +11,10 @@ import SiteFooter from "@/components/SiteFooter";
 export const Route = createFileRoute("/rentals/$id")({
   head: () => ({
     meta: [
-      { title: "Rent a Car — Ghanada Autos" },
-      { name: "description", content: "Book a rental car with Ghanada Autos — self-drive or with a professional driver." },
-      { property: "og:title", content: "Rent a Car — Ghanada Autos" },
-      { property: "og:description", content: "Self-drive or request a driver — flexible car rentals in Ghana and Canada." },
+      { title: "Rent a Car — RRR Auto Export" },
+      { name: "description", content: "Book a rental car with RRR Auto Export — self-drive or with a professional driver." },
+      { property: "og:title", content: "Rent a Car — RRR Auto Export" },
+      { property: "og:description", content: "Self-drive or request a driver — flexible car rentals in Ghana and China." },
       { property: "og:type", content: "product" },
     ],
   }),
@@ -137,7 +137,7 @@ function RentalDetail() {
           <div className="ga-detail-eyebrow">{rental.vehicle_type || "Rental"}</div>
           <h1>{rental.name}</h1>
           <div className="ga-detail-price"><DualPrice ghs={rate} cad={(rental as any).daily_rate_cad} size="lg" decimals={2} suffix="/ day" /></div>
-          <p className="ga-detail-desc">{rental.description || "Ready for pickup at Toronto or Takoradi."}</p>
+          <p className="ga-detail-desc">{rental.description || "Ready for pickup at Guangzhou or Takoradi."}</p>
 
           {(rental.seats || rental.transmission || rental.fuel) && (
             <div className="ga-shop-specs" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(120px,1fr))", gap: 12, margin: "16px 0" }}>

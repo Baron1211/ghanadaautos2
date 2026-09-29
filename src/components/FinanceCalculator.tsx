@@ -239,7 +239,7 @@ export default function FinanceCalculator({
           <div className="ga-fc-ctas">
             <button className="ga-fc-cta primary" onClick={() => onApply?.()}>Apply for Financing</button>
             <a className="ga-fc-cta secondary" href="/cars">View Vehicles</a>
-            <a className="ga-fc-cta secondary" href="https://wa.me/14374364357" target="_blank" rel="noopener noreferrer">WhatsApp an Advisor</a>
+            <a className="ga-fc-cta secondary" href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">WhatsApp an Advisor</a>
             <button className="ga-fc-cta primary" onClick={() => (onCallBack ?? onApply)?.()}>Request a Call Back</button>
           </div>
 

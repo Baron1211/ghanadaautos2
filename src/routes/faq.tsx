@@ -6,10 +6,10 @@ import SiteFooter from "@/components/SiteFooter";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "Frequently Asked Questions — Ghanada Autos" },
-      { name: "description", content: "Answers about buying cars, renting vehicles, spare parts, importing from Canada, financing, payments and delivery at Ghanada Autos." },
-      { property: "og:title", content: "Frequently Asked Questions — Ghanada Autos" },
-      { property: "og:description", content: "Answers about buying, renting, parts, imports, financing and delivery at Ghanada Autos." },
+      { title: "Frequently Asked Questions — RRR Auto Export" },
+      { name: "description", content: "Answers about buying cars, renting vehicles, spare parts, importing from China, financing, payments and delivery at RRR Auto Export." },
+      { property: "og:title", content: "Frequently Asked Questions — RRR Auto Export" },
+      { property: "og:description", content: "Answers about buying, renting, parts, imports, financing and delivery at RRR Auto Export." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -42,10 +42,10 @@ const faqs: { group: string; items: { q: string; a: string }[] }[] = [
     ],
   },
   {
-    group: "Import from Canada & clearing",
+    group: "Import from China & clearing",
     items: [
       { q: "How long does an import take?", a: "Typically 6–10 weeks from purchase to Tema/Takoradi port clearance, depending on shipping schedules." },
-      { q: "What does the import quote cover?", a: "Vehicle cost, inland transport in Canada, ocean freight, duties and clearing. We send a full breakdown before you commit." },
+      { q: "What does the import quote cover?", a: "Vehicle cost, inland transport in China, ocean freight, duties and clearing. We send a full breakdown before you commit." },
       { q: "Can you clear a vehicle I bought myself?", a: "Yes. Our clearing and forwarding team handles documentation, duties and delivery for vehicles you sourced yourself." },
     ],
   },

@@ -1,4 +1,4 @@
-# Ghanada Autos
+# RRR Auto Export
 
 i have a website we are about to build but the owner hs its hosting and domain by another company, can we build the website here and host it for the customer on his hosting can lovable do that
 

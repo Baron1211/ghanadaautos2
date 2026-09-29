@@ -14,10 +14,10 @@ import FinanceCalculator from "@/components/FinanceCalculator";
 export const Route = createFileRoute("/vehicles/$id")({
   head: () => ({
     meta: [
-      { title: "Vehicle for Sale — Ghanada Autos" },
-      { name: "description", content: "Buy this quality vehicle from Ghanada Autos — inspected, cleared, and ready to drive." },
-      { property: "og:title", content: "Vehicle for Sale — Ghanada Autos" },
-      { property: "og:description", content: "Buy this quality vehicle from Ghanada Autos — inspected, cleared, and ready to drive." },
+      { title: "Vehicle for Sale — RRR Auto Export" },
+      { name: "description", content: "Buy this quality vehicle from RRR Auto Export — inspected, cleared, and ready to drive." },
+      { property: "og:title", content: "Vehicle for Sale — RRR Auto Export" },
+      { property: "og:description", content: "Buy this quality vehicle from RRR Auto Export — inspected, cleared, and ready to drive." },
       { property: "og:type", content: "product" },
     ],
   }),
@@ -214,7 +214,7 @@ function VehicleDetail() {
           <ul className="ga-shop-trust">
             <li>✅ Inspected, cleared & ready to drive</li>
             <li>🚚 Delivery available across Ghana</li>
-            <li>💬 WhatsApp support: +1 437 436 4357</li>
+            <li>💬 WhatsApp support: +233 592 495 787</li>
             <li>🔒 Secure checkout — our team confirms every order</li>
           </ul>
         </div>

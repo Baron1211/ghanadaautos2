@@ -7,10 +7,10 @@ import SiteFooter from "@/components/SiteFooter";
 export const Route = createFileRoute("/support")({
   head: () => ({
     meta: [
-      { title: "Contact Support & Track Shipment — Ghanada Autos" },
-      { name: "description", content: "Reach the Ghanada Autos support team in Toronto and Takoradi, track an import shipment, or send a message about an order, rental or repair." },
-      { property: "og:title", content: "Contact Support & Track Shipment — Ghanada Autos" },
-      { property: "og:description", content: "Talk to Ghanada Autos support or track your import shipment status." },
+      { title: "Contact Support & Track Shipment — RRR Auto Export" },
+      { name: "description", content: "Reach the RRR Auto Export support team in Guangzhou and Takoradi, track an import shipment, or send a message about an order, rental or repair." },
+      { property: "og:title", content: "Contact Support & Track Shipment — RRR Auto Export" },
+      { property: "og:description", content: "Talk to RRR Auto Export support or track your import shipment status." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -57,9 +57,9 @@ function SupportPage() {
 
           <div style={{ display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", marginBottom: 40 }}>
             {[
-              { t: "Call us", l1: "+1 437 436 4357", l2: "+233 547 464 093" },
-              { t: "WhatsApp", l1: "+1 437 436 4357", l2: "Chat 8am – 8pm GMT" },
-              { t: "Locations", l1: "Toronto, Canada", l2: "Takoradi, Ghana" },
+              { t: "Call us", l1: "+233 592 495 787", l2: "+233 592 495 787" },
+              { t: "WhatsApp", l1: "+233 592 495 787", l2: "Chat 8am – 8pm GMT" },
+              { t: "Locations", l1: "Guangzhou, China", l2: "Takoradi, Ghana" },
             ].map((c) => (
               <div key={c.t} style={card}>
                 <h4 style={{ fontWeight: 800, marginBottom: 8 }}>{c.t}</h4>
@@ -89,7 +89,7 @@ function SupportPage() {
                   <option>Order / Invoice</option>
                   <option>Car rental booking</option>
                   <option>Spare parts</option>
-                  <option>Import from Canada</option>
+                  <option>Import from China</option>
                   <option>Clearing & forwarding</option>
                   <option>Financing</option>
                   <option>Other</option>

@@ -99,14 +99,14 @@ export default function LegalPage({ eyebrow, title, intro, effectiveDate, lastUp
             })}
 
             <div className="legal-contact-card">
-              <h3>Ghanada Autos</h3>
+              <h3>RRR Auto Export</h3>
               <div className="legal-contact-grid">
                 <div><span>Website</span><a href="https://www.ghanadaautos.com">www.ghanadaautos.com</a></div>
-                <div><span>Ghana</span><a href="tel:+233547464093">+233 547 464 093</a></div>
-                <div><span>Canada</span><a href="tel:+14374364357">+1 437 436 4357</a></div>
-                <div><span>WhatsApp</span><a href="https://wa.me/14374364357" target="_blank" rel="noopener noreferrer">+1 437 436 4357</a></div>
-                <div><span>Email</span><a href="mailto:info@ghanadaautos.com">info@ghanadaautos.com</a></div>
-                <div><span>Locations</span><p>Takoradi, Ghana &amp; Toronto, Canada</p></div>
+                <div><span>Ghana</span><a href="tel:+233592495787">+233 592 495 787</a></div>
+                <div><span>China</span><a href="tel:+233592495787">+233 592 495 787</a></div>
+                <div><span>WhatsApp</span><a href="https://wa.me/233592495787" target="_blank" rel="noopener noreferrer">+233 592 495 787</a></div>
+                <div><span>Email</span><a href="mailto:netwekusa@gmail.com">netwekusa@gmail.com</a></div>
+                <div><span>Locations</span><p>Takoradi, Ghana &amp; Guangzhou, China</p></div>
               </div>
               <div className="legal-links">
                 <Link to="/terms">Terms &amp; Conditions</Link>

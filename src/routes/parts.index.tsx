@@ -11,9 +11,9 @@ import SiteFooter from "@/components/SiteFooter";
 export const Route = createFileRoute("/parts/")({
   head: () => ({
     meta: [
-      { title: "Spare Parts — Ghanada Autos" },
+      { title: "Spare Parts — RRR Auto Export" },
       { name: "description", content: "Shop genuine automotive spare parts — engine, brakes, tyres, batteries and more. Fast delivery across Ghana." },
-      { property: "og:title", content: "Spare Parts — Ghanada Autos" },
+      { property: "og:title", content: "Spare Parts — RRR Auto Export" },
       { property: "og:description", content: "Shop genuine automotive spare parts — engine, brakes, tyres, batteries and more. Fast delivery across Ghana." },
     ],
   }),
@@ -76,7 +76,7 @@ function PartsPage() {
       <section className="section" style={{ background: "#fff" }}>
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">Ghanada Parts Store</div>
+            <div className="eyebrow">RRR Auto Export Parts Store</div>
             <h1>Spare Parts</h1>
             <p>Genuine parts, guaranteed fit. Search or filter by category, brand, and price.</p>
           </div>

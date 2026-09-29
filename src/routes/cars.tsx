@@ -12,10 +12,10 @@ import { vehicleSlug } from "@/lib/slug";
 export const Route = createFileRoute("/cars")({
   head: () => ({
     meta: [
-      { title: "Cars for Sale — Ghanada Autos" },
-      { name: "description", content: "Browse all cars for sale at Ghanada Autos. Filter by make, model, body style, and price." },
-      { property: "og:title", content: "Cars for Sale — Ghanada Autos" },
-      { property: "og:description", content: "Browse all cars for sale at Ghanada Autos. Filter by make, model, body style, and price." },
+      { title: "Cars for Sale — RRR Auto Export" },
+      { name: "description", content: "Browse all cars for sale at RRR Auto Export. Filter by make, model, body style, and price." },
+      { property: "og:title", content: "Cars for Sale — RRR Auto Export" },
+      { property: "og:description", content: "Browse all cars for sale at RRR Auto Export. Filter by make, model, body style, and price." },
     ],
   }),
   component: CarsPage,
@@ -81,7 +81,7 @@ function CarsPage() {
         <div className="container cars-hero-inner">
           <div className="cars-hero-eyebrow">
             <span className="cars-hero-line" />
-            Ghanada Autos Marketplace
+            RRR Auto Export Marketplace
           </div>
           <h1 className="cars-hero-title">
             Find your next <em>drive.</em>

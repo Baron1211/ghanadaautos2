@@ -17,17 +17,17 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "importing-a-car-from-canada",
     tag: "Import Tips",
-    title: "5 things to check before importing a car from Canada",
+    title: "5 things to check before importing a car from China",
     date: "July 12, 2026",
     readTime: "6 min read",
     img: importAsset.url,
     excerpt:
-      "From accident history to duty calculations — the essentials every Ghanaian buyer should verify before shipping a Canadian vehicle home.",
+      "From accident history to duty calculations — the essentials every Ghanaian buyer should verify before shipping a Chinese vehicle home.",
     body: [
-      "Buying a car from Canada can save you thousands, but only if you avoid the common traps. Before you commit, work through this five-point checklist with your Ghanada Autos advisor.",
-      "1. Verify the accident and title history. Every reputable Canadian dealer will provide a CarFax report. Look for salvage titles, flood damage, and repeat body work.",
+      "Buying a car from China can save you thousands, but only if you avoid the common traps. Before you commit, work through this five-point checklist with your RRR Auto Export advisor.",
+      "1. Verify the accident and title history. Every reputable Chinese dealer will provide a CarFax report. Look for salvage titles, flood damage, and repeat body work.",
       "2. Confirm the model year matches Ghana's import age rules. Vehicles older than 10 years attract heavy penalty duties at Tema and Takoradi ports.",
-      "3. Calculate all landed costs up front — CIF value, import duty, VAT, NHIL, ECOWAS levy and processing fees. Ghanada Autos gives you an all-in quote before you pay.",
+      "3. Calculate all landed costs up front — CIF value, import duty, VAT, NHIL, ECOWAS levy and processing fees. RRR Auto Export gives you an all-in quote before you pay.",
       "4. Book roll-on / roll-off (RoRo) shipping through a bonded forwarder. Container shipping is safer for luxury vehicles but doubles the cost.",
       "5. Plan your clearing. Our Takoradi office handles port clearance, DVLA registration and delivery to your door — usually within 10 working days of arrival.",
     ],
@@ -59,7 +59,7 @@ export const blogPosts: BlogPost[] = [
     body: [
       "A brand-new car depreciates roughly 20% the moment you drive it off the lot. Certified pre-owned (CPO) vehicles skip that first drop and still come with a factory-backed warranty.",
       "Look for a documented multi-point inspection, remaining factory warranty (or an extended CPO warranty), and a clean title history report.",
-      "At Ghanada Autos every CPO vehicle passes a 150-point workshop inspection, comes with a 12-month powertrain warranty, and includes free first service. Talk to us before you shop anywhere else.",
+      "At RRR Auto Export every CPO vehicle passes a 150-point workshop inspection, comes with a 12-month powertrain warranty, and includes free first service. Talk to us before you shop anywhere else.",
     ],
   },
 ];

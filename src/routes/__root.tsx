@@ -79,23 +79,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GHANADA AUTOS — Your Complete Automotive Partner" },
+      { title: "RRR AUTO EXPORT — Your Complete Automotive Partner" },
       {
         name: "description",
         content:
-          "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from Canada and clearing & forwarding, all under one roof.",
+          "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from China and clearing & forwarding, all under one roof.",
       },
-      { name: "author", content: "Ghanada Autos" },
-      { property: "og:title", content: "GHANADA AUTOS — Your Complete Automotive Partner" },
+      { name: "author", content: "RRR Auto Export" },
+      { property: "og:title", content: "RRR AUTO EXPORT — Your Complete Automotive Partner" },
       {
         property: "og:description",
         content:
-          "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from Canada and clearing & forwarding, all under one roof.",
+          "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from China and clearing & forwarding, all under one roof.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "GHANADA AUTOS — Your Complete Automotive Partner" },
-      { name: "twitter:description", content: "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from Canada and clearing & forwarding, all under one roof." },
+      { name: "twitter:title", content: "RRR AUTO EXPORT — Your Complete Automotive Partner" },
+      { name: "twitter:description", content: "Ghana's complete automotive company — car sales, rentals, repairs, genuine spare parts, imports from China and clearing & forwarding, all under one roof." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JCOCCRG3zPULHMfk2ZAKwC9JMU72/social-images/social-1784652131371-Untitled_design_(4).webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JCOCCRG3zPULHMfk2ZAKwC9JMU72/social-images/social-1784652131371-Untitled_design_(4).webp" },
     ],

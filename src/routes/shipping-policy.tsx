@@ -4,10 +4,10 @@ import LegalPage, { type LegalSection } from "@/components/LegalPage";
 export const Route = createFileRoute("/shipping-policy")({
   head: () => ({
     meta: [
-      { title: "Shipping, Delivery & Vehicle Import Policy — Ghanada Autos" },
-      { name: "description", content: "How Ghanada Autos handles Canada-to-Ghana vehicle shipping, customs duties, clearing and forwarding, delivery, collection and transport delays." },
-      { property: "og:title", content: "Shipping, Delivery & Vehicle Import Policy — Ghanada Autos" },
-      { property: "og:description", content: "Vehicle shipping, importation, clearing, delivery and collection terms for Ghanada Autos customers." },
+      { title: "Shipping, Delivery & Vehicle Import Policy — RRR Auto Export" },
+      { name: "description", content: "How RRR Auto Export handles China-to-Ghana vehicle shipping, customs duties, clearing and forwarding, delivery, collection and transport delays." },
+      { property: "og:title", content: "Shipping, Delivery & Vehicle Import Policy — RRR Auto Export" },
+      { property: "og:description", content: "Vehicle shipping, importation, clearing, delivery and collection terms for RRR Auto Export customers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -19,7 +19,7 @@ const sections: LegalSection[] = [
   {
     title: "Our Shipping Services",
     blocks: [
-      "Depending on the transaction, Ghanada Autos may assist customers with:",
+      "Depending on the transaction, RRR Auto Export may assist customers with:",
       { list: [
         "Vehicle transportation", "Vehicle export", "International ocean freight", "Container shipping",
         "Roll-on/Roll-off (RoRo) shipping", "Port documentation", "Vehicle importation",
@@ -29,9 +29,9 @@ const sections: LegalSection[] = [
     ],
   },
   {
-    title: "Canada-to-Ghana Vehicle Shipping",
+    title: "China-to-Ghana Vehicle Shipping",
     blocks: [
-      "For vehicles sourced or purchased in Canada for customers in Ghana, the process may include:",
+      "For vehicles sourced or purchased in China for customers in Ghana, the process may include:",
       { list: [
         "Vehicle purchase", "Inspection", "Inland transportation", "Export processing", "Port handling",
         "Ocean shipping", "Arrival in Ghana", "Customs and clearing", "Collection or delivery",
@@ -55,7 +55,7 @@ const sections: LegalSection[] = [
     title: "Customs Duties and Taxes",
     blocks: [
       "Customs duties, taxes, levies, inspection fees and other government charges may not be included in the vehicle or shipping price unless expressly stated in writing.",
-      "Any customs-duty calculator or estimate provided by Ghanada Autos is for estimation purposes unless the amount represents an official assessment.",
+      "Any customs-duty calculator or estimate provided by RRR Auto Export is for estimation purposes unless the amount represents an official assessment.",
       "The applicable Ghanaian authorities determine final customs assessments.",
     ],
   },
@@ -64,7 +64,7 @@ const sections: LegalSection[] = [
     blocks: [
       "Shipping and delivery times are estimates.",
       "Timing can vary depending on the origin, shipping line, vessel schedule, destination, customs procedures and other circumstances.",
-      "Ghanada Autos will provide the best available estimate when the shipment is arranged.",
+      "RRR Auto Export will provide the best available estimate when the shipment is arranged.",
     ],
   },
   {
@@ -94,7 +94,7 @@ const sections: LegalSection[] = [
   {
     title: "Vehicle Inspection Before Shipping",
     blocks: [
-      "Where inspection services are included or separately requested, Ghanada Autos may arrange or conduct an inspection before shipment.",
+      "Where inspection services are included or separately requested, RRR Auto Export may arrange or conduct an inspection before shipment.",
       "Customers may receive available photographs, videos, condition information or inspection documentation.",
       "An inspection reflects the vehicle's observable condition at the time of inspection and does not necessarily constitute a comprehensive mechanical warranty.",
     ],
@@ -118,7 +118,7 @@ const sections: LegalSection[] = [
     title: "Arrival in Ghana",
     blocks: [
       "After a vehicle arrives at the destination port, the customer may be required to complete customs, identification, payment or documentation requirements before the vehicle can be released.",
-      "Where Ghanada Autos is engaged to provide clearing or forwarding assistance, we will coordinate the agreed services.",
+      "Where RRR Auto Export is engaged to provide clearing or forwarding assistance, we will coordinate the agreed services.",
     ],
   },
   {
@@ -181,14 +181,14 @@ const sections: LegalSection[] = [
   {
     title: "Third-Party Shipping Providers",
     blocks: [
-      "Ghanada Autos may use independent shipping lines, freight companies, transporters, clearing agents and other logistics providers.",
+      "RRR Auto Export may use independent shipping lines, freight companies, transporters, clearing agents and other logistics providers.",
       "Their own transportation, insurance, liability and operational terms may apply to services they provide.",
     ],
   },
   {
     title: "Force Majeure",
     blocks: [
-      "Ghanada Autos will not be responsible for delays caused by events reasonably outside our control, including severe weather, natural disasters, war, civil disturbance, port closures, government restrictions, strikes or major transportation disruptions.",
+      "RRR Auto Export will not be responsible for delays caused by events reasonably outside our control, including severe weather, natural disasters, war, civil disturbance, port closures, government restrictions, strikes or major transportation disruptions.",
     ],
   },
   {
@@ -207,7 +207,7 @@ function ShippingPolicyPage() {
       effectiveDate="24 August 2026"
       lastUpdated="24 August 2026"
       intro={[
-        "This Shipping, Delivery & Vehicle Import Policy explains how Ghanada Autos handles vehicle transportation, international shipping, delivery and related logistics services.",
+        "This Shipping, Delivery & Vehicle Import Policy explains how RRR Auto Export handles vehicle transportation, international shipping, delivery and related logistics services.",
       ]}
       sections={sections}
     />

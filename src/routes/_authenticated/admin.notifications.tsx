@@ -99,7 +99,7 @@ function AdminNotifications() {
         <h3>Website banner</h3>
         <p className="ga-muted ga-small">Shows at the very top of every public page. Only one banner can be live at a time.</p>
         <div className="ga-form-grid">
-          <label className="ga-form-full">Message<input value={ann.message} onChange={(e) => setAnn({ ...ann, message: e.target.value })} placeholder="e.g. Free clearing on all Canada imports this month" /></label>
+          <label className="ga-form-full">Message<input value={ann.message} onChange={(e) => setAnn({ ...ann, message: e.target.value })} placeholder="e.g. Free clearing on all China imports this month" /></label>
           <label>Link URL<input value={ann.link_url} onChange={(e) => setAnn({ ...ann, link_url: e.target.value })} placeholder="/import" /></label>
           <label>Link label<input value={ann.link_label} onChange={(e) => setAnn({ ...ann, link_label: e.target.value })} placeholder="Learn more" /></label>
           <label>Style

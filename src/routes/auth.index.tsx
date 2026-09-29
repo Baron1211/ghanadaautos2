@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
-import logoAsset from "../assets/ghanada-logo.png.asset.json";
+import logoAsset from "@/assets/rrr-logo.jpg";
 
 export const Route = createFileRoute("/auth/")({
   head: () => ({
     meta: [
-      { title: "Sign in — Ghanada Autos" },
-      { name: "description", content: "Sign in or create your Ghanada Autos account to shop parts, book rentals and track orders." },
-      { property: "og:title", content: "Sign in — Ghanada Autos" },
-      { property: "og:description", content: "Sign in or create your Ghanada Autos account." },
+      { title: "Sign in — RRR Auto Export" },
+      { name: "description", content: "Sign in or create your RRR Auto Export account to shop parts, book rentals and track orders." },
+      { property: "og:title", content: "Sign in — RRR Auto Export" },
+      { property: "og:description", content: "Sign in or create your RRR Auto Export account." },
     ],
   }),
   validateSearch: (s: Record<string, unknown>) =>
@@ -146,30 +146,30 @@ function AuthPage() {
       <aside className="ga-auth-hero">
         <div className="ga-auth-hero-inner">
           <div>
-            <Link to="/" className="ga-auth-hero-logo" aria-label="Ghanada Autos home">
-              <img src={logoAsset.url} alt="Ghanada Autos" />
+            <Link to="/" className="ga-auth-hero-logo" aria-label="RRR Auto Export home">
+              <img src={logoAsset} alt="RRR Auto Export" />
             </Link>
-            <h2>Drive, ship and source with Ghanada Autos.</h2>
+            <h2>Drive, ship and source with RRR Auto Export.</h2>
             <p>
-              Your account keeps every rental booking, spare-part order and Canada
-              import in one place — from Toronto to Takoradi.
+              Your account keeps every rental booking, spare-part order and China
+              import in one place — from Guangzhou to Takoradi.
             </p>
             <ul className="ga-auth-hero-features">
               <li><span className="dot">✓</span> Book self-drive rentals or request a driver in seconds</li>
               <li><span className="dot">✓</span> Track parts orders and reorder with one tap</li>
-              <li><span className="dot">✓</span> Manage Canada imports and clearing from your dashboard</li>
+              <li><span className="dot">✓</span> Manage China imports and clearing from your dashboard</li>
             </ul>
           </div>
           <div className="ga-auth-hero-foot">
-            🇨🇦 Toronto · 🇬🇭 Takoradi &nbsp;·&nbsp; +1 437 436 4357
+            🇨🇳 Guangzhou · 🇬🇭 Takoradi &nbsp;·&nbsp; +233 592 495 787
           </div>
         </div>
       </aside>
 
       <main className="ga-auth-panel">
         <div className="ga-auth-card">
-          <Link to="/" className="ga-auth-mobile-logo" aria-label="Ghanada Autos home">
-            <img src={logoAsset.url} alt="Ghanada Autos" />
+          <Link to="/" className="ga-auth-mobile-logo" aria-label="RRR Auto Export home">
+            <img src={logoAsset} alt="RRR Auto Export" />
           </Link>
 
           <div className="ga-auth-tabs" role="tablist">
@@ -197,7 +197,7 @@ function AuthPage() {
           <p className="ga-auth-sub">
             {mode === "login"
               ? "Sign in to manage orders, cart and bookings."
-              : "Join Ghanada Autos to shop parts and rent vehicles."}
+              : "Join RRR Auto Export to shop parts and rent vehicles."}
           </p>
 
           {justConfirmed && !confirmSent && (
@@ -348,7 +348,7 @@ function AuthPage() {
           <p className="ga-auth-switch">
             {mode === "login" ? (
               <>
-                New to Ghanada Autos?
+                New to RRR Auto Export?
                 <button type="button" onClick={() => setMode("signup")}>Create an account</button>
               </>
             ) : (

@@ -81,8 +81,8 @@ export const CMS_DEFAULTS: Record<string, Record<string, string>> = {
     parts_title: "Genuine parts, guaranteed fit",
     rentals_eyebrow: "Car Rentals",
     rentals_title: "Rent a Car",
-    import_eyebrow: "🇨🇦 Import From Canada",
-    import_title: "Import your dream vehicle from Canada",
+    import_eyebrow: "🇨🇳 Import From China",
+    import_title: "Import your dream vehicle from China",
   },
   repairs_page: {
     eyebrow: "Auto Repairs & Diagnostics",

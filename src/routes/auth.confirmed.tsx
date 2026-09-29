@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/auth/confirmed")({
   head: () => ({
-    meta: [{ title: "Email confirmed — Ghanada Autos" }],
+    meta: [{ title: "Email confirmed — RRR Auto Export" }],
   }),
   component: ConfirmedPage,
 });
