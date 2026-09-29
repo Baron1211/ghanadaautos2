@@ -24,7 +24,7 @@ import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
 
 export default function HomeV1() {
-  return <RRR Auto ExportHome />;
+  return <RRRHome />;
 }
 
 const vehicles = [
@@ -49,7 +49,7 @@ const rentalsFallback = [
   { name: "Van — Hiace", price: "GH₵ 950 / day", seats: "12 Seats", trans: "Manual", fuel: "Diesel", img: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=500&q=80" },
 ];
 
-function RRR Auto ExportHome() {
+function RRRHome() {
   const hero = useContent("home_hero");
   const sec = useContent("home_sections");
   const navigate = useNavigate();
