@@ -144,7 +144,7 @@
 }
 
 /* ============================================================
-   GHANADA AUTOS â€” Homepage design system
+   GHANADA AUTOS — Homepage design system
    Ported from the reference design (Manrope + Inter, emerald/orange)
    ============================================================ */
 
@@ -644,7 +644,7 @@
   padding-left: 16px;
 }
 .ga .hero-content .sub span::before {
-  content: "â€º";
+  content: "›";
   position: absolute;
   left: 0;
   color: var(--orange);
@@ -682,7 +682,7 @@
   color: rgba(255, 255, 255, 0.75);
 }
 
-/* Hero â€” luxury car slider layout */
+/* Hero — luxury car slider layout */
 .ga .hero-glow {
   position: absolute;
   right: -10%;
@@ -1228,7 +1228,7 @@
   color: rgba(255, 255, 255, 0.9);
 }
 .ga .checklist > div::before {
-  content: "âœ“";
+  content: "✓";
   width: 20px;
   height: 20px;
   flex-shrink: 0;
@@ -1745,7 +1745,7 @@
   position: relative;
 }
 .ga .map-fake::after {
-  content: "ðŸ“ Accra, Ghana â€” Map View";
+  content: "📍 Accra, Ghana — Map View";
   position: absolute;
   inset: 0;
   display: flex;
@@ -2959,7 +2959,7 @@
 .ga-payment-opt div { display: flex; flex-direction: column; }
 .ga-payment-opt small { color: #64748b; font-size: 12px; margin-top: 2px; }
 
-/* ============ CHECKOUT â€” GUEST CHOICE + CART LIST ============ */
+/* ============ CHECKOUT — GUEST CHOICE + CART LIST ============ */
 .ga-checkout-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
 .ga-choice-card {
   display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
@@ -3054,7 +3054,7 @@
 }
 
 /* =====================================================
-   ADMIN CONSOLE â€” sidebar shell, KPIs, tables, forms
+   ADMIN CONSOLE — sidebar shell, KPIs, tables, forms
    ===================================================== */
 .ga-admin-shell {
   min-height: 100vh;
@@ -3597,7 +3597,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .ga-search-conditions { justify-content: center; }
 }
 
-/* Vehicle detail â€” spec boxes, tabs, similar cars */
+/* Vehicle detail — spec boxes, tabs, similar cars */
 .ga-cond-pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .06em; margin-right: 10px; }
 .ga-cond-pill.is-new { background: #10b981; color: #fff; }
 .ga-cond-pill.is-used { background: #0f172a; color: #fff; }
@@ -3620,7 +3620,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 .ga-vd-tab-panel { background: #f8fafc; border-radius: 14px; padding: 24px; min-height: 120px; }
 .ga-vd-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
 .ga-vd-list li { position: relative; padding-left: 24px; font-size: 14px; color: #0f172a; line-height: 1.5; }
-.ga-vd-list li::before { content: "âœ“"; position: absolute; left: 0; top: 0; color: #0F8A5F; font-weight: 800; }
+.ga-vd-list li::before { content: "✓"; position: absolute; left: 0; top: 0; color: #0F8A5F; font-weight: 800; }
 
 .ga-vd-similar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .ga-vd-similar-card { display: block; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; transition: transform .15s, box-shadow .15s, border-color .15s; }
@@ -3831,7 +3831,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   .ga .ga-fc-mode { font-size: .88rem; }
 }
 
-/* ===== Dual currency price display â€” "Precision exchange" ===== */
+/* ===== Dual currency price display — "Precision exchange" ===== */
 .ga .ga-price-stack {
   display: flex;
   flex-direction: column;
