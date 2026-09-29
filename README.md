@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Ghanada Autos
+
+i have a website we are about to build but the owner hs its hosting and domain by another company, can we build the website here and host it for the customer on his hosting can lovable do that
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://ghanadaautos2.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/79370b4a-1f21-4e18-a3fe-cd0fbbd6462e).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
