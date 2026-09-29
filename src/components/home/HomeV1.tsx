@@ -692,8 +692,19 @@ function RRRHome() {
       <section className="section" style={{ background: "#fff", padding: "60px 0" }}>
         <div className="container">
           <div className="brand-row">
-            {["TOYOTA", "HONDA", "BMW", "MERCEDES-BENZ", "FORD", "NISSAN", "HYUNDAI", "LEXUS", "MAZDA", "KIA"].map((b) => (
-              <span key={b}>{b}</span>
+            {([
+              ["TOYOTA", "https://www.toyota.com"],
+              ["HONDA", "https://www.honda.com"],
+              ["BMW", "https://www.bmw.com"],
+              ["MERCEDES-BENZ", "https://www.mercedes-benz.com"],
+              ["FORD", "https://www.ford.com"],
+              ["NISSAN", "https://www.nissan-global.com"],
+              ["HYUNDAI", "https://www.hyundai.com"],
+              ["LEXUS", "https://www.lexus.com"],
+              ["MAZDA", "https://www.mazda.com"],
+              ["KIA", "https://www.kia.com"],
+            ] as const).map(([b, url]) => (
+              <a key={b} href={url} target="_blank" rel="noopener noreferrer" aria-label={`${b} official website`}>{b}</a>
             ))}
           </div>
         </div>

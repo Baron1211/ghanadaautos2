@@ -4474,3 +4474,24 @@ select[data-ga-dd] { display: none !important; }
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
 }
 .ga .map-live .map-open:hover { background: var(--dark-green); color: #fff; }
+
+
+/* ===== Brand links ===== */
+.ga .brand-row a {
+  font-family: "Manrope";
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--muted);
+  text-decoration: none;
+  position: relative;
+  padding: 6px 2px;
+  transition: color .2s, transform .2s;
+}
+.ga .brand-row a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: var(--green); transform: scaleX(0); transform-origin: left; transition: transform .25s;
+}
+.ga .brand-row a:hover, .ga .brand-row a:focus-visible { color: var(--dark-green); transform: translateY(-2px); }
+.ga .brand-row a:hover::after, .ga .brand-row a:focus-visible::after { transform: scaleX(1); }
+.ga .brand-row:hover { opacity: 1; filter: none; }
+@media (max-width: 640px) { .ga .brand-row a { font-size: 15px; } }
