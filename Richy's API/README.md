@@ -37,3 +37,18 @@ Until step 4, checkout behaves exactly as before (manual address, no delivery fe
 
 ## Costs
 Google Maps Platform usage is billed to the client's Google account (the planned USD 50 credit package), separate from the development fee.
+
+## New platform database (Supabase project `hemqetzpjbfnsrguvyub`)
+The complete schema was replayed from `supabase/migrations/` into a fresh Supabase project: orders/order_items, parts, variations, rentals & bookings, vehicles & reservations, categories, brands, repair requests, CMS content, announcements, notifications, shipments & tracking, staff permissions, storage buckets (`avatars`, `product-images`) and delivery pricing (`delivery_quotes`, fee function, tamper-proof order trigger). Function permissions were hardened afterwards.
+
+Verified in that database: a tampered order fee is overwritten (10 km → GH₵60, GH₵350 order → GH₵410), free-delivery threshold, flat zones, orders rejected without a quote when pricing is On, and unchanged behaviour when Off.
+
+**Not migrated:** data (orders, customers, products, images, user accounts) from the old Lovable database.
+
+### Cut-over checklist
+1. Site env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` → the new project (Supabase → Project Settings → API). Locally these live in the gitignored `.env.local`.
+2. Server secrets (never commit): `SUPABASE_SERVICE_ROLE_KEY`, `GOOGLE_MAPS_API_KEY`.
+3. Supabase → Authentication → URL Configuration: set the Site URL and redirect URLs to the live domain. Configure email/Google sign-in providers.
+4. Sign up once on the site, then in the SQL editor make yourself admin:
+   `insert into user_roles (user_id, role, is_super_admin) select id, 'admin', true from auth.users where email = 'YOUR_EMAIL' on conflict (user_id, role) do update set is_super_admin = true;`
+5. Re-enter products, vehicles and rentals in Admin (or import data from the old project).
